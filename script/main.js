@@ -25,6 +25,11 @@ function setCharAttrRank(type, index, rank) {
     }
 }
 
+/**
+ * Realiza a marcação dos inputs radio conforme o novo valor de graduação.
+ * @param {number} rank Graduação nova do Atributo.
+ * @param {string} attr Atributo (Classe do Atributo em inglês) qual deve ser marcado os círculos.
+ */
 function setAttrRank(rank, attr) {
     let rankList = document.querySelectorAll(`.rank-${attr}`);
     for(let i = 0; i < rankList.length; i++) {
@@ -33,28 +38,52 @@ function setAttrRank(rank, attr) {
     }
 }
 
-
+/**
+ * Altera o valor de graduação da Habilidade.
+**/
 function setCharSkillRank(type, index, rank) {
     let skill = undefined;
+    let firstRank;
 
     switch(type) {
         case 0: 
             skill = character.mentalSkills[index];
             if(!skill) throw console.error("Não foi possível encontrar Index.");
-            skill.rank = rank;
-            setSkillRank(rank, skill.class);
+            if(rank === 1 && skill.rank === 1) {
+                skill.rank = 0;
+                firstRank = document.querySelector(`.rank-${skill.class}`);
+                firstRank.checked = false;
+            }
+            else {
+                skill.rank = rank;
+                setSkillRank(rank, skill.class);
+            }
         break;
         case 1: 
             skill = character.physicalSkills[index];
             if(!skill) throw console.error("Não foi possível encontrar Index.");
-            skill.rank = rank;
-            setSkillRank(rank, skill.class);
+            if(rank === 1 && skill.rank === 1) {
+                skill.rank = 0;
+                firstRank = document.querySelector(`.rank-${skill.class}`);
+                firstRank.checked = false;
+            }
+            else {
+                skill.rank = rank;
+                setSkillRank(rank, skill.class);
+            }
         break;
         case 2: 
             skill = character.socialSkills[index];
             if(!skill) throw console.error("Não foi possível encontrar Index.");
-            skill.rank = rank;
-            setSkillRank(rank, skill.class);
+            if(rank === 1 && skill.rank === 1) {
+                skill.rank = 0;
+                firstRank = document.querySelector(`.rank-${skill.class}`);
+                firstRank.checked = false;
+            }
+            else {
+                skill.rank = rank;
+                setSkillRank(rank, skill.class);
+            }
         break;
     }
 }

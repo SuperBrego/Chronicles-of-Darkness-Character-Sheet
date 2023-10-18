@@ -6,6 +6,13 @@
 .cofd-sheet input[type=radio] { width: .8rem; }
 
 /* ***************************** */
+/* ***** Blocos ***** */
+/* ***************************** */
+.attr-block, .skills-block {
+    white-space: nowrap;
+}
+
+/* ***************************** */
 /* Atributos */
 /* ***************************** */
 .cofd-attributes header {
@@ -25,7 +32,6 @@
     grid-template-columns: repeat(2, 1fr);
     border: 1px solid black;
     padding: .25rem;
-    white-space: nowrap;
 }
 
 /* ***************************** */
@@ -35,8 +41,9 @@
     width: 40%;
     display: grid;
 }
+
 .skills-block {
     display: grid;
     grid-template-columns: 10% 30% 60%;
-    white-space: nowrap;
 }
+
