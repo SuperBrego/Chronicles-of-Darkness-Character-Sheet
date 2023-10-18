@@ -4,6 +4,7 @@ function setCharAttrRank(type, index, rank) {
     let attribute = undefined;
 
     switch(type) {
+        default:
         case 0: 
             attribute = character.mentalAttributes[index];
             if(!attribute) throw console.error("Não foi possível encontrar Index.");

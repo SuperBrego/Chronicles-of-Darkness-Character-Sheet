@@ -14,10 +14,31 @@ const SupernaturalTemp = {
     Deviant: 12
 }
 
+function getTemplateInfo(supernaturalTemplate) {
+
+    switch(supernaturalTemplate) {
+        default:
+        case SupernaturalTemp.Mortal: return { virtue: "", vice: "", integrity: 7 };
+        case SupernaturalTemp.Deviant: return {
+            convictions: [],
+            loyalty: [],
+            scars: [],
+            variations: [],
+            stability: []
+        };
+
+    }
+}
+
 class Character {
+
     constructor(name = "Personagem") {
         this.name = name;
+        this.concept = '';
+        this.age = 30;
+
         this.template = SupernaturalTemp.Mortal;
+        this.templateInfo = getTemplateInfo(this.template);
 
         // Atributos Mentais
         this.mentalAttributes = [
@@ -76,9 +97,22 @@ class Character {
             { index: 7, name: "Tratar Animais", rank: 0, class: "animalKen" },
         ];
 
+        this.merits = [];
+
+        this.health = this.size + this.getStamina();
+        this.willpower = this.getResolve() + this.getComposure();
+        this.defense = Math.min(getWits(), getDexterity()) + this.getAthletics();
+        this.initiative = this.getDexterity() + this.getComposure();
+        this.speed = this.getStrength() + this.getDexterity() + 5;
+
+        // ******************************************************************** //
+        // ******************************************************************** //
         // Modelo Sobrenatural
         function getSupernaturalTemplate() { return this.template; }
-        function setSupernaturalTemplate(template) { this.template = template; }
+        function setSupernaturalTemplate(template) { 
+            this.template = template; 
+            this.templateInfo = getTemplateInfo(template);
+        }
 
         // Get Atributos
         function getMentalAttr(index)   { return this.mentalAttributes.find(elem => elem.index === index); }
