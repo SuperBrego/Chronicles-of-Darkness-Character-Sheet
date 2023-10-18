@@ -1,0 +1,42 @@
+@import url('auxTail.css');
+
+* { box-sizing: border-box; }
+
+.cofd-sheet { width: 80%; }
+.cofd-sheet input[type=radio] { width: .8rem; }
+
+/* ***************************** */
+/* Atributos */
+/* ***************************** */
+.cofd-attributes header {
+    font-weight: bold;
+    text-align: center;
+    grid-column: span 4;
+}
+.cofd-attributes { 
+    display: grid;
+    grid-template-columns: 10% repeat(3, 30%);
+}
+
+.attr-types { display: grid; }
+
+.attr-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid black;
+    padding: .25rem;
+    white-space: nowrap;
+}
+
+/* ***************************** */
+/* Habilidades */
+/* ***************************** */
+.cofd-skills {
+    width: 40%;
+    display: grid;
+}
+.skills-block {
+    display: grid;
+    grid-template-columns: 10% 30% 60%;
+    white-space: nowrap;
+}
