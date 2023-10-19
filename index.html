@@ -113,7 +113,8 @@
         <button onclick="printCharacter()">Console Character</button>
         
         <!-- Habilidades -->
-        <section class="cofd-skills">
+        <!-- 
+            <section class="cofd-skills">
             <header><h2>Habilidades</h2></header>
             
             <b>Mental</b>
@@ -362,10 +363,16 @@
                     <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 5)" />
                 </div>
             </div>
+        </section> -->
+        
+        <h2>Vantagens</h2>
+        <section class="cofd-merits" id="cofd-character-merits">
+            <header><button onclick="addAdvantage()">Adicionar Vantagem</button></header>
         </section>
     </div>
     
-    <script type="text/javascript" src="Classes/Character.js"></script>
+    <script type="text/javascript" src="classes/Character.js"></script>
+    <script type="text/javascript" src="script/render.js"></script>
     <script type="text/javascript" src="script/main.js"></script>
 </body>
 </html>
