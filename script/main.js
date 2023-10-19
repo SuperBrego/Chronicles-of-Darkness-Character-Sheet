@@ -4,6 +4,12 @@ window.onload = () => {
     // renderCharacter();
 }
 
+/**
+ * Altera o valor do Atributo.
+ * @param {number} type Tipo de Atributo.
+ * @param {number} index Index do Atributo.
+ * @param {number} rank Novo valor para o Atributo.
+ */
 function setCharAttrRank(type, index, rank) {
     let attribute = undefined;
 
