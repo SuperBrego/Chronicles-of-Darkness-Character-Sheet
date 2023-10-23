@@ -14,12 +14,31 @@ const SupernaturalTemp = {
     Deviant: 12
 }
 
+const clanOptions = ['Daeva', 'Gangrel', 'Mekhet', 'Nosferatu', 'Ventrue'];
+
 function getTemplateInfo(supernaturalTemplate) {
 
     switch(supernaturalTemplate) {
         default:
-        case SupernaturalTemp.Mortal: return { virtue: "", vice: "", integrity: 7 };
+        case SupernaturalTemp.Mortal: return { 
+            templateIndex: SupernaturalTemp.Mortal,
+            virtue: "", 
+            vice: "", 
+            age: 30, 
+            faction: "",
+            group: "",
+            integrity: 7 
+        };
+        case SupernaturalTemp.Vampire: return {
+            templateIndex: SupernaturalTemp.Vampire,
+            clan: '',
+            mask: '',
+            dirge: '',
+            bloodline: '',
+            covenant: '',
+        }
         case SupernaturalTemp.Deviant: return {
+            templateIndex: SupernaturalTemp.Deviant,
             convictions: [],
             loyalty: [],
             scars: [],
@@ -34,8 +53,9 @@ class Character {
 
     constructor(name = "Personagem") {
         this.name = name;
+        this.player = '';
         this.concept = '';
-        this.age = 30;
+        this.chronicle = '';
 
         this.template = SupernaturalTemp.Mortal;
         this.templateInfo = getTemplateInfo(this.template);

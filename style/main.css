@@ -17,6 +17,22 @@
 }
 
 /* ***************************** */
+/* Cabeçalho */
+/* ***************************** */
+.char-info {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+}
+.char-info-item {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+}
+
+#supernatural-selection {
+    padding: 1% 0;
+}
+
+/* ***************************** */
 /* Atributos */
 /* ***************************** */
 .cofd-attributes header {
