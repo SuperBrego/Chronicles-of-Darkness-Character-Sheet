@@ -275,7 +275,6 @@ function renderAttributes(character) {
             attrRadio.type = 'radio';
             attrRadio.className = `rank-${mentalAttr[i].class}`;
             if(j === 0) attrRadio.checked = true;
-            attrRadio.addEventListener('change', setCharAttrRank(0, i, j+1));
             attrBlock.appendChild(attrRadio);
         }
         mentalBlock.appendChild(attrBlock);

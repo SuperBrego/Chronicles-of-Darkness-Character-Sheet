@@ -116,7 +116,6 @@ function setCharAttrRank(type, index, rank) {
     let attribute = undefined;
     index = Number(index);
 
-    console.log(arguments)
     switch(type) {
         default:
         case 0: 
