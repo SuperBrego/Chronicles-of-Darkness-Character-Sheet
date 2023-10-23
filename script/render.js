@@ -70,7 +70,8 @@ function makeInfoNumber(title, changeFunction, value) {
 }
 
 /**
-* @param {Character} character Personagem
+ * Renderiza seção de informações do personagem.
+ * @param {Character} character Personagem
 **/
 function renderHeader(character) {
     let supTemplate = character.template;
@@ -86,9 +87,7 @@ function renderHeader(character) {
     
     // Conceito
     let conceptHeader = makeInfoHeader('Conceito', changeConcept, character.concept);
-    
-    console.log(`E o template agora é: ${supTemplate}`)
-    
+        
     switch(supTemplate) {
         /**
         * Mudei a ordem para manter o padrão.
@@ -113,7 +112,7 @@ function renderHeader(character) {
             let viceHeader = makeInfoHeader('Vício', changeVice, character.templateInfo.vice);
             infoHeader.appendChild(viceHeader);
             // Facção
-            let factionHeader = makeInfoHeader('Facção', changeVice, character.templateInfo.faction);
+            let factionHeader = makeInfoHeader('Facção', changeFaction, character.templateInfo.faction);
             infoHeader.appendChild(factionHeader);
             
             // Crônica
@@ -121,16 +120,16 @@ function renderHeader(character) {
             // Conceito 
             infoHeader.appendChild(conceptHeader);
             // Grupo
-            let groupHeader = makeInfoHeader('Grupo', changeVice, character.templateInfo.group);
+            let groupHeader = makeInfoHeader('Grupo', changeGroup, character.group);
             infoHeader.appendChild(groupHeader);
         
         break;
         
         /**
         * Vampiro:
-        *  Nome    - Máscara   - Clã
-        *  Jogador - Lamento   - Linhagem
-        *  Crônica - Conceito  - Coalizão
+         *  Nome    - Máscara   - Clã
+         *  Jogador - Lamento   - Linhagem
+         *  Crônica - Conceito  - Coalizão
         **/
         case SupernaturalTemp.Vampire:
             // Nome
@@ -254,6 +253,39 @@ function renderHeader(character) {
     
 }
 
+function renderAttributes(character) {
+    let mentalBlock = document.getElementById('mental-attr');
+    let physicalBlock = document.getElementById('physical-attr');
+    let socialBlock = document.getElementById('social-attr');
+
+    mentalBlock.innerHTML = '';
+    let mentalAttr = character.mentalAttributes;
+    let i, j;
+    let attrTitle, attrBlock, attrRadio;
+
+    // Mental
+    for(i = 0; i < 3; i++) {
+        attrTitle = document.createElement('span');
+        attrTitle.innerHTML = mentalAttr[i].name;
+        mentalBlock.appendChild(attrTitle);
+        attrBlock = document.createElement('div');
+        attrBlock.className = 'attr-ranks';
+        for(j = 0; j < 5; j++) {
+            attrRadio = document.createElement('input');
+            attrRadio.type = 'radio';
+            attrRadio.className = `rank-${mentalAttr[i].class}`;
+            if(j === 0) attrRadio.checked = true;
+            attrRadio.addEventListener('change', setCharAttrRank(0, i, j+1));
+            attrBlock.appendChild(attrRadio);
+        }
+        mentalBlock.appendChild(attrBlock);
+    }
+}
+
 function renderCharacter() {
+    // Set Template
+    let supernaturalTemp = document.getElementById('supernatural-selection');
+    supernaturalTemp.value = character.template;
     renderHeader(character)
+    renderAttributes(character);
 }

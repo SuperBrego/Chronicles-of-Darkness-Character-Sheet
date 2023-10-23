@@ -26,7 +26,6 @@ function getTemplateInfo(supernaturalTemplate) {
             vice: "", 
             age: 30, 
             faction: "",
-            group: "",
             integrity: 7 
         };
         case SupernaturalTemp.Vampire: return {
@@ -56,6 +55,7 @@ class Character {
         this.player = '';
         this.concept = '';
         this.chronicle = '';
+        this.group = '';
 
         this.template = SupernaturalTemp.Mortal;
         this.templateInfo = getTemplateInfo(this.template);
