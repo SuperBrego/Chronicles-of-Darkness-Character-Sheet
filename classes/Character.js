@@ -74,6 +74,8 @@ class Character {
             { index: 2, name: "Vigor", rank: 1, class: "stamina" },
         ];
 
+        this.stamina = this.physicalAttributes[2].rank;
+
         // Atributos Sociais
         this.socialAttributes = [
             { index: 0, name: "Presença", rank: 1, class: "presence" },

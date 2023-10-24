@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ficha Crônicas das Trevas</title>
+    <link rel="icon" type="image/x-icon" href="/assets/ChroniclesofDarknessLogo.ico">
     <link rel="stylesheet" type="text/css" href="style/main.css" />
 </head>
 <body>
@@ -40,6 +41,22 @@
             <div class="attr-block" id="physical-attr"></div>
             <div class="attr-block" id="social-attr"></div>
         </section>
+
+        <!-- Tamanho -->
+        <div style="display: flex; margin-top: 10px;">
+            <span>Tamanho:</span>
+            <input id="char-size" type = "number" 
+            min     = "1" 
+            value   = "" 
+            onchange= "changeSize(event.target.value)" 
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            />
+            <span>Vitalidade:</span>
+            <div id="char-health"></div>
+            <span>Força de Vontade:</span>
+            <div id="char-willpower"></div>
+        </div>
+        <!-- Vitalidade -->
         
         <!-- Habilidades -->
         <section class="cofd-skills">

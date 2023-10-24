@@ -74,6 +74,12 @@ function changeTemplate(event) {
 **/
 function changeName(charName) { globalChar.name = charName; }
 
+function changeSize(nSize) {
+    globalChar.size = nSize;
+    // Atualizar Vitalidade:
+    renderTraits(globalChar);
+}
+
 /**
  * Troca o nome do jogador.
  * @param {string} playerName Novo nome do jogador.
@@ -127,18 +133,23 @@ function setCharAttrRank(type, index, rank) {
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
+            // Atualizando Força de Vontade
         break;
         case 1: 
             attribute = globalChar.physicalAttributes[index];
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
+            
+            // Atualizando Vitalidade
+            if(index === 2) { renderHealth(globalChar); }
         break;
         case 2: 
             attribute = globalChar.socialAttributes[index];
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
+            // Atualizando Força de Vontade
         break;
     }
 }

@@ -357,7 +357,10 @@ function renderAbilities(character) {
 }
 
 var meritBlock = document.getElementById('cofd-character-merits');
-
+/**
+ * Renderiza a Vantagem.
+ * @param {Advantage} advantage Vantagem a ser renderizada.
+**/
 function createAdvantageBlock(advantage) {
     if(!advantage) throw console.error("Vantagem não encaminhada.")
     let advElement = document.createElement('div');
@@ -417,8 +420,42 @@ function createAdvantageBlock(advantage) {
     changeAdvRank(advantage.id, advantage.rank);
 }
 
+/**
+ * Faz chamada para renderizar as Vantagens do personagem.
+ * @param {Character} character Personagem a ser coletado as vantagens.
+**/
 function renderMerits(character) {
     character.merits.forEach(merit => { createAdvantageBlock(merit); });
+}
+
+function renderTraits(character) {
+    let sizeInput = document.getElementById('char-size');
+    sizeInput.value = character.size;
+
+    renderHealth(character);
+    // renderWillpower(character);
+}
+
+/**
+ * Faz o render da Vitalidade.
+ * @param {Character} character Personagem.
+**/
+function renderHealth(character) {
+    let healthElement = document.getElementById('char-health');
+    healthElement.innerHTML = '';
+    
+    let healthBlock;
+    let stamina = character.physicalAttributes[2].rank;
+    let health = Number(character.size) + Number(stamina);
+    for(let i = 0; i < health; i++) {
+        healthBlock = document.createElement('img');
+        healthBlock.id = `health-block-${i}`;
+        healthBlock.src = 'assets/health/empty-square-icon.png';
+        healthBlock.alt = 'Vitalidade';
+        healthBlock.className = 'health-block';
+        // healthBlock.addEventListener('click', changeHealthState(index));
+        healthElement.appendChild(healthBlock);
+    }
 }
 
 function renderCharacter(character) {
@@ -429,4 +466,5 @@ function renderCharacter(character) {
     renderAttributes(character);
     renderAbilities(character);
     renderMerits(character);
+    renderTraits(character);
 }
