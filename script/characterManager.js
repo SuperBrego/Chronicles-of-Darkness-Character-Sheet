@@ -1,5 +1,3 @@
-const character = new Character();
-
 const templatesPile = [];
 
 function changeTemplate(event) {
@@ -9,19 +7,19 @@ function changeTemplate(event) {
     switch(tempIndex) {
         // Mortal
         case SupernaturalTemp.Mortal:
-            character.template = SupernaturalTemp.Mortal;
-            oldTemplateInfo = character.templateInfo;
-            character.templateInfo = getTemplateInfo(tempIndex);
+            globalChar.template = SupernaturalTemp.Mortal;
+            oldTemplateInfo = globalChar.templateInfo;
+            globalChar.templateInfo = getTemplateInfo(tempIndex);
             infoHeader.innerHTML = '';
-            renderHeader(character);
+            renderHeader(globalChar);
         break;
         // Vampire
         case SupernaturalTemp.Vampire:
-            character.template = SupernaturalTemp.Vampire;
-            oldTemplateInfo = character.templateInfo;
-            character.templateInfo = getTemplateInfo(tempIndex);
+            globalChar.template = SupernaturalTemp.Vampire;
+            oldTemplateInfo = globalChar.templateInfo;
+            globalChar.templateInfo = getTemplateInfo(tempIndex);
             infoHeader.innerHTML = '';
-            renderHeader(character);
+            renderHeader(globalChar);
         break;
         // Ghoul
         case SupernaturalTemp.Ghoul:
@@ -74,37 +72,43 @@ function changeTemplate(event) {
  * Troca o nome do personagem.
  * @param {string} charName Novo nome de personagem.
 **/
-function changeName(charName) { character.name = charName; }
+function changeName(charName) { globalChar.name = charName; }
 
 /**
  * Troca o nome do jogador.
  * @param {string} playerName Novo nome do jogador.
 **/
-function changePlayer(playerName) { character.player = playerName; }
-function changeChronicle(chronicleName) { character.chronicle = chronicleName; }
-function changeConcept(conceptName) { character.concept = conceptName; }
-function changeGroup(groupName) { character.group = groupName; }
+function changePlayer(playerName) { globalChar.player = playerName; }
+function changeChronicle(chronicleName) { globalChar.chronicle = chronicleName; }
+function changeConcept(conceptName) { globalChar.concept = conceptName; }
+function changeGroup(groupName) { globalChar.group = groupName; }
 
 // **********************************
 // * Mortal
 // **********************************
-function changeAge(age) { character.templateInfo.age = Number(age); }
-function changeFaction(factionName) { character.templateInfo.factionName = factionName; }
+function changeAge(age) { globalChar.templateInfo.age = Number(age); }
+function changeFaction(factionName) { globalChar.templateInfo.factionName = factionName; }
 
 // **********************************
 // * Mortal, Caçador, Demônio, Mago
 // **********************************
-function changeVirtue(virtueName) { character.templateInfo.virtue = virtueName; }
-function changeVice(viceName) { character.templateInfo.vice = viceName; }
+function changeVirtue(virtueName) { globalChar.templateInfo.virtue = virtueName; }
+function changeVice(viceName) { globalChar.templateInfo.vice = viceName; }
 
 // **************************
 // * Vampiro
 // **************************
-function changeClan(clanName) { character.templateInfo.clan = clanName; }
-function changeMask(maskName) { character.templateInfo.mask = maskName; }
-function changeDirge(dirgeName) { character.templateInfo.dirge = dirgeName; }
-function changeBloodline(bloodlineName) { character.templateInfo.bloodline = bloodlineName; }
-function changeCovenant(covenantName) { character.templateInfo.covenant = covenantName; }
+function changeClan(clanName) { 
+    let clanSelect = document.getElementById('clan-selection');
+    if(clanName.length === 0) clanSelect.className += ' invalid-cell';
+    else clanSelect.className = clanSelect.className.replace(' invalid-cell', '');
+    globalChar.templateInfo.clan = clanName;
+
+}
+function changeMask(maskName) { globalChar.templateInfo.mask = maskName; }
+function changeDirge(dirgeName) { globalChar.templateInfo.dirge = dirgeName; }
+function changeBloodline(bloodlineName) { globalChar.templateInfo.bloodline = bloodlineName; }
+function changeCovenant(covenantName) { globalChar.templateInfo.covenant = covenantName; }
 
 /**
  * Altera o valor do Atributo.
@@ -119,19 +123,19 @@ function setCharAttrRank(type, index, rank) {
     switch(type) {
         default:
         case 0: 
-            attribute = character.mentalAttributes[index];
+            attribute = globalChar.mentalAttributes[index];
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
         break;
         case 1: 
-            attribute = character.physicalAttributes[index];
+            attribute = globalChar.physicalAttributes[index];
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
         break;
         case 2: 
-            attribute = character.socialAttributes[index];
+            attribute = globalChar.socialAttributes[index];
             if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             attribute.rank = rank;
             setAttrRank(rank, attribute.class);
@@ -162,7 +166,7 @@ function setCharSkillRank(type, index, rank) {
 
     switch(type) {
         case 0: 
-            skill = character.mentalSkills[index];
+            skill = globalChar.mentalSkills[index];
             if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
@@ -175,7 +179,7 @@ function setCharSkillRank(type, index, rank) {
             }
         break;
         case 1: 
-            skill = character.physicalSkills[index];
+            skill = globalChar.physicalSkills[index];
             if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
@@ -188,7 +192,7 @@ function setCharSkillRank(type, index, rank) {
             }
         break;
         case 2: 
-            skill = character.socialSkills[index];
+            skill = globalChar.socialSkills[index];
             if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
@@ -232,14 +236,14 @@ function addAdvantage() {
         description: '',
         overt: false,
     };
-    character.merits.push(advantage);
+    globalChar.merits.push(advantage);
 
     let advElement = document.createElement('div');
     advElement.id = advantage.id;
     advElement.className = 'adv-block';
 
     // Encaixar o Evidente se for Deviant
-    if(character.template === SupernaturalTemp.Deviant) {
+    if(globalChar.template === SupernaturalTemp.Deviant) {
         let overCheckbox = document.createElement('input');
         overCheckbox.type = 'checkbox';
         overCheckbox.checked = advantage.overt;
@@ -294,7 +298,7 @@ function addAdvantage() {
  * @param {string} name Novo nome para Vantagem.
 **/
 function renameAdvantage(id, name) {
-    let adv = character.merits.find(elem => elem.id === id);
+    let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.name = name;
     else throw console.error("Não foi encontrada a Vantagem");
 }
@@ -305,7 +309,7 @@ function renameAdvantage(id, name) {
  * @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
 **/
 function changeAdvRank(id, rank) {
-    let adv = character.merits.find(elem => elem.id === id);
+    let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.rank = rank;
     else throw console.error("Não foi encontrada a Vantagem");
 
@@ -322,7 +326,7 @@ function changeAdvRank(id, rank) {
  * @param {string} description Descrição da Vantagem
  */
 function changeAdvDescription(id, description) {
-    let adv = character.merits.find(elem => elem.id === id);
+    let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.description = description;
     else throw console.error("Não foi encontrada a Vantagem");
 }
@@ -332,12 +336,12 @@ function changeAdvDescription(id, description) {
  * @param {string | number} id ID da Vantagem.
 **/
 function removeAdvantage(id) {
-    let index = character.merits.findIndex(elem => elem.id === id);
-    character.merits.splice(index, 1);
+    let index = globalChar.merits.findIndex(elem => elem.id === id);
+    globalChar.merits.splice(index, 1);
     document.getElementById(`${id}`).outerHTML = "";
 }
 
 function printCharacter() {
-    let str = JSON.stringify(character, null, 4);
+    let str = JSON.stringify(globalChar, null, 4);
     console.log(str);
 }

@@ -15,13 +15,13 @@ function makeInfoHeader(title, changeFunction, value) {
     inputItem.onchange = (e) => changeFunction(e.target.value);
     titleHeader.appendChild(titleSpan);
     titleHeader.appendChild(inputItem);
-
+    
     return titleHeader;
 }
 
 function makeInfoHeaderSelect(title, changeFunction, value, ...options) {
     let optionElement;
-
+    
     let titleHeader = document.createElement('div');
     titleHeader.className = 'char-info-item';
     let titleSpan = document.createElement('span');
@@ -30,25 +30,27 @@ function makeInfoHeaderSelect(title, changeFunction, value, ...options) {
     let selectItem = document.createElement('select');
     selectItem.className = "header-input";
     selectItem.value = value;
-
+    
     let selectInHeader = document.createElement('option');
     selectInHeader.value = '';
     selectInHeader.innerHTML = `Selecione o ${title}`;
     selectInHeader.disabled = true;
+    selectInHeader.selected = (value === "") ? true : false;
+    selectInHeader.hidden = true;
     
     selectItem.appendChild(selectInHeader);
-
+    
     for(let i = 0; i < options.length; i++) {
         optionElement = document.createElement('option');
         optionElement.innerHTML = options[i];
-        optionElement.value = i;
+        optionElement.value = options[i];
         selectItem.appendChild(optionElement);
     }
     selectItem.onchange = (e) => changeFunction(e.target.value);
-
+    
     titleHeader.appendChild(titleSpan);
     titleHeader.appendChild(selectItem);
-
+    
     return titleHeader;
 }
 
@@ -65,16 +67,18 @@ function makeInfoNumber(title, changeFunction, value) {
     inputItem.onchange = (e) => changeFunction(e.target.value);
     titleHeader.appendChild(titleSpan);
     titleHeader.appendChild(inputItem);
-
+    
     return titleHeader;
 }
 
 /**
- * Renderiza seção de informações do personagem.
- * @param {Character} character Personagem
+* Renderiza seção de informações do personagem.
+* @param {Character} character Personagem
 **/
 function renderHeader(character) {
     let supTemplate = character.template;
+
+    infoHeader.innerHTML = '';
     
     // Nome
     let nameHeader = makeInfoHeader('Nome', changeName, character.name);
@@ -87,7 +91,7 @@ function renderHeader(character) {
     
     // Conceito
     let conceptHeader = makeInfoHeader('Conceito', changeConcept, character.concept);
-        
+    
     switch(supTemplate) {
         /**
         * Mudei a ordem para manter o padrão.
@@ -97,66 +101,68 @@ function renderHeader(character) {
         *  Crônica - Conceito  - Nome do Grupo
         **/
         case SupernaturalTemp.Mortal:
-            // Nome
-            infoHeader.appendChild(nameHeader);
-            // Virtude
-            let virtueHeader = makeInfoHeader('Virtude', changeVirtue, character.templateInfo.virtue);
-            infoHeader.appendChild(virtueHeader);
-            // Idade
-            let ageHeader = makeInfoNumber('Idade', changeAge, character.templateInfo.age);
-            infoHeader.appendChild(ageHeader);
-            
-            // Jogador
-            infoHeader.appendChild(playerHeader);
-            // Vício
-            let viceHeader = makeInfoHeader('Vício', changeVice, character.templateInfo.vice);
-            infoHeader.appendChild(viceHeader);
-            // Facção
-            let factionHeader = makeInfoHeader('Facção', changeFaction, character.templateInfo.faction);
-            infoHeader.appendChild(factionHeader);
-            
-            // Crônica
-            infoHeader.appendChild(chronicleHeader);
-            // Conceito 
-            infoHeader.appendChild(conceptHeader);
-            // Grupo
-            let groupHeader = makeInfoHeader('Grupo', changeGroup, character.group);
-            infoHeader.appendChild(groupHeader);
+        // Nome
+        infoHeader.appendChild(nameHeader);
+        // Virtude
+        let virtueHeader = makeInfoHeader('Virtude', changeVirtue, character.templateInfo.virtue);
+        infoHeader.appendChild(virtueHeader);
+        // Idade
+        let ageHeader = makeInfoNumber('Idade', changeAge, character.templateInfo.age);
+        infoHeader.appendChild(ageHeader);
+        
+        // Jogador
+        infoHeader.appendChild(playerHeader);
+        // Vício
+        let viceHeader = makeInfoHeader('Vício', changeVice, character.templateInfo.vice);
+        infoHeader.appendChild(viceHeader);
+        // Facção
+        let factionHeader = makeInfoHeader('Facção', changeFaction, character.templateInfo.faction);
+        infoHeader.appendChild(factionHeader);
+        
+        // Crônica
+        infoHeader.appendChild(chronicleHeader);
+        // Conceito 
+        infoHeader.appendChild(conceptHeader);
+        // Grupo
+        let groupHeader = makeInfoHeader('Grupo', changeGroup, character.group);
+        infoHeader.appendChild(groupHeader);
         
         break;
         
         /**
         * Vampiro:
-         *  Nome    - Máscara   - Clã
-         *  Jogador - Lamento   - Linhagem
-         *  Crônica - Conceito  - Coalizão
+        *  Nome    - Máscara   - Clã
+        *  Jogador - Lamento   - Linhagem
+        *  Crônica - Conceito  - Coalizão
         **/
         case SupernaturalTemp.Vampire:
-            // Nome
-            infoHeader.appendChild(nameHeader);
-            // Máscara
-            let maskHeader = makeInfoHeader('Máscara', changeMask, character.templateInfo.mask);
-            infoHeader.appendChild(maskHeader);
-            // Clã
-            let clanHeader = makeInfoHeaderSelect('Clã', changeClan, character.templateInfo.clan, ...clanOptions);
-            infoHeader.appendChild(clanHeader);
-            
-            // Jogador
-            infoHeader.appendChild(playerHeader);
-            // Lamento
-            let dirge = makeInfoHeader('Lamento', changeDirge, character.templateInfo.dirge);
-            infoHeader.appendChild(dirge);
-            // Linhagem
-            let bloodLine = makeInfoHeader('Linhagem', changeBloodline, character.templateInfo.bloodline);
-            infoHeader.appendChild(bloodLine);
-            
-            // Crônica
-            infoHeader.appendChild(chronicleHeader);
-            // Conceito 
-            infoHeader.appendChild(conceptHeader);
-            // Coalizão
-            let covenantHeader = makeInfoHeader('Coalizão', changeCovenant, character.templateInfo.covenant);
-            infoHeader.appendChild(covenantHeader);
+        // Nome
+        infoHeader.appendChild(nameHeader);
+        // Máscara
+        let maskHeader = makeInfoHeader('Máscara', changeMask, character.templateInfo.mask);
+        infoHeader.appendChild(maskHeader);
+        // Clã
+        let clanHeader = makeInfoHeaderSelect('Clã', changeClan, character.templateInfo.clan, ...clanOptions);
+        clanHeader.id = 'clan-selection';
+        clanHeader.className += (character.templateInfo.clan === "") ? ' invalid-cell' : '';
+        infoHeader.appendChild(clanHeader);
+        
+        // Jogador
+        infoHeader.appendChild(playerHeader);
+        // Lamento
+        let dirge = makeInfoHeader('Lamento', changeDirge, character.templateInfo.dirge);
+        infoHeader.appendChild(dirge);
+        // Linhagem
+        let bloodLine = makeInfoHeader('Linhagem', changeBloodline, character.templateInfo.bloodline);
+        infoHeader.appendChild(bloodLine);
+        
+        // Crônica
+        infoHeader.appendChild(chronicleHeader);
+        // Conceito 
+        infoHeader.appendChild(conceptHeader);
+        // Coalizão
+        let covenantHeader = makeInfoHeader('Coalizão', changeCovenant, character.templateInfo.covenant);
+        infoHeader.appendChild(covenantHeader);
         break;
         
         /**
@@ -257,34 +263,97 @@ function renderAttributes(character) {
     let mentalBlock = document.getElementById('mental-attr');
     let physicalBlock = document.getElementById('physical-attr');
     let socialBlock = document.getElementById('social-attr');
-
+    
+    // Limpa os blocos
     mentalBlock.innerHTML = '';
+    physicalBlock.innerHTML = '';
+    socialBlock.innerHTML = '';
+    
     let mentalAttr = character.mentalAttributes;
-    let i, j;
-    let attrTitle, attrBlock, attrRadio;
+    let physicalAttr = character.physicalAttributes;
+    let socialAttr = character.socialAttributes;
 
-    // Mental
-    for(i = 0; i < 3; i++) {
-        attrTitle = document.createElement('span');
-        attrTitle.innerHTML = mentalAttr[i].name;
-        mentalBlock.appendChild(attrTitle);
-        attrBlock = document.createElement('div');
-        attrBlock.className = 'attr-ranks';
-        for(j = 0; j < 5; j++) {
-            attrRadio = document.createElement('input');
-            attrRadio.type = 'radio';
-            attrRadio.className = `rank-${mentalAttr[i].class}`;
-            if(j === 0) attrRadio.checked = true;
-            attrBlock.appendChild(attrRadio);
+    let attributes = [mentalAttr, physicalAttr, socialAttr];
+    let blockSection = [mentalBlock, physicalBlock, socialBlock];
+    
+    let attrTitle, attrBlock, attrRadio;
+    
+    // Cada seção de atributos
+    for(let x = 0; x < attributes.length; x++) {
+        // Cada atributo na seção
+        for(let i = 0; i < attributes[x].length; i++) {
+            attrTitle = document.createElement('span');
+            attrTitle.innerHTML = attributes[x][i].name;
+            blockSection[x].appendChild(attrTitle);
+            attrBlock = document.createElement('div');
+            attrBlock.className = 'attr-ranks';
+            // Cada rank do Atributo
+            for(let j = 0; j < 5; j++) {
+                attrRadio = document.createElement('input');
+                attrRadio.type = 'radio';
+                attrRadio.className = `rank-${attributes[x][i].class}`;
+                if(j === 0) attrRadio.checked = true;
+                attrBlock.appendChild(attrRadio);
+            }
+            // Adiciona ao div de cada seção
+            blockSection[x].appendChild(attrBlock);
+            setAttrRank(attributes[x][i].rank, attributes[x][i].class);
         }
-        mentalBlock.appendChild(attrBlock);
     }
 }
 
-function renderCharacter() {
+function renderAbilities(character) {
+    let mentalBlock = document.getElementById('mental-skills');
+    let physicalBlock = document.getElementById('physical-skills');
+    let socialBlock = document.getElementById('social-skills');
+    
+    // Limpa os blocos
+    mentalBlock.innerHTML = '';
+    physicalBlock.innerHTML = '';
+    socialBlock.innerHTML = '';
+    
+    let mentalSkills = character.mentalSkills;
+    let physicalSkills = character.physicalSkills;
+    let socialSkills = character.socialSkills;
+
+    let skills = [mentalSkills, physicalSkills, socialSkills];
+    let blockSection = [mentalBlock, physicalBlock, socialBlock];
+    
+    let skillTitle, skillBlock, skillRadio;
+    
+    // Cada seção de atributos
+    for(let x = 0; x < skills.length; x++) {
+        // Cada atributo na seção
+        for(let i = 0; i < skills[x].length; i++) {
+            skillTitle = document.createElement('span');
+            skillTitle.innerHTML = skills[x][i].name;
+            blockSection[x].appendChild(skillTitle);
+            skillBlock = document.createElement('div');
+            skillBlock.className = 'attr-ranks';
+            // Cada rank do Atributo
+            for(let j = 0; j < 5; j++) {
+                skillRadio = document.createElement('input');
+                skillRadio.type = 'radio';
+                skillRadio.className = `rank-${skills[x][i].class}`;
+                skillBlock.appendChild(skillRadio);
+            }
+            // Adiciona ao div de cada seção
+            blockSection[x].appendChild(skillBlock);
+            setSkillRank(skills[x][i].rank, skills[x][i].class);
+        }
+    }
+}
+
+function renderMerits(character) {
+
+}
+
+function renderCharacter(character) {
     // Set Template
     let supernaturalTemp = document.getElementById('supernatural-selection');
     supernaturalTemp.value = character.template;
     renderHeader(character)
     renderAttributes(character);
+    renderAbilities(character);
+    renderMerits(character);
 }

@@ -1,21 +1,82 @@
 
-window.onload = () => {
-    renderCharacter();
-    addAttrListerners();
-}
+var globalChar = new Character();
 
-function addAttrListerners() {
-    let mentalAttr = character.mentalAttributes;
-    let itemList;
-        
-    // Mental
-    for(let i = 0; i < mentalAttr.length; i++){
-        itemList = document.getElementsByClassName(`rank-${mentalAttr[i].class}`);
-        for(let j = 0; j < itemList.length; j++) {
-            itemList[j].addEventListener('click', () => setCharAttrRank(0, i, j+1));
-        }
-    }
-    
+window.onload = () => {
+    renderCharacter(globalChar);
+    addSheetListeners(globalChar);
 }
 
 function idSeed() { return (Date.now() * Math.random());  }
+
+function addAttrListerners(character) {
+    let attributes = [character.mentalAttributes, character.physicalAttributes, character.socialAttributes];
+    let itemList;
+    
+    // Seções de Atributos
+    for(let x = 0; x < attributes.length; x++) {
+        // Atributos da seção
+        for(let i = 0; i < attributes[x].length; i++){
+            itemList = document.getElementsByClassName(`rank-${attributes[x][i].class}`);
+            // Cada input radio do atributo
+            for(let j = 0; j < itemList.length; j++) {
+                itemList[j].removeEventListener('click', setCharAttrRank);
+                itemList[j].addEventListener('click', () => setCharAttrRank(x, i, j+1));
+            }
+        }
+    }    
+}
+
+function addSkillsListerners(character) {
+    let skills = [character.mentalSkills, character.physicalSkills, character.socialSkills];
+    let itemList;
+    
+    // Seções de Habilidades
+    for(let x = 0; x < skills.length; x++) {
+        // Habilidades da seção
+        for(let i = 0; i < skills[x].length; i++){
+            itemList = document.getElementsByClassName(`rank-${skills[x][i].class}`);
+            // Cada input radio da Habilidade
+            for(let j = 0; j < itemList.length; j++) {
+                itemList[j].removeEventListener('click', setCharSkillRank);
+                itemList[j].addEventListener('click', () => setCharSkillRank(x, i, j+1));
+            }
+        }
+    }
+}
+
+
+function loadCharacter(event) {
+    if(!event) return;
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    var contents;
+    
+    reader.onload = function(e) {
+        contents = e.target.result;
+        newChar = JSON.parse(contents);
+        globalChar = newChar;
+        renderCharacter(globalChar);
+        addSheetListeners(globalChar);
+    };
+    
+    reader.readAsText(file);
+    
+    // Reset input value to allow uploading the same file again
+    this.value = '';
+}
+
+function downloadCharacter() {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalChar));
+    var dlAnchorElem = document.getElementById('download-character');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "CofD-Character.json");
+    dlAnchorElem.click();
+}
+
+function addSheetListeners() {
+    addAttrListerners(globalChar);
+    addSkillsListerners(globalChar);
+    let fileUpload = document.getElementById("sheet-upload");
+    fileUpload.removeEventListener('change', loadCharacter);
+    fileUpload.addEventListener('change', loadCharacter);
+}

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ficha Crônicas das Trevas</title>
+    <link rel="stylesheet" type="text/css" href="style/main.css" />
+</head>
+<body>
+    
+    <div class="cofd-sheet">
+        <div id="supernatural-header">
+            <span>Modelo Sobrenatural:</span>
+            <select id="supernatural-selection" onchange="changeTemplate(this)">
+                <option value="0">Mortal</option>
+                <option value="1">Vampiro</option>
+            </select>
+        </div>
+        <!-- Preenchido dinamicamente -->
+        <header class="char-info"></header>
+        
+        <!-- Atributos -->
+        <section class="cofd-attributes">
+            <header><h2>Atributos</h2></header>
+
+            <div class="attr-types">
+                <span>Poder</span>
+                <span>Refinamento</span>
+                <span>Resistência</span>
+            </div>
+
+            <div class="attr-block" id="mental-attr">
+                <span>Inteligência</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-intelligence" onclick="setCharAttrRank(0, 0, 1)" checked="true" />
+                    <input type="radio" class="rank-intelligence" onclick="setCharAttrRank(0, 0, 2)" />
+                    <input type="radio" class="rank-intelligence" onclick="setCharAttrRank(0, 0, 3)" />
+                    <input type="radio" class="rank-intelligence" onclick="setCharAttrRank(0, 0, 4)" />
+                    <input type="radio" class="rank-intelligence" onclick="setCharAttrRank(0, 0, 5)" />
+                </div>
+                
+                <span>Raciocínio</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-wits" onclick="setCharAttrRank(0, 1, 1)" checked="true" />
+                    <input type="radio" class="rank-wits" onclick="setCharAttrRank(0, 1, 2)" />
+                    <input type="radio" class="rank-wits" onclick="setCharAttrRank(0, 1, 3)" />
+                    <input type="radio" class="rank-wits" onclick="setCharAttrRank(0, 1, 4)" />
+                    <input type="radio" class="rank-wits" onclick="setCharAttrRank(0, 1, 5)" />
+                </div>
+                
+                <span>Perseverança</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-resolve" onclick="setCharAttrRank(0, 2, 1)" checked="true" />
+                    <input type="radio" class="rank-resolve" onclick="setCharAttrRank(0, 2, 2)" />
+                    <input type="radio" class="rank-resolve" onclick="setCharAttrRank(0, 2, 3)" />
+                    <input type="radio" class="rank-resolve" onclick="setCharAttrRank(0, 2, 4)" />
+                    <input type="radio" class="rank-resolve" onclick="setCharAttrRank(0, 2, 5)" />
+                </div>
+            </div>
+            
+            <div class="attr-block" id="physical-attr">
+                <span>Força</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-strength" onclick="setCharAttrRank(1, 0, 1)" checked="true" />
+                    <input type="radio" class="rank-strength" onclick="setCharAttrRank(1, 0, 2)" />
+                    <input type="radio" class="rank-strength" onclick="setCharAttrRank(1, 0, 3)" />
+                    <input type="radio" class="rank-strength" onclick="setCharAttrRank(1, 0, 4)" />
+                    <input type="radio" class="rank-strength" onclick="setCharAttrRank(1, 0, 5)" />
+                </div>
+                
+                <span>Destreza</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-dexterity" onclick="setCharAttrRank(1, 1, 1)" checked="true" />
+                    <input type="radio" class="rank-dexterity" onclick="setCharAttrRank(1, 1, 2)" />
+                    <input type="radio" class="rank-dexterity" onclick="setCharAttrRank(1, 1, 3)" />
+                    <input type="radio" class="rank-dexterity" onclick="setCharAttrRank(1, 1, 4)" />
+                    <input type="radio" class="rank-dexterity" onclick="setCharAttrRank(1, 1, 5)" />
+                </div>
+                
+                <span>Vigor</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-stamina" onclick="setCharAttrRank(1, 2, 1)" checked="true" />
+                    <input type="radio" class="rank-stamina" onclick="setCharAttrRank(1, 2, 2)" />
+                    <input type="radio" class="rank-stamina" onclick="setCharAttrRank(1, 2, 3)" />
+                    <input type="radio" class="rank-stamina" onclick="setCharAttrRank(1, 2, 4)" />
+                    <input type="radio" class="rank-stamina" onclick="setCharAttrRank(1, 2, 5)" />
+                </div>
+            </div>
+            
+            <div class="attr-block" id="social-attr">
+                <span>Presença</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-presence" onclick="setCharAttrRank(2, 0, 1)" checked="true" />
+                    <input type="radio" class="rank-presence" onclick="setCharAttrRank(2, 0, 2)" />
+                    <input type="radio" class="rank-presence" onclick="setCharAttrRank(2, 0, 3)" />
+                    <input type="radio" class="rank-presence" onclick="setCharAttrRank(2, 0, 4)" />
+                    <input type="radio" class="rank-presence" onclick="setCharAttrRank(2, 0, 5)" />
+                </div>
+                
+                <span>Manipulação</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-manipulation" onclick="setCharAttrRank(2, 1, 1)" checked="true" />
+                    <input type="radio" class="rank-manipulation" onclick="setCharAttrRank(2, 1, 2)" />
+                    <input type="radio" class="rank-manipulation" onclick="setCharAttrRank(2, 1, 3)" />
+                    <input type="radio" class="rank-manipulation" onclick="setCharAttrRank(2, 1, 4)" />
+                    <input type="radio" class="rank-manipulation" onclick="setCharAttrRank(2, 1, 5)" />
+                </div>
+                
+                <span>Autocontrole</span>
+                <div class="attr-ranks">
+                    <input type="radio" class="rank-composure" onclick="setCharAttrRank(2, 2, 1)" checked="true" />
+                    <input type="radio" class="rank-composure" onclick="setCharAttrRank(2, 2, 2)" />
+                    <input type="radio" class="rank-composure" onclick="setCharAttrRank(2, 2, 3)" />
+                    <input type="radio" class="rank-composure" onclick="setCharAttrRank(2, 2, 4)" />
+                    <input type="radio" class="rank-composure" onclick="setCharAttrRank(2, 2, 5)" />
+                </div>
+            </div>
+        </section>
+
+        <!--  -->
+        <button onclick="printCharacter()">Console Character</button>
+        
+        <!-- Habilidades -->
+        <section class="cofd-skills">
+            <header><h2>Habilidades</h2></header>
+            
+            <b>Mental</b>
+            <small>(-3 se inepto)</small>
+            <div class="skills-block" id="skills-mental">
+                <input type="checkbox" name="science" id="hasSkill-science" />
+                <span>Ciências</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-science" onclick="setCharSkillRank(0, 0, 1)" />
+                    <input type="radio" class="rank-science" onclick="setCharSkillRank(0, 0, 2)" />
+                    <input type="radio" class="rank-science" onclick="setCharSkillRank(0, 0, 3)" />
+                    <input type="radio" class="rank-science" onclick="setCharSkillRank(0, 0, 4)" />
+                    <input type="radio" class="rank-science" onclick="setCharSkillRank(0, 0, 5)" />
+                </div>
+                
+                <input type="checkbox" name="academics" id="hasSkill-academics" />
+                <span>Erudição</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-academics" onclick="setCharSkillRank(0, 1, 1)" />
+                    <input type="radio" class="rank-academics" onclick="setCharSkillRank(0, 1, 2)" />
+                    <input type="radio" class="rank-academics" onclick="setCharSkillRank(0, 1, 3)" />
+                    <input type="radio" class="rank-academics" onclick="setCharSkillRank(0, 1, 4)" />
+                    <input type="radio" class="rank-academics" onclick="setCharSkillRank(0, 1, 5)" />
+                </div>
+                
+                <input type="checkbox" name="computer" id="hasSkill-computer" />
+                <span>Informática</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-computer" onclick="setCharSkillRank(0, 2, 1)" />
+                    <input type="radio" class="rank-computer" onclick="setCharSkillRank(0, 2, 2)" />
+                    <input type="radio" class="rank-computer" onclick="setCharSkillRank(0, 2, 3)" />
+                    <input type="radio" class="rank-computer" onclick="setCharSkillRank(0, 2, 4)" />
+                    <input type="radio" class="rank-computer" onclick="setCharSkillRank(0, 2, 5)" />
+                </div>
+                
+                <input type="checkbox" name="investigation" id="hasSkill-investigation" />
+                <span>Investigação</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-investigation" onclick="setCharSkillRank(0, 3, 1)" />
+                    <input type="radio" class="rank-investigation" onclick="setCharSkillRank(0, 3, 2)" />
+                    <input type="radio" class="rank-investigation" onclick="setCharSkillRank(0, 3, 3)" />
+                    <input type="radio" class="rank-investigation" onclick="setCharSkillRank(0, 3, 4)" />
+                    <input type="radio" class="rank-investigation" onclick="setCharSkillRank(0, 3, 5)" />
+                </div>
+                
+                <input type="checkbox" name="medicine" id="hasSkill-medicine" />
+                <span>Medicina</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-medicine" onclick="setCharSkillRank(0, 4, 1)" />
+                    <input type="radio" class="rank-medicine" onclick="setCharSkillRank(0, 4, 2)" />
+                    <input type="radio" class="rank-medicine" onclick="setCharSkillRank(0, 4, 3)" />
+                    <input type="radio" class="rank-medicine" onclick="setCharSkillRank(0, 4, 4)" />
+                    <input type="radio" class="rank-medicine" onclick="setCharSkillRank(0, 4, 5)" />
+                </div>
+                
+                <input type="checkbox" name="occult" id="hasSkill-occult" />
+                <span>Ocultismo</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-occult" onclick="setCharSkillRank(0, 5, 1)" />
+                    <input type="radio" class="rank-occult" onclick="setCharSkillRank(0, 5, 2)" />
+                    <input type="radio" class="rank-occult" onclick="setCharSkillRank(0, 5, 3)" />
+                    <input type="radio" class="rank-occult" onclick="setCharSkillRank(0, 5, 4)" />
+                    <input type="radio" class="rank-occult" onclick="setCharSkillRank(0, 5, 5)" />
+                </div>
+                
+                <input type="checkbox" name="crafts" id="hasSkill-crafts" />
+                <span>Ofícios</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-crafts" onclick="setCharSkillRank(0, 6, 1)" />
+                    <input type="radio" class="rank-crafts" onclick="setCharSkillRank(0, 6, 2)" />
+                    <input type="radio" class="rank-crafts" onclick="setCharSkillRank(0, 6, 3)" />
+                    <input type="radio" class="rank-crafts" onclick="setCharSkillRank(0, 6, 4)" />
+                    <input type="radio" class="rank-crafts" onclick="setCharSkillRank(0, 6, 5)" />
+                </div>
+                
+                <input type="checkbox" name="politics" id="hasSkill-politics" />
+                <span>Política</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-politics" onclick="setCharSkillRank(0, 7, 1)" />
+                    <input type="radio" class="rank-politics" onclick="setCharSkillRank(0, 7, 2)" />
+                    <input type="radio" class="rank-politics" onclick="setCharSkillRank(0, 7, 3)" />
+                    <input type="radio" class="rank-politics" onclick="setCharSkillRank(0, 7, 4)" />
+                    <input type="radio" class="rank-politics" onclick="setCharSkillRank(0, 7, 5)" />
+                </div>
+            </div>
+            
+            <b>Físico</b>
+            <small>(-1 se inepto)</small>
+            <div class="skills-block" id="skills-physical">
+                
+                <input type="checkbox" name="weaponry" id="hasSkill-weaponry" />
+                <span>Armamento</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-weaponry" onclick="setCharSkillRank(1, 0, 1)" />
+                    <input type="radio" class="rank-weaponry" onclick="setCharSkillRank(1, 0, 2)" />
+                    <input type="radio" class="rank-weaponry" onclick="setCharSkillRank(1, 0, 3)" />
+                    <input type="radio" class="rank-weaponry" onclick="setCharSkillRank(1, 0, 4)" />
+                    <input type="radio" class="rank-weaponry" onclick="setCharSkillRank(1, 0, 5)" />
+                </div>
+
+                <input type="checkbox" name="firearm" id="hasSkill-firearm" />
+                <span>Armas de Fogo</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-firearm" onclick="setCharSkillRank(1, 1, 1)" />
+                    <input type="radio" class="rank-firearm" onclick="setCharSkillRank(1, 1, 2)" />
+                    <input type="radio" class="rank-firearm" onclick="setCharSkillRank(1, 1, 3)" />
+                    <input type="radio" class="rank-firearm" onclick="setCharSkillRank(1, 1, 4)" />
+                    <input type="radio" class="rank-firearm" onclick="setCharSkillRank(1, 1, 5)" />
+                </div>
+                
+                <input type="checkbox" name="brawl" id="hasSkill-brawl" />
+                <span>Briga</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-brawl" onclick="setCharSkillRank(1, 2, 1)" />
+                    <input type="radio" class="rank-brawl" onclick="setCharSkillRank(1, 2, 2)" />
+                    <input type="radio" class="rank-brawl" onclick="setCharSkillRank(1, 2, 3)" />
+                    <input type="radio" class="rank-brawl" onclick="setCharSkillRank(1, 2, 4)" />
+                    <input type="radio" class="rank-brawl" onclick="setCharSkillRank(1, 2, 5)" />
+                </div>
+                
+                <input type="checkbox" name="drive" id="hasSkill-drive" />
+                <span>Condução</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-drive" onclick="setCharSkillRank(1, 3, 1)" />
+                    <input type="radio" class="rank-drive" onclick="setCharSkillRank(1, 3, 2)" />
+                    <input type="radio" class="rank-drive" onclick="setCharSkillRank(1, 3, 3)" />
+                    <input type="radio" class="rank-drive" onclick="setCharSkillRank(1, 3, 4)" />
+                    <input type="radio" class="rank-drive" onclick="setCharSkillRank(1, 3, 5)" />
+                </div>
+                
+                <input type="checkbox" name="stealth" id="hasSkill-stealth" />
+                <span>Dissimulação</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-stealth" onclick="setCharSkillRank(1, 4, 1)" />
+                    <input type="radio" class="rank-stealth" onclick="setCharSkillRank(1, 4, 2)" />
+                    <input type="radio" class="rank-stealth" onclick="setCharSkillRank(1, 4, 3)" />
+                    <input type="radio" class="rank-stealth" onclick="setCharSkillRank(1, 4, 4)" />
+                    <input type="radio" class="rank-stealth" onclick="setCharSkillRank(1, 4, 5)" />
+                </div>
+                
+                <input type="checkbox" name="athletics" id="hasSkill-athletics" />
+                <span>Esportes</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-athletics" onclick="setCharSkillRank(1, 5, 1)" />
+                    <input type="radio" class="rank-athletics" onclick="setCharSkillRank(1, 5, 2)" />
+                    <input type="radio" class="rank-athletics" onclick="setCharSkillRank(1, 5, 3)" />
+                    <input type="radio" class="rank-athletics" onclick="setCharSkillRank(1, 5, 4)" />
+                    <input type="radio" class="rank-athletics" onclick="setCharSkillRank(1, 5, 5)" />
+                </div>
+                
+                <input type="checkbox" name="larceny" id="hasSkill-larceny" />
+                <span>Furto</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-larceny" onclick="setCharSkillRank(1, 6, 1)" />
+                    <input type="radio" class="rank-larceny" onclick="setCharSkillRank(1, 6, 2)" />
+                    <input type="radio" class="rank-larceny" onclick="setCharSkillRank(1, 6, 3)" />
+                    <input type="radio" class="rank-larceny" onclick="setCharSkillRank(1, 6, 4)" />
+                    <input type="radio" class="rank-larceny" onclick="setCharSkillRank(1, 6, 5)" />
+                </div>
+                
+                <input type="checkbox" name="survival" id="hasSkill-survival" />
+                <span>Sobrevivência</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-survival" onclick="setCharSkillRank(1, 7, 1)" />
+                    <input type="radio" class="rank-survival" onclick="setCharSkillRank(1, 7, 2)" />
+                    <input type="radio" class="rank-survival" onclick="setCharSkillRank(1, 7, 3)" />
+                    <input type="radio" class="rank-survival" onclick="setCharSkillRank(1, 7, 4)" />
+                    <input type="radio" class="rank-survival" onclick="setCharSkillRank(1, 7, 5)" />
+                </div>
+            </div>
+            
+            <b>Social</b>
+            <small>(-1 se inepto)</small>
+            <div class="skills-block" id="skills-social">
+                <input type="checkbox" name="subterfuge" id="hasSkill-subterfuge" />
+                <span>Astúcia</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-subterfuge" onclick="setCharSkillRank(2, 0, 1)" />
+                    <input type="radio" class="rank-subterfuge" onclick="setCharSkillRank(2, 0, 2)" />
+                    <input type="radio" class="rank-subterfuge" onclick="setCharSkillRank(2, 0, 3)" />
+                    <input type="radio" class="rank-subterfuge" onclick="setCharSkillRank(2, 0, 4)" />
+                    <input type="radio" class="rank-subterfuge" onclick="setCharSkillRank(2, 0, 5)" />
+                </div>
+                <input type="checkbox" name="empathy" id="hasSkill-empathy" />
+                <span>Empatia</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-empathy" onclick="setCharSkillRank(2, 1, 1)" />
+                    <input type="radio" class="rank-empathy" onclick="setCharSkillRank(2, 1, 2)" />
+                    <input type="radio" class="rank-empathy" onclick="setCharSkillRank(2, 1, 3)" />
+                    <input type="radio" class="rank-empathy" onclick="setCharSkillRank(2, 1, 4)" />
+                    <input type="radio" class="rank-empathy" onclick="setCharSkillRank(2, 1, 5)" />
+                </div>
+                <input type="checkbox" name="expression" id="hasSkill-expression" />
+                <span>Expressão</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-expression" onclick="setCharSkillRank(2, 2, 1)" />
+                    <input type="radio" class="rank-expression" onclick="setCharSkillRank(2, 2, 2)" />
+                    <input type="radio" class="rank-expression" onclick="setCharSkillRank(2, 2, 3)" />
+                    <input type="radio" class="rank-expression" onclick="setCharSkillRank(2, 2, 4)" />
+                    <input type="radio" class="rank-expression" onclick="setCharSkillRank(2, 2, 5)" />
+                </div>
+                <input type="checkbox" name="intimidation" id="hasSkill-intimidation" />
+                <span>Intimidação</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-intimidation" onclick="setCharSkillRank(2, 3, 1)" />
+                    <input type="radio" class="rank-intimidation" onclick="setCharSkillRank(2, 3, 2)" />
+                    <input type="radio" class="rank-intimidation" onclick="setCharSkillRank(2, 3, 3)" />
+                    <input type="radio" class="rank-intimidation" onclick="setCharSkillRank(2, 3, 4)" />
+                    <input type="radio" class="rank-intimidation" onclick="setCharSkillRank(2, 3, 5)" />
+                </div>
+                <input type="checkbox" name="streetwise" id="hasSkill-streetwise" />
+                <span>Manha</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-streetwise" onclick="setCharSkillRank(2, 4, 1)" />
+                    <input type="radio" class="rank-streetwise" onclick="setCharSkillRank(2, 4, 2)" />
+                    <input type="radio" class="rank-streetwise" onclick="setCharSkillRank(2, 4, 3)" />
+                    <input type="radio" class="rank-streetwise" onclick="setCharSkillRank(2, 4, 4)" />
+                    <input type="radio" class="rank-streetwise" onclick="setCharSkillRank(2, 4, 5)" />
+                </div>
+                <input type="checkbox" name="persuasion" id="hasSkill-persuasion" />
+                <span>Persuasão</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-persuasion" onclick="setCharSkillRank(2, 5, 1)" />
+                    <input type="radio" class="rank-persuasion" onclick="setCharSkillRank(2, 5, 2)" />
+                    <input type="radio" class="rank-persuasion" onclick="setCharSkillRank(2, 5, 3)" />
+                    <input type="radio" class="rank-persuasion" onclick="setCharSkillRank(2, 5, 4)" />
+                    <input type="radio" class="rank-persuasion" onclick="setCharSkillRank(2, 5, 5)" />
+                </div>
+                <input type="checkbox" name="socialize" id="hasSkill-socialize" />
+                <span>Socialização</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-socialize" onclick="setCharSkillRank(2, 6, 1)" />
+                    <input type="radio" class="rank-socialize" onclick="setCharSkillRank(2, 6, 2)" />
+                    <input type="radio" class="rank-socialize" onclick="setCharSkillRank(2, 6, 3)" />
+                    <input type="radio" class="rank-socialize" onclick="setCharSkillRank(2, 6, 4)" />
+                    <input type="radio" class="rank-socialize" onclick="setCharSkillRank(2, 6, 5)" />
+                </div>
+                
+                <input type="checkbox" name="animalKen" id="hasSkill-animalKen" />
+                <span>Tratar Animais</span>
+                <div class="skills-ranks">
+                    <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 1)" />
+                    <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 2)" />
+                    <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 3)" />
+                    <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 4)" />
+                    <input type="radio" class="rank-animalKen" onclick="setCharSkillRank(2, 7, 5)" />
+                </div>
+            </div>
+        </section>
+        
+        <!-- Vantagens -->
+        <section class="cofd-merits" id="cofd-character-merits">
+            <header><h2>Vantagens</h2></header>
+            <header><button onclick="addAdvantage()">Adicionar Vantagem</button></header>
+        </section>
+    </div>
+    
+    <script type="text/javascript" src="classes/Character.js"></script>
+    <script type="text/javascript" src="script/render.js"></script>
+    <script type="text/javascript" src="script/characterManager.js"></script>
+    <script type="text/javascript" src="script/main.js"></script>
+</body>
+</html>

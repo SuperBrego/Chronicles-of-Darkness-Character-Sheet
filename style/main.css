@@ -6,8 +6,13 @@
     -moz-box-sizing: border-box;
 }
 
-.cofd-sheet { width: 80%; }
+.cofd-sheet { 
+    /* width: 80%; */
+    transform: scale(0.95);
+}
 .cofd-sheet input[type=radio] { width: .8rem; }
+
+#sheet-upload { display: none; }
 
 /* ***************************** */
 /* ***** Blocos ***** */
@@ -21,7 +26,8 @@
 /* ***************************** */
 .char-info {
     display: grid;
-    grid-template-columns: repeat(3, 33%);
+    grid-template-columns: repeat(3, 30%);
+    column-gap: 1%;
 }
 .char-info-item {
     display: grid;
@@ -64,7 +70,7 @@
 
 .skills-block {
     display: grid;
-    grid-template-columns: 10% 30% 60%;
+    grid-template-columns: 30% 60%;
 }
 
 /* ***************************** */
