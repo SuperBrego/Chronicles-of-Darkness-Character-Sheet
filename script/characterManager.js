@@ -223,7 +223,7 @@ function setSkillRank(rank, attr) {
 // ****************************************************
 // Vantagens
 // ****************************************************
-let meritBlock = document.getElementById('cofd-character-merits');
+
 
 /**
  * Adiciona uma nova vantagem para o Personagem.
@@ -237,59 +237,8 @@ function addAdvantage() {
         overt: false,
     };
     globalChar.merits.push(advantage);
-
-    let advElement = document.createElement('div');
-    advElement.id = advantage.id;
-    advElement.className = 'adv-block';
-
-    // Encaixar o Evidente se for Deviant
-    if(globalChar.template === SupernaturalTemp.Deviant) {
-        let overCheckbox = document.createElement('input');
-        overCheckbox.type = 'checkbox';
-        overCheckbox.checked = advantage.overt;
-        overCheckbox.addEventListener('change', () => {} /** checkOvertAdv(id) */);
-        advElement.appendChild(overCheckbox);
-    }
-    else {
-        // Append um div vazio para encaixar a conta no CSS
-        advElement.appendChild(document.createElement('div'));
-    }
-
-    // Campo nome de Vantagem
-    let advNameInput = document.createElement('input');
-    advNameInput.value = advantage.name;
-    advNameInput.placeholder = 'Digite nome da Vantagem...';
-    advNameInput.addEventListener('blur', (event) => renameAdvantage(advantage.id, event.target.value));
-
-    // Campo círculos inputs
-    let advRanksElement = document.createElement('div');
-    let advRankRadio;
-    for(let i = 0; i < 5; i++) {
-        advRankRadio = document.createElement('input');
-        advRankRadio.type = 'radio';
-        advRankRadio.className = `adv-rank-${advantage.id}`;
-        advRankRadio.addEventListener('click', () => changeAdvRank(advantage.id, i+1));
-        if(i === 0) advRankRadio.checked = true;
-        advRanksElement.appendChild(advRankRadio);
-    }
-
-    // Botão de deleção
-    let delBtn = document.createElement('button');
-    delBtn.innerHTML = 'X';
-    delBtn.addEventListener('click', () => removeAdvantage(advantage.id));
-
-    // Descrição
-    let descriptionElement = document.createElement('textarea');
-    descriptionElement.value = advantage.description;
-    descriptionElement.className = 'gridC_span4';
-    descriptionElement.placeholder = "Adicione descrição e informações da sua vantagem."
-
-    // Append.    
-    advElement.appendChild(advNameInput);
-    advElement.appendChild(advRanksElement);
-    advElement.appendChild(delBtn);
-    advElement.appendChild(descriptionElement);
-    meritBlock.appendChild(advElement);
+    
+    createAdvantageBlock(advantage);
 }
 
 /**
