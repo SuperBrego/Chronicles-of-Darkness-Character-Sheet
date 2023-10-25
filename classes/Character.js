@@ -60,6 +60,35 @@ class Character {
         this.template = SupernaturalTemp.Mortal;
         this.templateInfo = getTemplateInfo(this.template);
 
+        this.health = () => {
+            let x = [];
+            for(let i = 0; i < 20; i++) x.push({index: i, state: 0});
+            return x;
+        };
+          
+        // = [
+        //     {index: 0, state: 0},
+        //     {index: 1, state: 0},
+        //     {index: 2, state: 0},
+        //     {index: 3, state: 0},
+        //     {index: 4, state: 0},
+        //     {index: 5, state: 0},
+        //     {index: 6, state: 0},
+        //     {index: 7, state: 0},
+        //     {index: 8, state: 0},
+        //     {index: 9, state: 0},
+        //     {index: 10, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        //     {index: 11, state: 0},
+        // ];
+
         // Atributos Mentais
         this.mentalAttributes = [
             { index: 0, name: "Inteligência", rank: 1, class: "intelligence" },
@@ -279,7 +308,6 @@ class Character {
         this.setSocialize       = (rank) => { this.socialSkills[6].rank = rank; }
         this.setAnimalKen       = (rank) => { this.socialSkills[7].rank = rank; }
 
-        this.health     = this.size + this.getStamina();
         this.willpower  = this.getResolve() + this.getComposure();
         this.defense    = Math.min(this.getWits(), this.getDexterity()) + this.getAthletics();
         this.initiative = this.getDexterity() + this.getComposure();

@@ -4,6 +4,7 @@ var globalChar = new Character();
 window.onload = () => {
     renderCharacter(globalChar);
     addSheetListeners(globalChar);
+    console.log(globalChar.health);
 }
 
 function idSeed() { return (Date.now() * Math.random());  }
