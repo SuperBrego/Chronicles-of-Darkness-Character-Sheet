@@ -35,7 +35,7 @@ function getTemplateInfo(supernaturalTemplate) {
             dirge: '',
             bloodline: '',
             covenant: '',
-        }
+        };
         case SupernaturalTemp.Deviant: return {
             templateIndex: SupernaturalTemp.Deviant,
             convictions: [],
@@ -60,34 +60,27 @@ class Character {
         this.template = SupernaturalTemp.Mortal;
         this.templateInfo = getTemplateInfo(this.template);
 
-        this.health = () => {
+        this.health = makeHealth();
+        this.willpower = makeWillpower();
+
+        function makeHealth() {
             let x = [];
-            for(let i = 0; i < 20; i++) x.push({index: i, state: 0});
+            for(let i = 0; i < 20; i++) x.push({state: 0});
             return x;
-        };
-          
-        // = [
-        //     {index: 0, state: 0},
-        //     {index: 1, state: 0},
-        //     {index: 2, state: 0},
-        //     {index: 3, state: 0},
-        //     {index: 4, state: 0},
-        //     {index: 5, state: 0},
-        //     {index: 6, state: 0},
-        //     {index: 7, state: 0},
-        //     {index: 8, state: 0},
-        //     {index: 9, state: 0},
-        //     {index: 10, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        //     {index: 11, state: 0},
-        // ];
+        }
+
+        function makeWillpower() {
+            let x = [];
+            for(let i = 0; i < 15; i++) x.push({state: true});
+            return x;
+        }
+
+        this.size = 5;
+        this.merits = [];
+
+        // Vitalidade Extra?
+        // Armadura
+        // Armadura Extra?
 
         // Atributos Mentais
         this.mentalAttributes = [
@@ -102,8 +95,6 @@ class Character {
             { index: 1, name: "Destreza", rank: 1, class: "dexterity" },
             { index: 2, name: "Vigor", rank: 1, class: "stamina" },
         ];
-
-        this.stamina = this.physicalAttributes[2].rank;
 
         // Atributos Sociais
         this.socialAttributes = [
@@ -148,169 +139,177 @@ class Character {
             { index: 7, name: "Tratar Animais", rank: 0, class: "animalKen" },
         ];
 
-        this.size = 5;
-        this.merits = [];
-
-        // ******************************************************************** //
-        // ******************************************************************** //
-        // Modelo Sobrenatural
-        this.getSupernaturalTemplate = ()  => { return this.template; }
-        this.setSupernaturalTemplate = (template) => { 
-            this.template = template; 
-            this.templateInfo = this.getTemplateInfo(template);
-        }
-
-        // Get Atributos
-        this.getMentalAttr = (index) => { return this.mentalAttributes.find(elem => elem.index === index); }
-        this.getPhysicalAttr = (index) => { return this.physicalAttributes.find(elem => elem.index === index); }
-        this.getSocialAttr = (index) => { return this.socialAttributes.find(elem => elem.index === index); }
-
-        // Set Atributos
-        this.setMentalAttr = (index, rank) => {
-            let mentalAttr = this.mentalAttributes.find(elem => elem.index === index); 
-            if(mentalAttr) mentalAttr.rank = rank;
-        }
-
-        this.setPhysicalAttr = (index, rank) => {
-            let physicAttr = this.physicalAttributes.find(elem => elem.index === index); 
-            if(physicAttr) physicAttr.rank = rank;
-        }
-        
-        this.setSocialAttr = (index, rank) => {
-            let socialAttr = this.socialAttributes.find(elem => elem.index === index); 
-            if(socialAttr) socialAttr.rank = rank;
-        }
-
-        // Get Atributos Mentais
-        this.getIntelligence = () => { return this.mentalAttributes[0].rank; }
-        this.getWits = () => { return this.mentalAttributes[1].rank; }
-        this.getResolve = () => { return this.mentalAttributes[2].rank; }
-        
-        // Get Atributos Físicos
-        this.getStrength = () => { return this.physicalAttributes[0].rank; }
-        this.getDexterity = () => { return this.physicalAttributes[1].rank; }
-        this.getStamina = () => { return this.physicalAttributes[2].rank; }
-        
-        // Get Atributos Sociais
-        this.getPresence = () => { return this.socialAttributes[0].rank; }
-        this.getManipulation = () => { return this.socialAttributes[1].rank; }
-        this.getComposure = () => { return this.socialAttributes[2].rank; }
-
-        // ***************************************************************** //
-        // Get Habilidades
-        this.getMentalSkill = (index) => { return this.mentalSkills.find(elem => elem.index === index); }
-        this.getPhysicalSkill = (index) => { return this.physicalSkills.find(elem => elem.index === index); }
-        this.getSocialSkill = (index) => { return this.socialSkills.find(elem => elem.index === index); }
-
-        // Set Habilidades
-        this.setMentalSkill = (index, rank) => {
-            let mentalSkill = this.mentalSkills.find(elem => elem.index === index); 
-            if(mentalSkill) mentalSkill.rank = rank;
-        }
-
-        this.setPhysicalSkill = (index, rank) => {
-            let physicSkill = this.physicalSkills.find(elem => elem.index === index); 
-            if(physicSkill) physicSkill.rank = rank;
-        }
-
-        this.setSocialSkill = (index, rank) => {
-            let socialSkill = this.socialSkills.find(elem => elem.index === index); 
-            if(socialSkill) socialSkill.rank = rank;
-        }
-
-        // Get Habilidades Mentais
-        this.getScience         = () => { return this.mentalSkills[0].rank; }
-        this.getAcademics       = () => { return this.mentalSkills[1].rank; }
-        this.getComputer        = () => { return this.mentalSkills[2].rank; }
-        this.getInvestigation   = () => { return this.mentalSkills[3].rank; }
-        this.getMedicine        = () => { return this.mentalSkills[4].rank; }
-        this.getOccult          = () => { return this.mentalSkills[5].rank; }
-        this.getCrafts          = () => { return this.mentalSkills[6].rank; }
-        this.getPolitics        = () => { return this.mentalSkills[7].rank; }
-
-        // Get Habilidades Físicas
-        this.getWeaponry    = () => { return this.physicalSkills[0].rank; }
-        this.getFirearms    = () => { return this.physicalSkills[1].rank; }
-        this.getBrawl       = () => { return this.physicalSkills[2].rank; }
-        this.getDrive       = () => { return this.physicalSkills[3].rank; }
-        this.getStealth     = () => { return this.physicalSkills[4].rank; }
-        this.getAthletics   = () => { return this.physicalSkills[5].rank; }
-        this.getLarceny     = () => { return this.physicalSkills[6].rank; }
-        this.getSurvival    = () => { return this.physicalSkills[7].rank; }
-
-        // Get Habilidades Sociais
-        this.getSubterfuge      = () => { return this.socialSkills[0].rank; }
-        this.getEmpathy         = () => { return this.socialSkills[1].rank; }
-        this.getExpression      = () => { return this.socialSkills[2].rank; }
-        this.getIntimidation    = () => { return this.socialSkills[3].rank; }
-        this.getStreetwise      = () => { return this.socialSkills[4].rank; }
-        this.getPersuasion      = () => { return this.socialSkills[5].rank; }
-        this.getSocialize       = () => { return this.socialSkills[6].rank; }
-        this.getAnimalKen       = () => { return this.socialSkills[7].rank; }
-
-        // Get Classe Habilidades Mentais
-        this.getScienceClass        = () => { return this.mentalSkills[0].class; }
-        this.getAcademicsClass      = () => { return this.mentalSkills[1].class; }
-        this.getComputerClass       = () => { return this.mentalSkills[2].class; }
-        this.getInvestigationClass  = () => { return this.mentalSkills[3].class; }
-        this.getMedicineClass       = () => { return this.mentalSkills[4].class; }
-        this.getOccultClass         = () => { return this.mentalSkills[5].class; }
-        this.getCraftsClass         = () => { return this.mentalSkills[6].class; }
-        this.getPoliticsClass       = () => { return this.mentalSkills[7].class; }
-        
-        // Get Classe Habilidades Físicas
-        this.getWeaponryClass   = () => { return this.physicalSkills[0].class; }
-        this.getFirearmsClass   = () => { return this.physicalSkills[1].class; }
-        this.getBrawlClass      = () => { return this.physicalSkills[2].class; }
-        this.getDriveClass      = () => { return this.physicalSkills[3].class; }
-        this.getStealthClass    = () => { return this.physicalSkills[4].class; }
-        this.getAthleticsClass  = () => { return this.physicalSkills[5].class; }
-        this.getLarcenyClass    = () => { return this.physicalSkills[6].class; }
-        this.getSurvivalClass   = () => { return this.physicalSkills[7].class; }
-        
-        // Get Classe Habilidades Sociais
-        this.getSubterfugeClass     = () => { return this.socialSkills[0].class; }
-        this.getEmpathyClass        = () => { return this.socialSkills[1].class; }
-        this.getExpressionClass     = () => { return this.socialSkills[2].class; }
-        this.getIntimidationClass   = () => { return this.socialSkills[3].class; }
-        this.getStreetwiseClass     = () => { return this.socialSkills[4].class; }
-        this.getPersuasionClass     = () => { return this.socialSkills[5].class; }
-        this.getSocializeClass      = () => { return this.socialSkills[6].class; }
-        this.getAnimalKenClass      = () => { return this.socialSkills[7].class; }
-
-        // Set Habilidades Mentais
-        this.setScience         = (rank) => { this.mentalSkills[0].rank = rank; }
-        this.setAcademics       = (rank) => { this.mentalSkills[1].rank = rank; }
-        this.setComputer        = (rank) => { this.mentalSkills[2].rank = rank; }
-        this.setInvestigation   = (rank) => { this.mentalSkills[3].rank = rank; }
-        this.setMedicine        = (rank) => { this.mentalSkills[4].rank = rank; }
-        this.setOccult          = (rank) => { this.mentalSkills[5].rank = rank; }
-        this.setCrafts          = (rank) => { this.mentalSkills[6].rank = rank; }
-        this.setPolitics        = (rank) => { this.mentalSkills[7].rank = rank; }
-
-        // Set Habilidades Físicas
-        this.setWeaponry    = (rank) => { this.physicalSkills[0].rank = rank; }
-        this.setFirearms    = (rank) => { this.physicalSkills[1].rank = rank; }
-        this.setBrawl       = (rank) => { this.physicalSkills[2].rank = rank; }
-        this.setDrive       = (rank) => { this.physicalSkills[3].rank = rank; }
-        this.setStealth     = (rank) => { this.physicalSkills[4].rank = rank; }
-        this.setAthletics   = (rank) => { this.physicalSkills[5].rank = rank; }
-        this.setLarceny     = (rank) => { this.physicalSkills[6].rank = rank; }
-        this.setSurvival    = (rank) => { this.physicalSkills[7].rank = rank; }
-
-        // Set Habilidades Sociais
-        this.setSubterfuge      = (rank) => { this.socialSkills[0].rank = rank; }
-        this.setEmpathy         = (rank) => { this.socialSkills[1].rank = rank; }
-        this.setExpression      = (rank) => { this.socialSkills[2].rank = rank; }
-        this.setIntimidation    = (rank) => { this.socialSkills[3].rank = rank; }
-        this.setStreetwise      = (rank) => { this.socialSkills[4].rank = rank; }
-        this.setPersuasion      = (rank) => { this.socialSkills[5].rank = rank; }
-        this.setSocialize       = (rank) => { this.socialSkills[6].rank = rank; }
-        this.setAnimalKen       = (rank) => { this.socialSkills[7].rank = rank; }
-
-        this.willpower  = this.getResolve() + this.getComposure();
-        this.defense    = Math.min(this.getWits(), this.getDexterity()) + this.getAthletics();
-        this.initiative = this.getDexterity() + this.getComposure();
-        this.speed      = this.getStrength() + this.getDexterity() + 5;
     }
+
+    // Vitalidade: Tamanho + Vigor
+    get healthPoints() { return Number(this.size) + Number(this.physicalAttributes[2].rank); }
+
+    // Força de Vontade: Perseverança + Autocontrole.
+    get willpowerPoints() {
+        return Number(this.mentalAttributes[2].rank) + Number(this.socialAttributes[2].rank);
+    }
+    // Defesa: Menor entre Raciocínio e Destreza + Esportes.
+    get defense() { 
+        return Math.min(this.mentalAttributes[1].rank, this.physicalAttributes[1].rank) + this.physicalSkills[5].rank; 
+    }
+    // Initiativa: Destreza + Autocontrole.
+    get initiative() { return this.physicalAttributes[1].rank + this.socialAttributes[2].rank; }
+
+    // Força 0 + Destreza 1 + 5
+    get speed() { return this.physicalAttributes[0].rank + this.physicalAttributes[1].rank + 5; }
+
+    // ******************************************************************** //
+    // ******************************************************************** //
+    // Modelo Sobrenatural
+    get supernaturalTemplate() { return this.template; }
+    set supernaturalTemplate (template) { 
+        this.template = template; 
+        this.templateInfo = this.getTemplateInfo(template);
+    }
+
+    // Get Atributos
+    getMentalAttr(index)   { return this.mentalAttributes.find(elem => elem.index === index); }
+    getPhysicalAttr(index) { return this.physicalAttributes.find(elem => elem.index === index); }
+    getSocialAttr(index)   { return this.socialAttributes.find(elem => elem.index === index); }
+
+    getMentalAttrClass(index)   { 
+        let attr = this.getMentalAttr(index);
+        if(attr) return attr.class;
+        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+    }
+    getPhysicalAttrClass(index) { 
+        let attr = this.getPhysicalAttr(index);
+        if(attr) return attr.class;
+        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+    }
+    getSocialAttrClass(index)   { 
+        let attr = this.getSocialAttr(index);
+        if(attr) return attr.class;
+        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+    }
+
+    // Set Atributos
+    setMentalAttr(index, rank) {
+        let mentalAttr = this.mentalAttributes.find(elem => elem.index === index); 
+        if(mentalAttr) mentalAttr.rank = rank;
+        else throw console.error(`Não foi possível encontrar Index Mental. Index encontrado: ${index}.`);
+    }
+
+    setPhysicalAttr(index, rank) {
+        let physicAttr = this.physicalAttributes.find(elem => elem.index === index); 
+        if(physicAttr) physicAttr.rank = rank;
+        else throw console.error(`Não foi possível encontrar Index Físico. Index encontrado: ${index}.`);
+    }
+    
+    setSocialAttr(index, rank) {
+        let socialAttr = this.socialAttributes.find(elem => elem.index === index); 
+        if(socialAttr) socialAttr.rank = rank;
+        else throw console.error(`Não foi possível encontrar Index Social. Index encontrado: ${index}.`);
+    }
+
+    // Get Atributos Mentais
+    get intelligence()  { return this.mentalAttributes[0].rank; }
+    get wits()          { return this.mentalAttributes[1].rank; }
+    get resolve()       { return this.mentalAttributes[2].rank; }
+    
+    // Get Atributos Físicos
+    get strength()      { return this.physicalAttributes[0].rank; }
+    get dexterity()     { return this.physicalAttributes[1].rank; }
+    get stamina()       { return this.physicalAttributes[2].rank; }
+    
+    // Get Atributos Sociais
+    get presence()      { return this.socialAttributes[0].rank; }
+    get manipulation()  { return this.socialAttributes[1].rank; }
+    get composure()     { return this.socialAttributes[2].rank; }
+
+    // ***************************************************************** //
+    // Get Habilidades Mentais
+    get science()       { return this.mentalSkills[0].rank; }
+    get academics()     { return this.mentalSkills[1].rank; }
+    get computer()      { return this.mentalSkills[2].rank; }
+    get investigation() { return this.mentalSkills[3].rank; }
+    get medicine()      { return this.mentalSkills[4].rank; }
+    get occult()        { return this.mentalSkills[5].rank; }
+    get crafts()        { return this.mentalSkills[6].rank; }
+    get politics()      { return this.mentalSkills[7].rank; }
+
+    // Get Habilidades Físicas
+    get weaponry()  { return this.physicalSkills[0].rank; }
+    get firearms()  { return this.physicalSkills[1].rank; }
+    get brawl()     { return this.physicalSkills[2].rank; }
+    get drive()     { return this.physicalSkills[3].rank; }
+    get stealth()   { return this.physicalSkills[4].rank; }
+    get athletics() { return this.physicalSkills[5].rank; }
+    get larceny()   { return this.physicalSkills[6].rank; }
+    get survival()  { return this.physicalSkills[7].rank; }
+
+    // Get Habilidades Sociais
+    get subterfuge()    { return this.socialSkills[0].rank; }
+    get empathy()       { return this.socialSkills[1].rank; }
+    get expression()    { return this.socialSkills[2].rank; }
+    get intimidation()  { return this.socialSkills[3].rank; }
+    get streetwise()    { return this.socialSkills[4].rank; }
+    get persuasion()    { return this.socialSkills[5].rank; }
+    get socialize()     { return this.socialSkills[6].rank; }
+    get animalKen()     { return this.socialSkills[7].rank; }
+
+    // Get Classe Habilidades Mentais
+    get scienceClass()   { return this.mentalSkills[0].class; }
+    get academicsClass()     { return this.mentalSkills[1].class; }
+    get computerClass()  { return this.mentalSkills[2].class; }
+    get investigationClass()     { return this.mentalSkills[3].class; }
+    get medicineClass()  { return this.mentalSkills[4].class; }
+    get occultClass()    { return this.mentalSkills[5].class; }
+    get craftsClass()    { return this.mentalSkills[6].class; }
+    get politicsClass()  { return this.mentalSkills[7].class; }
+    
+    // Get Classe Habilidades Físicas
+    get WeaponryClass()  { return this.physicalSkills[0].class; }
+    get FirearmsClass()  { return this.physicalSkills[1].class; }
+    get BrawlClass()     { return this.physicalSkills[2].class; }
+    get DriveClass()     { return this.physicalSkills[3].class; }
+    get StealthClass()   { return this.physicalSkills[4].class; }
+    get AthleticsClass()     { return this.physicalSkills[5].class; }
+    get LarcenyClass()   { return this.physicalSkills[6].class; }
+    get SurvivalClass()  { return this.physicalSkills[7].class; }
+    
+    // Get Classe Habilidades Sociais
+    get SubterfugeClass()    { return this.socialSkills[0].class; }
+    get EmpathyClass()   { return this.socialSkills[1].class; }
+    get ExpressionClass()    { return this.socialSkills[2].class; }
+    get IntimidationClass()  { return this.socialSkills[3].class; }
+    get StreetwiseClass()    { return this.socialSkills[4].class; }
+    get PersuasionClass()    { return this.socialSkills[5].class; }
+    get SocializeClass()     { return this.socialSkills[6].class; }
+    get AnimalKenClass()     { return this.socialSkills[7].class; }
+
+    // Set Habilidades Mentais
+    set science         (rank) { this.mentalSkills[0].rank = rank; }
+    set academics       (rank) { this.mentalSkills[1].rank = rank; }
+    set computer        (rank) { this.mentalSkills[2].rank = rank; }
+    set investigation   (rank) { this.mentalSkills[3].rank = rank; }
+    set medicine        (rank) { this.mentalSkills[4].rank = rank; }
+    set occult          (rank) { this.mentalSkills[5].rank = rank; }
+    set crafts          (rank) { this.mentalSkills[6].rank = rank; }
+    set politics        (rank) { this.mentalSkills[7].rank = rank; }
+
+    // Set Habilidades Físicas
+    set weaponry    (rank) { this.physicalSkills[0].rank = rank; }
+    set firearms    (rank) { this.physicalSkills[1].rank = rank; }
+    set brawl       (rank) { this.physicalSkills[2].rank = rank; }
+    set drive       (rank) { this.physicalSkills[3].rank = rank; }
+    set stealth     (rank) { this.physicalSkills[4].rank = rank; }
+    set athletics   (rank) { this.physicalSkills[5].rank = rank; }
+    set larceny     (rank) { this.physicalSkills[6].rank = rank; }
+    set survival    (rank) { this.physicalSkills[7].rank = rank; }
+
+    // Set Habilidades Sociais
+    set subterfuge      (rank) { this.socialSkills[0].rank = rank; }
+    set empathy         (rank) { this.socialSkills[1].rank = rank; }
+    set expression      (rank) { this.socialSkills[2].rank = rank; }
+    set intimidation    (rank) { this.socialSkills[3].rank = rank; }
+    set streetwise      (rank) { this.socialSkills[4].rank = rank; }
+    set persuasion      (rank) { this.socialSkills[5].rank = rank; }
+    set socialize       (rank) { this.socialSkills[6].rank = rank; }
+    set animalKen       (rank) { this.socialSkills[7].rank = rank; }
 }

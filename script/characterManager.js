@@ -73,11 +73,28 @@ function changeTemplate(event) {
  * @param {string} charName Novo nome de personagem.
 **/
 function changeName(charName) { globalChar.name = charName; }
+function changeHealthState(index) {
+    let healthBlock = globalChar.health[index];
+    
+    if(!healthBlock) throw console.error("Index inválido para campo de Vitalidade. Index encontrado: "+index);
+    if(healthBlock.state === 3) healthBlock.state = 0;
+    else healthBlock.state += 1;
+    renderHealth(globalChar);
+}
+
+function changeWillpowerState(index) {
+    let willBlock = globalChar.willpower[index];
+    
+    if(!willBlock) throw console.error("Index inválido para campo de Força de Vontade. Index encontrado: "+index);
+    if(willBlock.state) willBlock.state = false;
+    else willBlock.state = true;
+    renderWillpower(globalChar);
+}
 
 function changeSize(nSize) {
     globalChar.size = nSize;
     // Atualizar Vitalidade:
-    renderTraits(globalChar);
+    renderHealth(globalChar);
 }
 
 /**
@@ -117,6 +134,32 @@ function changeBloodline(bloodlineName) { globalChar.templateInfo.bloodline = bl
 function changeCovenant(covenantName) { globalChar.templateInfo.covenant = covenantName; }
 
 /**
+ * Retorna ao valor padrão dos campos de Vitalidade.
+ * Atualmente, não funcionando bem, pois está limpando todos itens.
+ * @param {Character} character 
+**/
+function cleanHealth(character) {
+    let stamina = character.physicalAttributes[2].rank;
+    let health = Number(stamina) + Number(character.size);
+    for(let i = health-1; i < character.health.length; i++) {
+        character.health[i].state = 0;
+    }
+}
+
+/**
+ * Retorna ao valor padrão dos campos de Vontade.
+ * @param {Character} character 
+**/
+function cleanWill(character) {
+    let resolve = character.mentalAttributes[2].rank;
+    let composure = character.socialAttributes[2].rank;
+    let willpower = resolve + composure;
+    for(let i = willpower-1; i < character.willpower.length; i++) {
+        character.willpower[i].state = true;
+    }
+}
+
+/**
  * Altera o valor do Atributo.
  * @param {number} type Tipo de Atributo.
  * @param {number} index Index do Atributo.
@@ -129,27 +172,44 @@ function setCharAttrRank(type, index, rank) {
     switch(type) {
         default:
         case 0: 
-            attribute = globalChar.mentalAttributes[index];
-            if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            attribute.rank = rank;
-            setAttrRank(rank, attribute.class);
+            globalChar.setMentalAttr(index, rank);
+            setAttrRank(rank, globalChar.getMentalAttrClass(index));
+
+            // Atualizando Defesa
+            if(index === 1) { renderDefense(globalChar); }
             // Atualizando Força de Vontade
+            if(index === 2) {
+                renderWillpower(globalChar);
+                cleanWill(globalChar);
+            }
         break;
         case 1: 
-            attribute = globalChar.physicalAttributes[index];
-            if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            attribute.rank = rank;
-            setAttrRank(rank, attribute.class);
+            globalChar.setPhysicalAttr(index, rank);
+            setAttrRank(rank, globalChar.getPhysicalAttrClass(index));
             
+            // Atualizando Força
+            if(index === 0) renderSpeed(globalChar);
+            // Atualizando Defesa, Iniciativa e Velocidade
+            if(index === 1) {
+                renderDefense(globalChar);
+                renderInitiative(globalChar);
+                renderSpeed(globalChar);
+            }
             // Atualizando Vitalidade
-            if(index === 2) { renderHealth(globalChar); }
+            if(index === 2) {
+                renderHealth(globalChar);
+                // cleanHealth(globalChar);
+            }
         break;
         case 2: 
-            attribute = globalChar.socialAttributes[index];
-            if(!attribute) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            attribute.rank = rank;
-            setAttrRank(rank, attribute.class);
+            globalChar.setSocialAttr(index, rank);
+            setAttrRank(rank, globalChar.getSocialAttrClass(index));
             // Atualizando Força de Vontade
+            if(index === 2) {
+                renderWillpower(globalChar);
+                renderInitiative(globalChar);
+                cleanWill(globalChar);
+            }
         break;
     }
 }
@@ -201,6 +261,8 @@ function setCharSkillRank(type, index, rank) {
                 skill.rank = rank;
                 setSkillRank(rank, skill.class);
             }
+            // Atualizar Defesa
+            if(index === 5) renderDefense(globalChar);
         break;
         case 2: 
             skill = globalChar.socialSkills[index];

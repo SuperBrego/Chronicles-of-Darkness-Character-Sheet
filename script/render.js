@@ -156,7 +156,7 @@ function renderHeader(character) {
             // Clã
             let clanHeader = makeInfoHeaderSelect('Clã', changeClan, character.templateInfo.clan, ...clanOptions);
             clanHeader.id = 'clan-selection';
-            clanHeader.className += (character.templateInfo.clan === "") ? ' invalid-cell' : '';
+            clanHeader.className += (character.templateInfo.clan.length === 0) ? ' invalid-cell' : '';
             infoHeader.appendChild(clanHeader);
             
             // Jogador
@@ -314,7 +314,7 @@ function renderAttributes(character) {
     }
 }
 
-function renderAbilities(character) {
+function renderSkills(character) {
     let mentalBlock = document.getElementById('mental-skills');
     let physicalBlock = document.getElementById('physical-skills');
     let socialBlock = document.getElementById('social-skills');
@@ -428,14 +428,6 @@ function renderMerits(character) {
     character.merits.forEach(merit => { createAdvantageBlock(merit); });
 }
 
-function renderTraits(character) {
-    let sizeInput = document.getElementById('char-size');
-    sizeInput.value = character.size;
-
-    renderHealth(character);
-    // renderWillpower(character);
-}
-
 /**
  * Faz o render da Vitalidade.
  * @param {Character} character Personagem.
@@ -445,17 +437,92 @@ function renderHealth(character) {
     healthElement.innerHTML = '';
     
     let healthBlock;
-    let stamina = character.physicalAttributes[2].rank;
-    let health = Number(character.size) + Number(stamina);
+    let health = character.healthPoints;
+
     for(let i = 0; i < health; i++) {
         healthBlock = document.createElement('img');
         healthBlock.id = `health-block-${i}`;
-        healthBlock.src = 'assets/health/empty-square-icon.png';
+        switch(character.health[i].state) {
+            default:
+            case 0: healthBlock.src = 'assets/health/empty-square-icon.png'; break;
+            case 1: healthBlock.src = 'assets/health/bar-square-icon.png'; break;
+            case 2: healthBlock.src = 'assets/health/x-square-icon.png'; break;
+            case 3: healthBlock.src = 'assets/health/asterisk-square-icon.png'; break;
+        }
         healthBlock.alt = 'Vitalidade';
         healthBlock.className = 'health-block';
-        // healthBlock.addEventListener('click', changeHealthState(index));
+        healthBlock.addEventListener('click', () => changeHealthState(i));
         healthElement.appendChild(healthBlock);
     }
+}
+
+/**
+ * Renderiza Força de Vontade.
+ * @param {Character} character Personagem com Força de Vontade.
+**/
+function renderWillpower(character) {
+    let willpowerElement = document.getElementById('char-willpower');
+    willpowerElement.innerHTML = '';
+    
+    let willpowerBlock;
+
+    for(let i = 0; i < character.willpowerPoints; i++) {
+        willpowerBlock = document.createElement('input');
+        willpowerBlock.type = "checkbox";
+        willpowerBlock.id = `willpower-block-${i}`;
+        if(character.willpower[i].state) willpowerBlock.checked = true;
+        else willpowerBlock.checked = false;
+        willpowerBlock.alt = 'Força de Vontade';
+        willpowerBlock.className = 'willpower-block';
+        willpowerBlock.addEventListener('change', () => changeWillpowerState(i));
+        willpowerElement.appendChild(willpowerBlock);
+    }
+}
+
+/**
+ * 
+ * @param {Character} character 
+**/
+function renderDefense(character) {
+    let defense = character.defense;
+    let defenseBlock = document.getElementById('char-defense');
+    defenseBlock.innerHTML = defense;
+}
+
+/**
+ * 
+ * @param {Character} character 
+**/
+function renderInitiative(character) {
+    let initiative = character.initiative;
+    let initiativeBlock = document.getElementById('char-initiative');
+    initiativeBlock.innerHTML = initiative;
+}
+
+/**
+ * 
+ * @param {Character} character 
+**/
+function renderSpeed(character) {
+    let speed = character.speed;
+    let speedBlock = document.getElementById('char-speed');
+    speedBlock.innerHTML = speed;
+}
+
+/**
+ * Renderização de itens complementares, como Tamanho, Vitalidade,
+ * Força de Vontade, etc.
+ * @param {Character} character 
+**/
+function renderTraits(character) {
+    let sizeInput = document.getElementById('char-size');
+    sizeInput.value = character.size;
+
+    renderHealth(character);
+    renderWillpower(character);
+    renderDefense(character);
+    renderInitiative(character);
+    renderSpeed(character);
 }
 
 function renderCharacter(character) {
@@ -464,7 +531,7 @@ function renderCharacter(character) {
     supernaturalTemp.value = character.template;
     renderHeader(character)
     renderAttributes(character);
-    renderAbilities(character);
+    renderSkills(character);
     renderMerits(character);
     renderTraits(character);
 }
