@@ -1,23 +1,32 @@
-const templatesPile = [];
+const templatesStack = [];
+
+function appendTemplate(template) {
+    if(templatesStack.find(elem => elem.index === template.index)) return;
+    templatesStack.push(template);
+}
+
+function searchTemplate(index) {
+    let template = templatesStack.find(elem => elem.index === index);
+    if(template) return template;
+    return getTemplateInfo(index);
+}
 
 function changeTemplate(event) {
-    var oldTemplateInfo;
+    appendTemplate(globalChar.templateInfo);
     let tempIndex = Number(event.value)
 
     switch(tempIndex) {
         // Mortal
         case SupernaturalTemp.Mortal:
             globalChar.template = SupernaturalTemp.Mortal;
-            oldTemplateInfo = globalChar.templateInfo;
-            globalChar.templateInfo = getTemplateInfo(tempIndex);
+            globalChar.templateInfo = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;
         // Vampire
         case SupernaturalTemp.Vampire:
             globalChar.template = SupernaturalTemp.Vampire;
-            oldTemplateInfo = globalChar.templateInfo;
-            globalChar.templateInfo = getTemplateInfo(tempIndex);
+            globalChar.templateInfo = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;

@@ -21,7 +21,7 @@ function getTemplateInfo(supernaturalTemplate) {
     switch(supernaturalTemplate) {
         default:
         case SupernaturalTemp.Mortal: return { 
-            templateIndex: SupernaturalTemp.Mortal,
+            index: SupernaturalTemp.Mortal,
             virtue: "", 
             vice: "", 
             age: 30, 
@@ -29,7 +29,7 @@ function getTemplateInfo(supernaturalTemplate) {
             integrity: 7 
         };
         case SupernaturalTemp.Vampire: return {
-            templateIndex: SupernaturalTemp.Vampire,
+            index: SupernaturalTemp.Vampire,
             clan: '',
             mask: '',
             dirge: '',
@@ -37,7 +37,7 @@ function getTemplateInfo(supernaturalTemplate) {
             covenant: '',
         };
         case SupernaturalTemp.Deviant: return {
-            templateIndex: SupernaturalTemp.Deviant,
+            index: SupernaturalTemp.Deviant,
             convictions: [],
             loyalty: [],
             scars: [],
