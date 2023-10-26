@@ -95,15 +95,23 @@ function renderHeader(character) {
     
     // Nome
     let nameHeader = makeInfoHeader('Nome', changeName, character.name);
+    nameHeader.id = 'char-name';
+    infoHeader.appendChild(nameHeader);
     
     // Jogador
     let playerHeader = makeInfoHeader('Jogador', changePlayer, character.player);
+    playerHeader.id = 'char-player';
+    infoHeader.appendChild(playerHeader);
     
     // Crônica
     let chronicleHeader = makeInfoHeader('Crônica', changeChronicle, character.chronicle);
+    chronicleHeader.id = 'char-chronicle';
+    infoHeader.appendChild(chronicleHeader);
     
     // Conceito
     let conceptHeader = makeInfoHeader('Conceito', changeConcept, character.concept);
+    conceptHeader.id = 'char-concept';
+    infoHeader.appendChild(conceptHeader);
     
     switch(supTemplate) {
         /**
@@ -114,30 +122,29 @@ function renderHeader(character) {
         *  Crônica - Conceito  - Nome do Grupo
         **/
         case SupernaturalTemplates.Mortal:
-            // Nome
-            infoHeader.appendChild(nameHeader);
             // Virtude
             let virtueHeader = makeInfoHeader('Virtude', changeVirtue, character.templateTraits.virtue);
+            virtueHeader.className += ' char-trait1';
             infoHeader.appendChild(virtueHeader);
+            
             // Idade
             let ageHeader = makeInfoNumber('Idade', changeAge, character.templateTraits.age);
+            ageHeader.className += ' char-type1';
             infoHeader.appendChild(ageHeader);
             
-            // Jogador
-            infoHeader.appendChild(playerHeader);
             // Vício
             let viceHeader = makeInfoHeader('Vício', changeVice, character.templateTraits.vice);
+            viceHeader.className += ' char-trait2';
             infoHeader.appendChild(viceHeader);
+
             // Facção
             let factionHeader = makeInfoHeader('Facção', changeFaction, character.templateTraits.faction);
+            factionHeader.className += ' char-type2';
             infoHeader.appendChild(factionHeader);
             
-            // Crônica
-            infoHeader.appendChild(chronicleHeader);
-            // Conceito 
-            infoHeader.appendChild(conceptHeader);
             // Grupo
             let groupHeader = makeInfoHeader('Grupo', changeGroup, character.group);
+            groupHeader.className += ' char-trait3';
             infoHeader.appendChild(groupHeader);
         break;
         
@@ -148,33 +155,34 @@ function renderHeader(character) {
         *  Crônica - Conceito  - Coalizão
         **/
         case SupernaturalTemplates.Vampire:
-            // Nome
-            infoHeader.appendChild(nameHeader);
             // Máscara
             let maskHeader = makeInfoHeader('Máscara', changeMask, character.templateTraits.mask);
+            maskHeader.className += ' char-trait1';
             infoHeader.appendChild(maskHeader);
+            
             // Clã
             let clanHeader = makeInfoHeaderSelect('Clã', changeClan, character.templateTraits.clan, ...clanOptions);
+            clanHeader.className += ' char-type1';
             clanHeader.id = 'clan-selection';
             clanHeader.className += (character.templateTraits.clan.length === 0) ? ' invalid-cell' : '';
             infoHeader.appendChild(clanHeader);
             
-            // Jogador
-            infoHeader.appendChild(playerHeader);
             // Lamento
             let dirge = makeInfoHeader('Lamento', changeDirge, character.templateTraits.dirge);
+            dirge.className += ' char-trait2';
             infoHeader.appendChild(dirge);
+            
             // Linhagem
             let bloodLine = makeInfoHeader('Linhagem', changeBloodline, character.templateTraits.bloodline);
+            bloodLine.className += ' char-type2';
             infoHeader.appendChild(bloodLine);
             
-            // Crônica
-            infoHeader.appendChild(chronicleHeader);
-            // Conceito 
-            infoHeader.appendChild(conceptHeader);
             // Coalizão
             let covenantHeader = makeInfoHeader('Coalizão', changeCovenant, character.templateTraits.covenant);
+            covenantHeader.className += ' char-trait3';
             infoHeader.appendChild(covenantHeader);
+            
+            renderVampireTraits(character);
         break;
         
         /**
@@ -356,35 +364,34 @@ function renderSkills(character) {
     }
 }
 
-var meritBlock = document.getElementById('cofd-character-merits');
 /**
- * Renderiza a Vantagem.
- * @param {Merit} merit Vantagem a ser renderizada.
+ * Renderiza a Característica com pontuação.
+ * @param {Merit} trait Característica com pontuação a ser renderizada.
 **/
-function createMeritBlock(merit) {
-    if(!merit) throw console.error("Vantagem não encaminhada.")
-    let meritElement = document.createElement('div');
-    meritElement.id = merit.id;
-    meritElement.className = 'adv-block';
+function createTraitBlock(trait, idPath) {
+    if(!trait) throw new Error("Vantagem não encaminhada.")
+    let traitElement = document.createElement('div');
+    traitElement.id = trait.id;
+    traitElement.className = 'merit-block';
 
     // Encaixar o Evidente se for Deviant
     if(globalChar.template === SupernaturalTemplates.Deviant) {
         let overCheckbox = document.createElement('input');
         overCheckbox.type = 'checkbox';
-        overCheckbox.checked = merit.overt;
+        overCheckbox.checked = trait.overt;
         overCheckbox.addEventListener('change', () => {} /** checkOvertAdv(id) */);
-        meritElement.appendChild(overCheckbox);
+        traitElement.appendChild(overCheckbox);
     }
     else {
         // Append um div vazio para encaixar a conta no CSS
-        meritElement.appendChild(document.createElement('div'));
+        traitElement.appendChild(document.createElement('div'));
     }
 
     // Campo nome de Vantagem
     let meritNameInput = document.createElement('input');
-    meritNameInput.value = merit.name;
+    meritNameInput.value = trait.name;
     meritNameInput.placeholder = 'Digite nome da Vantagem...';
-    meritNameInput.addEventListener('blur', (event) => changeMeritName(merit.id, event.target.value));
+    meritNameInput.addEventListener('blur', (event) => changeMeritName(trait.id, event.target.value));
 
     // Campo círculos inputs
     let meritRanksElement = document.createElement('div');
@@ -392,8 +399,8 @@ function createMeritBlock(merit) {
     for(let i = 0; i < 5; i++) {
         meritRankRadio = document.createElement('input');
         meritRankRadio.type = 'radio';
-        meritRankRadio.className = `adv-rank-${merit.id}`;
-        meritRankRadio.addEventListener('click', () => changeMeritRank(merit.id, i+1));
+        meritRankRadio.className = `merit-rank-${trait.id}`;
+        meritRankRadio.addEventListener('click', () => changeTraitRank(trait.id, i+1));
         if(i === 0) meritRankRadio.checked = true;
         meritRanksElement.appendChild(meritRankRadio);
     }
@@ -401,23 +408,27 @@ function createMeritBlock(merit) {
     // Botão de deleção
     let delBtn = document.createElement('button');
     delBtn.innerHTML = 'X';
-    delBtn.addEventListener('click', () => removeMerit(merit.id));
+    delBtn.addEventListener('click', () => removeMerit(trait.id));
     
     // Descrição
     let descriptionElement = document.createElement('textarea');
-    descriptionElement.value = merit.description;
+    descriptionElement.value = trait.description;
     descriptionElement.className = 'gridC_span4';
     descriptionElement.placeholder = "Adicione descrição e informações da sua vantagem."
-    descriptionElement.addEventListener('blur', () => changeMeritDescription(merit.id, event.target.value));
+    descriptionElement.addEventListener('blur', () => changeMeritDescription(trait.id, event.target.value));
     
     // Append.    
-    meritElement.appendChild(meritNameInput);
-    meritElement.appendChild(meritRanksElement);
-    meritElement.appendChild(delBtn);
-    meritElement.appendChild(descriptionElement);
-    meritBlock.appendChild(meritElement);
+    traitElement.appendChild(meritNameInput);
+    traitElement.appendChild(meritRanksElement);
+    traitElement.appendChild(delBtn);
+    traitElement.appendChild(descriptionElement);
+    
+    let pathBlock = document.getElementById(idPath);
+    if(!pathBlock) throw new Error('Caminho para adição da Característica inválido. Encontrado '+idPath);
+    
+    pathBlock.appendChild(traitElement);
  
-    changeMeritRank(merit.id, merit.rank);
+    changeTraitRank(trait.id, trait.rank);
 }
 
 /**
@@ -426,7 +437,7 @@ function createMeritBlock(merit) {
 **/
 function renderMerits(character) {
     document.getElementById('cofd-character-merits').innerHTML = '';
-    character.merits.forEach(merit => { createMeritBlock(merit); });
+    character.merits.forEach(merit => { createTraitBlock(merit, 'cofd-character-merits'); });
 }
 
 /**

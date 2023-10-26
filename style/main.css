@@ -34,8 +34,8 @@
     display: grid;
     grid-template-columns: repeat(3, 30%);
     grid-template-areas:  
-        'nomeChar trait1 charType1'
-        'nomePlayer trait2 charType2'
+        'nameChar trait1 charType1'
+        'namePlayer trait2 charType2'
         'chronicle concept trait3';
     column-gap: 1%;
 }
@@ -44,11 +44,15 @@
     grid-template-columns: repeat(2, 50%);
 }
 
-#char-name { grid-area: charName; }
-#char-type { grid-area: charType1; }
-#char-trait1 { grid-area: trait1; }
-#char-trait2 { grid-area: trait2; }
-#char-trait3 { grid-area: trait3; }
+#char-name      { grid-area: nameChar; }
+#char-player    { grid-area: namePlayer; }
+#char-chronicle { grid-area: chronicle; }
+#char-concept   { grid-area: concept; }
+.char-type1     { grid-area: charType1; }
+.char-type2     { grid-area: charType2; }
+.char-trait1    { grid-area: trait1; }
+.char-trait2    { grid-area: trait2; }
+.char-trait3    { grid-area: trait3; }
 
 #supernatural-header { padding: 1% 0; }
 
@@ -82,6 +86,10 @@
     display: grid;
     grid-template-columns: repeat(3, 30%);
 }
+.cofd-skills header {
+    text-align: center;
+    display: grid;
+}
 
 .skills-block {
     display: grid;
@@ -95,14 +103,14 @@
     display: grid;
     width: 40%;
 }
-.adv-block {
+.merit-block {
     display: grid;
     /* Overt Name Rank Del */
     /* Description */
     grid-template-columns: 5% 30% 30% 5%;
     width: 100%;
 }
-.adv-block textarea {
+.merit-block textarea {
     min-width: 400px;
     width: 100%;
     max-width: 100%;

@@ -226,36 +226,36 @@ class Character {
     getMentalAttrClass(index)   { 
         let attr = this.getMentalAttr(index);
         if(attr) return attr.class;
-        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        else throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
     }
     getPhysicalAttrClass(index) { 
         let attr = this.getPhysicalAttr(index);
         if(attr) return attr.class;
-        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        else throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
     }
     getSocialAttrClass(index)   { 
         let attr = this.getSocialAttr(index);
         if(attr) return attr.class;
-        else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        else throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
     }
     
     // Set Atributos
     setMentalAttr(index, rank) {
         let mentalAttr = this.mentalAttributes.find(elem => elem.index === index); 
         if(mentalAttr) mentalAttr.rank = rank;
-        else throw console.error(`Não foi possível encontrar Index Mental. Index encontrado: ${index}.`);
+        else throw new Error(`Não foi possível encontrar Index Mental. Index encontrado: ${index}.`);
     }
     
     setPhysicalAttr(index, rank) {
         let physicAttr = this.physicalAttributes.find(elem => elem.index === index); 
         if(physicAttr) physicAttr.rank = rank;
-        else throw console.error(`Não foi possível encontrar Index Físico. Index encontrado: ${index}.`);
+        else throw new Error(`Não foi possível encontrar Index Físico. Index encontrado: ${index}.`);
     }
     
     setSocialAttr(index, rank) {
         let socialAttr = this.socialAttributes.find(elem => elem.index === index); 
         if(socialAttr) socialAttr.rank = rank;
-        else throw console.error(`Não foi possível encontrar Index Social. Index encontrado: ${index}.`);
+        else throw new Error(`Não foi possível encontrar Index Social. Index encontrado: ${index}.`);
     }
     
     // Get Atributos Mentais

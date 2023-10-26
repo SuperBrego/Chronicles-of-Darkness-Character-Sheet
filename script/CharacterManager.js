@@ -311,7 +311,7 @@ function setSkillRank(rank, attr) {
 /**
  * Adiciona uma nova vantagem para o Personagem.
 **/
-function addAdvantage() {
+function addMerit() {
     let advantage = { 
         id: idSeed(), 
         name: 'Digite nome da Vantagem...', 
@@ -321,7 +321,7 @@ function addAdvantage() {
     };
     globalChar.merits.push(advantage);
     
-    createAdvantageBlock(advantage);
+    createMeritBlock(advantage);
 }
 
 /**
@@ -369,8 +369,10 @@ function changeMeritDescription(id, description) {
 **/
 function removeMerit(id) {
     let index = globalChar.merits.findIndex(elem => elem.id === id);
-    globalChar.merits.splice(index, 1);
-    document.getElementById(`${id}`).outerHTML = "";
+    if(confirm('Deseja mesmo deletar essa Vantagem?\nIsso não pode ser desfeito.') === true) {
+        globalChar.merits.splice(index, 1);
+        document.getElementById(`${id}`).outerHTML = "";
+    }
 }
 
 function printCharacter() {
@@ -396,3 +398,4 @@ function changePowerName(id, text) {
         break;
     }
 }
+

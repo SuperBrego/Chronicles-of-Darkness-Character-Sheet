@@ -71,20 +71,20 @@
         <header><h2>Habilidades</h2></header>
         <section class="cofd-skills">
             
-            <div style="display: block;">
+            <header>
                 <b>Mental</b>
                 <small>(-3 se inepto)</small>
-            </div>
+            </header>
 
-            <div style="display: block;">
+            <header>
                 <b>Físico</b>
                 <small>(-1 se inepto)</small>
-            </div>
+            </header>
 
-            <div style="display: block;">
+            <header>
                 <b>Social</b>
                 <small>(-1 se inepto)</small>
-            </div>
+            </header>
 
             <div class="skills-block" id="mental-skills"></div>
             <div class="skills-block" id="physical-skills"></div>
@@ -94,16 +94,16 @@
         
         <!-- Vantagens -->
         <header><h2>Vantagens</h2></header>
-        <header><button onclick="addAdvantage()">Adicionar Vantagem</button></header>
-        <section class="cofd-merits" id="cofd-character-merits">
-        </section>
+        <button onclick="addMerit()">Adicionar Vantagem</button>
+        <section class="cofd-merits" id="cofd-character-merits"></section>
+
     </div>
     
     <script type="text/javascript" src="classes/Character.js"></script>
+    <script type="text/javascript" src="script/CharacterManager.js"></script>
     <script type="text/javascript" src="script/Templates/Vampire.js"></script>
     <script type="text/javascript" src="script/Renders/RenderVampire.js"></script>
     <script type="text/javascript" src="script/Renders/Render.js"></script>
-    <script type="text/javascript" src="script/CharacterManager.js"></script>
     <script type="text/javascript" src="script/main.js"></script>
 </body>
 </html>

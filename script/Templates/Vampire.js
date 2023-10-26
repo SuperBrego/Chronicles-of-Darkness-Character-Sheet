@@ -18,7 +18,15 @@ function changeBloodPotency(value) {
     // renderVampireTraits(character);
 }
 
-function addDiscipline() { }
+function addDiscipline() {
+    let disciplinesBlock = document.getElementById('vampire-disciplines');
+    if(disciplinesBlock) {
+        let discipline = addPower(1, 'a Disciplina');
+        createTraitBlock(discipline, 'vampire-disciplines');
+    }
+    else throw new Error('Bloco de Disciplinas não renderizado.')
+
+}
 function changeDisciplineName(id, text) {}
 function changeDisciplineDescription(id, text) {}
 function changeDisciplineRank(id, value) {}
