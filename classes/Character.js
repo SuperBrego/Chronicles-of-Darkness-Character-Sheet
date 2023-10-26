@@ -1,4 +1,4 @@
-const SupernaturalTemp = {
+const SupernaturalTemplates = {
     Mortal: 0,
     Vampire: 1,
     Ghoul: 2,
@@ -16,93 +16,144 @@ const SupernaturalTemp = {
 
 const clanOptions = ['Daeva', 'Gangrel', 'Mekhet', 'Nosferatu', 'Ventrue'];
 
-function getTemplateInfo(supernaturalTemplate) {
-
+function getTemplateTraits(supernaturalTemplate) {
+    
     switch(supernaturalTemplate) {
         default:
-        case SupernaturalTemp.Mortal: return { 
-            index: SupernaturalTemp.Mortal,
+        case SupernaturalTemplates.Mortal: return { 
+            index: SupernaturalTemplates.Mortal,
             virtue: "", 
             vice: "", 
             age: 30, 
             faction: "",
             integrity: 7 
         };
-        case SupernaturalTemp.Vampire: return {
-            index: SupernaturalTemp.Vampire,
+        case SupernaturalTemplates.Vampire: return {
+            index: SupernaturalTemplates.Vampire,
+            bloodPotency: 1,
+            humanity: [], // Nível Círculo e texto?
             clan: '',
             mask: '',
             dirge: '',
             bloodline: '',
             covenant: '',
+            vitae: [], // [state: x]
+            disciplines: [], // • Nome e descrições
+            banes: [], // Array de strings
+            devotions: [], // Name • Cost • Discipline • Dice Pool • Book (trocar por descrição)
+            ritesMiracles: [], // Name • Level
+            vinculum: [], // Bounded To • Stage
+            havens: [], // Location • Description
         };
-        case SupernaturalTemp.Deviant: return {
-            index: SupernaturalTemp.Deviant,
+        case SupernaturalTemplates.Werewolf: return {
+            primalUrge: 0,
+            essense: [],
+            renown: {
+                purity: 0,
+                glory: 0,
+                honor: 0,
+                wisdom: 0,
+                cunning: 0
+            },
+            triggers: {
+                passive: '',
+                common: '',
+                specific: ''
+            },
+            gifts: {
+                moon: [],
+                shadow: [],
+                wolf: []
+            },
+            rites: [],
+            totem: {
+                name: '',
+                power: 1,
+                finesse: 1,
+                resistance: 1,
+                willpower: [],
+                essence: [],
+                initiative: 0, 
+                defense: 0,
+                speed: 0,
+                size: 0,
+                corpus: 0,
+                influences: [], // texto e círculo
+                aspiration: '',
+                numina: '',
+                bonuses: '',
+                ban: '',
+                bane: ''
+            }, 
+            // Permitir copiar totem para outras fichas.
+        }
+        case SupernaturalTemplates.Deviant: return {
+            index: SupernaturalTemplates.Deviant,
             convictions: [],
             loyalty: [],
             scars: [],
             variations: [],
             stability: []
         };
-
+        
     }
 }
 
-class Character {
+function createStateTrack(qtn) {
+    let x = [];
+    for(let i = 0; i < qtn; i++) x.push({state: true});
+    return x;
+}
 
+class Character {
+    
     constructor(name = "Personagem") {
         this.name = name;
         this.player = '';
         this.concept = '';
         this.chronicle = '';
         this.group = '';
-
-        this.template = SupernaturalTemp.Mortal;
-        this.templateInfo = getTemplateInfo(this.template);
-
+        
+        this.template = SupernaturalTemplates.Mortal;
+        this.templateTraits = getTemplateTraits(this.template);
+        
         this.health = makeHealth();
-        this.willpower = makeWillpower();
-
+        this.willpower = createStateTrack(15);
+        
         function makeHealth() {
             let x = [];
             for(let i = 0; i < 20; i++) x.push({state: 0});
             return x;
         }
-
-        function makeWillpower() {
-            let x = [];
-            for(let i = 0; i < 15; i++) x.push({state: true});
-            return x;
-        }
-
+        
         this.size = 5;
         this.merits = [];
-
+        
         // Vitalidade Extra?
         // Armadura
         // Armadura Extra?
-
+        
         // Atributos Mentais
         this.mentalAttributes = [
             { index: 0, name: "Inteligência", rank: 1, class: "intelligence" },
             { index: 1, name: "Raciocínio", rank: 1, class: "wits" },
             { index: 2, name: "Perseverança", rank: 1, class: "resolve" },
         ];
-
+        
         // Atributos Físicos
         this.physicalAttributes = [
             { index: 0, name: "Força", rank: 1, class: "strength" },
             { index: 1, name: "Destreza", rank: 1, class: "dexterity" },
             { index: 2, name: "Vigor", rank: 1, class: "stamina" },
         ];
-
+        
         // Atributos Sociais
         this.socialAttributes = [
             { index: 0, name: "Presença", rank: 1, class: "presence" },
             { index: 1, name: "Manipulação", rank: 1, class: "manipulation" },
             { index: 2, name: "Autocontrole", rank: 1, class: "composure" },
         ];
-
+        
         // Habilidades Mentais
         this.mentalSkills = [
             { index: 0, name: "Ciências", rank: 0, class: "science" },
@@ -114,7 +165,7 @@ class Character {
             { index: 6, name: "Ofícios", rank: 0, class: "crafts" },
             { index: 7, name: "Política", rank: 0, class: "politics" },
         ];
-
+        
         // Habilidades Físicas
         this.physicalSkills = [
             { index: 0, name: "Armamento", rank: 0, class: "weaponry" },
@@ -126,7 +177,7 @@ class Character {
             { index: 6, name: "Furto", rank: 0, class: "larceny" },
             { index: 7, name: "Sobrevivência", rank: 0, class: "survival" },
         ];
-
+        
         // Habilidades Sociais
         this.socialSkills = [
             { index: 0, name: "Astúcia", rank: 0, class: "subterfuge" },
@@ -138,12 +189,12 @@ class Character {
             { index: 6, name: "Socialização", rank: 0, class: "socialize" },
             { index: 7, name: "Tratar Animais", rank: 0, class: "animalKen" },
         ];
-
+        
     }
-
+    
     // Vitalidade: Tamanho + Vigor
     get healthPoints() { return Number(this.size) + Number(this.physicalAttributes[2].rank); }
-
+    
     // Força de Vontade: Perseverança + Autocontrole.
     get willpowerPoints() {
         return Number(this.mentalAttributes[2].rank) + Number(this.socialAttributes[2].rank);
@@ -154,24 +205,24 @@ class Character {
     }
     // Initiativa: Destreza + Autocontrole.
     get initiative() { return this.physicalAttributes[1].rank + this.socialAttributes[2].rank; }
-
+    
     // Força 0 + Destreza 1 + 5
     get speed() { return this.physicalAttributes[0].rank + this.physicalAttributes[1].rank + 5; }
-
+    
     // ******************************************************************** //
     // ******************************************************************** //
     // Modelo Sobrenatural
     get supernaturalTemplate() { return this.template; }
     set supernaturalTemplate (template) { 
         this.template = template; 
-        this.templateInfo = this.getTemplateInfo(template);
+        thistemplateTraits = this.getTemplateInfo(template);
     }
-
+    
     // Get Atributos
     getMentalAttr(index)   { return this.mentalAttributes.find(elem => elem.index === index); }
     getPhysicalAttr(index) { return this.physicalAttributes.find(elem => elem.index === index); }
     getSocialAttr(index)   { return this.socialAttributes.find(elem => elem.index === index); }
-
+    
     getMentalAttrClass(index)   { 
         let attr = this.getMentalAttr(index);
         if(attr) return attr.class;
@@ -187,14 +238,14 @@ class Character {
         if(attr) return attr.class;
         else throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
     }
-
+    
     // Set Atributos
     setMentalAttr(index, rank) {
         let mentalAttr = this.mentalAttributes.find(elem => elem.index === index); 
         if(mentalAttr) mentalAttr.rank = rank;
         else throw console.error(`Não foi possível encontrar Index Mental. Index encontrado: ${index}.`);
     }
-
+    
     setPhysicalAttr(index, rank) {
         let physicAttr = this.physicalAttributes.find(elem => elem.index === index); 
         if(physicAttr) physicAttr.rank = rank;
@@ -206,7 +257,7 @@ class Character {
         if(socialAttr) socialAttr.rank = rank;
         else throw console.error(`Não foi possível encontrar Index Social. Index encontrado: ${index}.`);
     }
-
+    
     // Get Atributos Mentais
     get intelligence()  { return this.mentalAttributes[0].rank; }
     get wits()          { return this.mentalAttributes[1].rank; }
@@ -221,7 +272,7 @@ class Character {
     get presence()      { return this.socialAttributes[0].rank; }
     get manipulation()  { return this.socialAttributes[1].rank; }
     get composure()     { return this.socialAttributes[2].rank; }
-
+    
     // ***************************************************************** //
     // Get Habilidades Mentais
     get science()       { return this.mentalSkills[0].rank; }
@@ -232,7 +283,7 @@ class Character {
     get occult()        { return this.mentalSkills[5].rank; }
     get crafts()        { return this.mentalSkills[6].rank; }
     get politics()      { return this.mentalSkills[7].rank; }
-
+    
     // Get Habilidades Físicas
     get weaponry()  { return this.physicalSkills[0].rank; }
     get firearms()  { return this.physicalSkills[1].rank; }
@@ -242,7 +293,7 @@ class Character {
     get athletics() { return this.physicalSkills[5].rank; }
     get larceny()   { return this.physicalSkills[6].rank; }
     get survival()  { return this.physicalSkills[7].rank; }
-
+    
     // Get Habilidades Sociais
     get subterfuge()    { return this.socialSkills[0].rank; }
     get empathy()       { return this.socialSkills[1].rank; }
@@ -252,7 +303,7 @@ class Character {
     get persuasion()    { return this.socialSkills[5].rank; }
     get socialize()     { return this.socialSkills[6].rank; }
     get animalKen()     { return this.socialSkills[7].rank; }
-
+    
     // Get Classe Habilidades Mentais
     get scienceClass()   { return this.mentalSkills[0].class; }
     get academicsClass()     { return this.mentalSkills[1].class; }
@@ -282,7 +333,7 @@ class Character {
     get PersuasionClass()    { return this.socialSkills[5].class; }
     get SocializeClass()     { return this.socialSkills[6].class; }
     get AnimalKenClass()     { return this.socialSkills[7].class; }
-
+    
     // Set Habilidades Mentais
     set science         (rank) { this.mentalSkills[0].rank = rank; }
     set academics       (rank) { this.mentalSkills[1].rank = rank; }
@@ -292,7 +343,7 @@ class Character {
     set occult          (rank) { this.mentalSkills[5].rank = rank; }
     set crafts          (rank) { this.mentalSkills[6].rank = rank; }
     set politics        (rank) { this.mentalSkills[7].rank = rank; }
-
+    
     // Set Habilidades Físicas
     set weaponry    (rank) { this.physicalSkills[0].rank = rank; }
     set firearms    (rank) { this.physicalSkills[1].rank = rank; }
@@ -302,7 +353,7 @@ class Character {
     set athletics   (rank) { this.physicalSkills[5].rank = rank; }
     set larceny     (rank) { this.physicalSkills[6].rank = rank; }
     set survival    (rank) { this.physicalSkills[7].rank = rank; }
-
+    
     // Set Habilidades Sociais
     set subterfuge      (rank) { this.socialSkills[0].rank = rank; }
     set empathy         (rank) { this.socialSkills[1].rank = rank; }
@@ -313,3 +364,5 @@ class Character {
     set socialize       (rank) { this.socialSkills[6].rank = rank; }
     set animalKen       (rank) { this.socialSkills[7].rank = rank; }
 }
+
+var globalChar = new Character();

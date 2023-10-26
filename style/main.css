@@ -33,6 +33,10 @@
 .char-info {
     display: grid;
     grid-template-columns: repeat(3, 30%);
+    grid-template-areas:  
+        'nomeChar trait1 charType1'
+        'nomePlayer trait2 charType2'
+        'chronicle concept trait3';
     column-gap: 1%;
 }
 .char-info-item {
@@ -40,9 +44,13 @@
     grid-template-columns: repeat(2, 50%);
 }
 
-#supernatural-header {
-    padding: 1% 0;
-}
+#char-name { grid-area: charName; }
+#char-type { grid-area: charType1; }
+#char-trait1 { grid-area: trait1; }
+#char-trait2 { grid-area: trait2; }
+#char-trait3 { grid-area: trait3; }
+
+#supernatural-header { padding: 1% 0; }
 
 /* ***************************** */
 /* Atributos */
@@ -70,13 +78,14 @@
 /* Habilidades */
 /* ***************************** */
 .cofd-skills {
-    width: 40%;
+    width: 100%;
     display: grid;
+    grid-template-columns: repeat(3, 30%);
 }
 
 .skills-block {
     display: grid;
-    grid-template-columns: 30% 60%;
+    grid-template-columns: 40% 60%;
 }
 
 /* ***************************** */

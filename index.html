@@ -11,11 +11,14 @@
     
     <div class="cofd-sheet">
 
+        <button onclick="loadNewCharacter()" id="new-char-btn">Novo Personagem</button>
         <button><label for="sheet-upload">Carregar ficha</label></button>
         <input type="file" id="sheet-upload" onchange="loadCharacter()" />
 
         <button onclick="printCharacter()">Console Personagem</button>
         <button onclick="downloadCharacter()" ><a id="download-character"></a>Download Personagem</button>
+        <button onclick="clearCharacter()">Limpar Ficha</button>
+        <button onclick="clearTemplate()">Limpar Modelo</button>
 
         <div id="supernatural-header">
             <span>Modelo Sobrenatural:</span>
@@ -65,32 +68,42 @@
         <!-- Vitalidade -->
         
         <!-- Habilidades -->
+        <header><h2>Habilidades</h2></header>
         <section class="cofd-skills">
-            <header><h2>Habilidades</h2></header>
             
-            <b>Mental</b>
-            <small>(-3 se inepto)</small>
+            <div style="display: block;">
+                <b>Mental</b>
+                <small>(-3 se inepto)</small>
+            </div>
+
+            <div style="display: block;">
+                <b>Físico</b>
+                <small>(-1 se inepto)</small>
+            </div>
+
+            <div style="display: block;">
+                <b>Social</b>
+                <small>(-1 se inepto)</small>
+            </div>
+
             <div class="skills-block" id="mental-skills"></div>
-            
-            <b>Físico</b>
-            <small>(-1 se inepto)</small>
             <div class="skills-block" id="physical-skills"></div>
-            
-            <b>Social</b>
-            <small>(-1 se inepto)</small>
             <div class="skills-block" id="social-skills"></div>
+            
         </section>
         
         <!-- Vantagens -->
+        <header><h2>Vantagens</h2></header>
+        <header><button onclick="addAdvantage()">Adicionar Vantagem</button></header>
         <section class="cofd-merits" id="cofd-character-merits">
-            <header><h2>Vantagens</h2></header>
-            <header><button onclick="addAdvantage()">Adicionar Vantagem</button></header>
         </section>
     </div>
     
     <script type="text/javascript" src="classes/Character.js"></script>
-    <script type="text/javascript" src="script/render.js"></script>
-    <script type="text/javascript" src="script/characterManager.js"></script>
+    <script type="text/javascript" src="script/Templates/Vampire.js"></script>
+    <script type="text/javascript" src="script/Renders/RenderVampire.js"></script>
+    <script type="text/javascript" src="script/Renders/Render.js"></script>
+    <script type="text/javascript" src="script/CharacterManager.js"></script>
     <script type="text/javascript" src="script/main.js"></script>
 </body>
 </html>
