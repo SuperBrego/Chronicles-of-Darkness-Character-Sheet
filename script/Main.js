@@ -1,26 +1,9 @@
 
-
-var scriptPages = [
-    "classes/Character.js",
-    "script/Render.js",
-    "script/CharacterManager.js"
-];
-
-function loadScripts() {
-    let scriptTag;
-    for(let i = 0; i < scriptPages.length; i++) {
-        scriptTag = document.createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.src = scriptPages[i];
-        document.head.appendChild(scriptTag);
-    }
-}
+var globalChar = new Character();
 
 window.onload = () => {
-    // loadScripts();
     renderCharacter(globalChar);
-    addAttrListerners(globalChar);
-    // document.getElementById('new-char-btn').click();
+    addSheetListeners(globalChar);
 }
 
 function idSeed() { return (Date.now() * Math.random());  }

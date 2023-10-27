@@ -1,23 +1,5 @@
 const templatesStack = [];
 
-function clearCharacter() {
-    if(confirm('Você deseja mesmo fazer isso?\nO conteúdo não pode ser recuperado.') === true) {
-        globalChar = new Character();
-        renderCharacter(globalChar);
-        addSheetListeners(globalChar);
-    }
-    else return;
-}
-
-function clearTemplate() {
-    if(confirm('Você deseja mesmo fazer isso?\nO conteúdo não pode ser recuperado.') === true) {
-        globalChar.templateTraits = getTemplateTraits(globalChar.template);
-        renderCharacter(globalChar);
-        addSheetListeners(globalChar);
-    }
-    else return;
-}
-
 function appendTemplate(template) {
     if(templatesStack.find(elem => elem.index === template.index)) return;
     templatesStack.push(template);
@@ -26,70 +8,70 @@ function appendTemplate(template) {
 function searchTemplate(index) {
     let template = templatesStack.find(elem => elem.index === index);
     if(template) return template;
-    return getTemplateTraits(index);
+    return getTemplateInfo(index);
 }
 
 function changeTemplate(event) {
-    appendTemplate(globalChar.templateTraits);
+    appendTemplate(globalChar.templateInfo);
     let tempIndex = Number(event.value)
 
     switch(tempIndex) {
         // Mortal
-        case SupernaturalTemplates.Mortal:
-            globalChar.template = SupernaturalTemplates.Mortal;
-            globalChar.templateTraits = searchTemplate(tempIndex);
+        case SupernaturalTemp.Mortal:
+            globalChar.template = SupernaturalTemp.Mortal;
+            globalChar.templateInfo = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;
         // Vampire
-        case SupernaturalTemplates.Vampire:
-            globalChar.template = SupernaturalTemplates.Vampire;
-            globalChar.templateTraits = searchTemplate(tempIndex);
+        case SupernaturalTemp.Vampire:
+            globalChar.template = SupernaturalTemp.Vampire;
+            globalChar.templateInfo = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;
         // Ghoul
-        case SupernaturalTemplates.Ghoul:
+        case SupernaturalTemp.Ghoul:
 
         break;
         // Werewolf
-        case SupernaturalTemplates.Werewolf:
+        case SupernaturalTemp.Werewolf:
 
         break;
         // Changeling
-        case SupernaturalTemplates.Changeling:
+        case SupernaturalTemp.Changeling:
 
         break;
         // Mage
-        case SupernaturalTemplates.Mage:
+        case SupernaturalTemp.Mage:
 
         break;
         // Promethean
-        case SupernaturalTemplates.Promethean:
+        case SupernaturalTemp.Promethean:
 
         break;
         // Hunter
-        case SupernaturalTemplates.Hunter:
+        case SupernaturalTemp.Hunter:
 
         break;
         // Geist
-        case SupernaturalTemplates.Geist:
+        case SupernaturalTemp.Geist:
 
         break;
         // Mummy
-        case SupernaturalTemplates.Mummy:
+        case SupernaturalTemp.Mummy:
 
         break;
         // Demon
-        case SupernaturalTemplates.Demon:
+        case SupernaturalTemp.Demon:
 
         break;
         // Beast
-        case SupernaturalTemplates.Beast:
+        case SupernaturalTemp.Beast:
 
         break;
         // Deviant
-        case SupernaturalTemplates.Deviant:
+        case SupernaturalTemp.Deviant:
 
         break;
     }
@@ -103,7 +85,7 @@ function changeName(charName) { globalChar.name = charName; }
 function changeHealthState(index) {
     let healthBlock = globalChar.health[index];
     
-    if(!healthBlock) throw console.error("Index inválido para campo de Vitalidade. Index encontrado: "+index);
+    if(!healthBlock) throw new Error("Index inválido para campo de Vitalidade. Index encontrado: "+index);
     if(healthBlock.state === 3) healthBlock.state = 0;
     else healthBlock.state += 1;
     renderHealth(globalChar);
@@ -112,7 +94,7 @@ function changeHealthState(index) {
 function changeWillpowerState(index) {
     let willBlock = globalChar.willpower[index];
     
-    if(!willBlock) throw console.error("Index inválido para campo de Força de Vontade. Index encontrado: "+index);
+    if(!willBlock) throw new Error("Index inválido para campo de Força de Vontade. Index encontrado: "+index);
     if(willBlock.state) willBlock.state = false;
     else willBlock.state = true;
     renderWillpower(globalChar);
@@ -136,14 +118,29 @@ function changeGroup(groupName) { globalChar.group = groupName; }
 // **********************************
 // * Mortal
 // **********************************
-function changeAge(age) { globalChar.templateTraits.age = Number(age); }
-function changeFaction(factionName) { globalChar.templateTraits.factionName = factionName; }
+function changeAge(age) { globalChar.templateInfo.age = Number(age); }
+function changeFaction(factionName) { globalChar.templateInfo.factionName = factionName; }
 
 // **********************************
 // * Mortal, Caçador, Demônio, Mago
 // **********************************
-function changeVirtue(virtueName) { globalChar.templateTraits.virtue = virtueName; }
-function changeVice(viceName) { globalChar.templateTraits.vice = viceName; }
+function changeVirtue(virtueName) { globalChar.templateInfo.virtue = virtueName; }
+function changeVice(viceName) { globalChar.templateInfo.vice = viceName; }
+
+// **************************
+// * Vampiro
+// **************************
+function changeClan(clanName) { 
+    let clanSelect = document.getElementById('clan-selection');
+    if(clanName.length === 0) clanSelect.className += ' invalid-cell';
+    else clanSelect.className = clanSelect.className.replace(' invalid-cell', '');
+    globalChar.templateInfo.clan = clanName;
+
+}
+function changeMask(maskName) { globalChar.templateInfo.mask = maskName; }
+function changeDirge(dirgeName) { globalChar.templateInfo.dirge = dirgeName; }
+function changeBloodline(bloodlineName) { globalChar.templateInfo.bloodline = bloodlineName; }
+function changeCovenant(covenantName) { globalChar.templateInfo.covenant = covenantName; }
 
 /**
  * Retorna ao valor padrão dos campos de Vitalidade.
@@ -250,7 +247,7 @@ function setCharSkillRank(type, index, rank) {
     switch(type) {
         case 0: 
             skill = globalChar.mentalSkills[index];
-            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -263,7 +260,7 @@ function setCharSkillRank(type, index, rank) {
         break;
         case 1: 
             skill = globalChar.physicalSkills[index];
-            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -278,7 +275,7 @@ function setCharSkillRank(type, index, rank) {
         break;
         case 2: 
             skill = globalChar.socialSkills[index];
-            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -308,20 +305,22 @@ function setSkillRank(rank, attr) {
 // ****************************************************
 // Vantagens
 // ****************************************************
+
+
 /**
  * Adiciona uma nova vantagem para o Personagem.
 **/
 function addMerit() {
-    let advantage = { 
+    let merit = { 
         id: idSeed(), 
         name: 'Digite nome da Vantagem...', 
         rank: 1, 
         description: '',
         overt: false,
     };
-    globalChar.merits.push(advantage);
+    globalChar.merits.push(merit);
     
-    createMeritBlock(advantage);
+    createMeritBlock(merit);
 }
 
 /**
@@ -330,9 +329,9 @@ function addMerit() {
  * @param {string} name Novo nome para Vantagem.
 **/
 function changeMeritName(id, name) {
-    let adv = globalChar.merits.find(elem => elem.id === id);
-    if(adv) adv.name = name;
-    else throw console.error("Não foi encontrada a Vantagem");
+    let merit = globalChar.merits.find(elem => elem.id === id);
+    if(merit) merit.name = name;
+    else throw new Error("Não foi encontrada a Vantagem");
 }
 
 /**
@@ -343,7 +342,7 @@ function changeMeritName(id, name) {
 function changeMeritRank(id, rank) {
     let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.rank = rank;
-    else throw console.error("Não foi encontrada a Vantagem");
+    else throw new Error("Não foi encontrada a Vantagem");
 
     let rankList = document.getElementsByClassName(`adv-rank-${id}`);
     for(let i = 0; i < rankList.length; i++) {
@@ -360,42 +359,20 @@ function changeMeritRank(id, rank) {
 function changeMeritDescription(id, description) {
     let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.description = description;
-    else throw console.error("Não foi encontrada a Vantagem");
+    else throw new Error("Não foi encontrada a Vantagem");
 }
 
 /**
  * Remove específica vantagem do personagem.
  * @param {string | number} id ID da Vantagem.
 **/
-function removeMerit(id) {
+function remoteMerit(id) {
     let index = globalChar.merits.findIndex(elem => elem.id === id);
-    if(confirm('Deseja mesmo deletar essa Vantagem?\nIsso não pode ser desfeito.') === true) {
-        globalChar.merits.splice(index, 1);
-        document.getElementById(`${id}`).outerHTML = "";
-    }
+    globalChar.merits.splice(index, 1);
+    document.getElementById(`${id}`).outerHTML = "";
 }
 
 function printCharacter() {
     let str = JSON.stringify(globalChar, null, 4);
     console.log(str);
 }
-
-// ****************************************************
-// Poderes
-// ****************************************************
-function changePowerName(id, text) {
-    let power;
-
-    switch(globalChar.template) {
-        default: throw console.log("Index de Modelo Inválido.");
-        case SupernaturalTemplates.Vampire: 
-            power = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
-            if(power) power.name = text;
-        break;
-        case SupernaturalTemplates.Werewolf: 
-            power = globalChar.templateTraits.gifts.find(elem => elem.id === id);
-            if(power) power.name = text;
-        break;
-    }
-}
-
