@@ -8,70 +8,70 @@ function appendTemplate(template) {
 function searchTemplate(index) {
     let template = templatesStack.find(elem => elem.index === index);
     if(template) return template;
-    return getTemplateInfo(index);
+    return getTemplateTraits(index);
 }
 
 function changeTemplate(event) {
-    appendTemplate(globalChar.templateInfo);
+    appendTemplate(globalChar.templateTraits);
     let tempIndex = Number(event.value)
 
     switch(tempIndex) {
         // Mortal
-        case SupernaturalTemp.Mortal:
-            globalChar.template = SupernaturalTemp.Mortal;
-            globalChar.templateInfo = searchTemplate(tempIndex);
+        case SupernaturalTemplates.Mortal:
+            globalChar.template = SupernaturalTemplates.Mortal;
+            globalChar.templateTraits = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;
         // Vampire
-        case SupernaturalTemp.Vampire:
-            globalChar.template = SupernaturalTemp.Vampire;
-            globalChar.templateInfo = searchTemplate(tempIndex);
+        case SupernaturalTemplates.Vampire:
+            globalChar.template = SupernaturalTemplates.Vampire;
+            globalChar.templateTraits = searchTemplate(tempIndex);
             infoHeader.innerHTML = '';
             renderHeader(globalChar);
         break;
         // Ghoul
-        case SupernaturalTemp.Ghoul:
+        case SupernaturalTemplates.Ghoul:
 
         break;
         // Werewolf
-        case SupernaturalTemp.Werewolf:
+        case SupernaturalTemplates.Werewolf:
 
         break;
         // Changeling
-        case SupernaturalTemp.Changeling:
+        case SupernaturalTemplates.Changeling:
 
         break;
         // Mage
-        case SupernaturalTemp.Mage:
+        case SupernaturalTemplates.Mage:
 
         break;
         // Promethean
-        case SupernaturalTemp.Promethean:
+        case SupernaturalTemplates.Promethean:
 
         break;
         // Hunter
-        case SupernaturalTemp.Hunter:
+        case SupernaturalTemplates.Hunter:
 
         break;
         // Geist
-        case SupernaturalTemp.Geist:
+        case SupernaturalTemplates.Geist:
 
         break;
         // Mummy
-        case SupernaturalTemp.Mummy:
+        case SupernaturalTemplates.Mummy:
 
         break;
         // Demon
-        case SupernaturalTemp.Demon:
+        case SupernaturalTemplates.Demon:
 
         break;
         // Beast
-        case SupernaturalTemp.Beast:
+        case SupernaturalTemplates.Beast:
 
         break;
         // Deviant
-        case SupernaturalTemp.Deviant:
+        case SupernaturalTemplates.Deviant:
 
         break;
     }
@@ -118,14 +118,14 @@ function changeGroup(groupName) { globalChar.group = groupName; }
 // **********************************
 // * Mortal
 // **********************************
-function changeAge(age) { globalChar.templateInfo.age = Number(age); }
-function changeFaction(factionName) { globalChar.templateInfo.factionName = factionName; }
+function changeAge(age) { globalChar.templateTraits.age = Number(age); }
+function changeFaction(factionName) { globalChar.templateTraits.factionName = factionName; }
 
 // **********************************
 // * Mortal, Caçador, Demônio, Mago
 // **********************************
-function changeVirtue(virtueName) { globalChar.templateInfo.virtue = virtueName; }
-function changeVice(viceName) { globalChar.templateInfo.vice = viceName; }
+function changeVirtue(virtueName) { globalChar.templateTraits.virtue = virtueName; }
+function changeVice(viceName) { globalChar.templateTraits.vice = viceName; }
 
 // **************************
 // * Vampiro
@@ -134,13 +134,13 @@ function changeClan(clanName) {
     let clanSelect = document.getElementById('clan-selection');
     if(clanName.length === 0) clanSelect.className += ' invalid-cell';
     else clanSelect.className = clanSelect.className.replace(' invalid-cell', '');
-    globalChar.templateInfo.clan = clanName;
+    globalChar.templateTraits.clan = clanName;
 
 }
-function changeMask(maskName) { globalChar.templateInfo.mask = maskName; }
-function changeDirge(dirgeName) { globalChar.templateInfo.dirge = dirgeName; }
-function changeBloodline(bloodlineName) { globalChar.templateInfo.bloodline = bloodlineName; }
-function changeCovenant(covenantName) { globalChar.templateInfo.covenant = covenantName; }
+function changeMask(maskName) { globalChar.templateTraits.mask = maskName; }
+function changeDirge(dirgeName) { globalChar.templateTraits.dirge = dirgeName; }
+function changeBloodline(bloodlineName) { globalChar.templateTraits.bloodline = bloodlineName; }
+function changeCovenant(covenantName) { globalChar.templateTraits.covenant = covenantName; }
 
 /**
  * Retorna ao valor padrão dos campos de Vitalidade.

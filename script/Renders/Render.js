@@ -540,7 +540,7 @@ function renderTraits(character) {
 function renderCharacter(character) {
     // Set Template
     let supernaturalTemp = document.getElementById('supernatural-selection');
-    supernaturalTemp.value = character.template;
+    SupernaturalTemplatesvalue = character.template;
     renderHeader(character)
     renderAttributes(character);
     renderSkills(character);

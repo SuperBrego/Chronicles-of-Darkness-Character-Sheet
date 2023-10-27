@@ -46,6 +46,7 @@ function getTemplateTraits(supernaturalTemplate) {
             havens: [], // Location • Description
         };
         case SupernaturalTemplates.Werewolf: return {
+            index: SupernaturalTemplates.Werewolf,
             primalUrge: 0,
             essense: [],
             renown: {
