@@ -23,6 +23,7 @@ function addDiscipline() {
     if(disciplinesBlock) {
         let discipline = addPower(1, 'a Disciplina');
         createTraitBlock(discipline, 'vampire-disciplines');
+        changeTraitRank(trait.id, trait.rank);
     }
     else throw new Error('Bloco de Disciplinas não renderizado.')
 

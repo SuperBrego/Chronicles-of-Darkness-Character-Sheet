@@ -1,7 +1,7 @@
 
-var globalChar = new Character();
 
 window.onload = () => {
+    
     renderCharacter(globalChar);
     addSheetListeners(globalChar);
 }

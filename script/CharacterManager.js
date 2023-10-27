@@ -85,7 +85,7 @@ function changeName(charName) { globalChar.name = charName; }
 function changeHealthState(index) {
     let healthBlock = globalChar.health[index];
     
-    if(!healthBlock) throw new Error("Index inválido para campo de Vitalidade. Index encontrado: "+index);
+    if(!healthBlock) throw console.error("Index inválido para campo de Vitalidade. Index encontrado: "+index);
     if(healthBlock.state === 3) healthBlock.state = 0;
     else healthBlock.state += 1;
     renderHealth(globalChar);
@@ -94,7 +94,7 @@ function changeHealthState(index) {
 function changeWillpowerState(index) {
     let willBlock = globalChar.willpower[index];
     
-    if(!willBlock) throw new Error("Index inválido para campo de Força de Vontade. Index encontrado: "+index);
+    if(!willBlock) throw console.error("Index inválido para campo de Força de Vontade. Index encontrado: "+index);
     if(willBlock.state) willBlock.state = false;
     else willBlock.state = true;
     renderWillpower(globalChar);
@@ -126,21 +126,6 @@ function changeFaction(factionName) { globalChar.templateTraits.factionName = fa
 // **********************************
 function changeVirtue(virtueName) { globalChar.templateTraits.virtue = virtueName; }
 function changeVice(viceName) { globalChar.templateTraits.vice = viceName; }
-
-// **************************
-// * Vampiro
-// **************************
-function changeClan(clanName) { 
-    let clanSelect = document.getElementById('clan-selection');
-    if(clanName.length === 0) clanSelect.className += ' invalid-cell';
-    else clanSelect.className = clanSelect.className.replace(' invalid-cell', '');
-    globalChar.templateTraits.clan = clanName;
-
-}
-function changeMask(maskName) { globalChar.templateTraits.mask = maskName; }
-function changeDirge(dirgeName) { globalChar.templateTraits.dirge = dirgeName; }
-function changeBloodline(bloodlineName) { globalChar.templateTraits.bloodline = bloodlineName; }
-function changeCovenant(covenantName) { globalChar.templateTraits.covenant = covenantName; }
 
 /**
  * Retorna ao valor padrão dos campos de Vitalidade.
@@ -247,7 +232,7 @@ function setCharSkillRank(type, index, rank) {
     switch(type) {
         case 0: 
             skill = globalChar.mentalSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -260,7 +245,7 @@ function setCharSkillRank(type, index, rank) {
         break;
         case 1: 
             skill = globalChar.physicalSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -275,7 +260,7 @@ function setCharSkillRank(type, index, rank) {
         break;
         case 2: 
             skill = globalChar.socialSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+            if(!skill) throw console.error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
             if(rank === 1 && skill.rank === 1) {
                 skill.rank = 0;
                 firstRank = document.querySelector(`.rank-${skill.class}`);
@@ -310,17 +295,22 @@ function setSkillRank(rank, attr) {
 /**
  * Adiciona uma nova vantagem para o Personagem.
 **/
-function addMerit() {
-    let merit = { 
+function addTrait(traitName, traitList) {
+    let trait = { 
         id: idSeed(), 
-        name: 'Digite nome da Vantagem...', 
+        name: `Digite nome para ${traitName}...`, 
         rank: 1, 
         description: '',
         overt: false,
     };
-    globalChar.merits.push(merit);
-    
-    createMeritBlock(merit);
+    traitList.push(trait);
+    return trait;
+}
+
+function addMerit() {
+    let trait = addTrait('a Vantagem', globalChar.merits);
+    let meritBlock = createTraitBlock(trait, 'Vantagem', 'merit');
+    document.getElementById('cofd-character-merits').appendChild(meritBlock);
 }
 
 /**
@@ -331,7 +321,7 @@ function addMerit() {
 function changeMeritName(id, name) {
     let merit = globalChar.merits.find(elem => elem.id === id);
     if(merit) merit.name = name;
-    else throw new Error("Não foi encontrada a Vantagem");
+    else throw console.error("Não foi encontrada a Vantagem");
 }
 
 /**
@@ -339,12 +329,12 @@ function changeMeritName(id, name) {
  * @param {number} rank Graduação nova da Habilidade.
  * @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
 **/
-function changeMeritRank(id, rank) {
-    let adv = globalChar.merits.find(elem => elem.id === id);
-    if(adv) adv.rank = rank;
-    else throw new Error("Não foi encontrada a Vantagem");
+function changeTraitRank(id, rank, traitClass, traitList) {
+    let trait = traitList.find(elem => elem.id === id);
+    if(trait) trait.rank = rank;
+    else throw console.error("Não foi encontrada a Vantagem");
 
-    let rankList = document.getElementsByClassName(`adv-rank-${id}`);
+    let rankList = document.getElementsByClassName(`${traitClass}-rank-${id}`);
     for(let i = 0; i < rankList.length; i++) {
         if(i < rank) rankList[i].checked = true;
         else rankList[i].checked = false;
@@ -356,17 +346,17 @@ function changeMeritRank(id, rank) {
  * @param {number} id ID da Vantagem
  * @param {string} description Descrição da Vantagem
  */
-function changeMeritDescription(id, description) {
+function changeAdvDescription(id, description) {
     let adv = globalChar.merits.find(elem => elem.id === id);
     if(adv) adv.description = description;
-    else throw new Error("Não foi encontrada a Vantagem");
+    else throw console.error("Não foi encontrada a Vantagem");
 }
 
 /**
  * Remove específica vantagem do personagem.
  * @param {string | number} id ID da Vantagem.
 **/
-function remoteMerit(id) {
+function removeAdvantage(id) {
     let index = globalChar.merits.findIndex(elem => elem.id === id);
     globalChar.merits.splice(index, 1);
     document.getElementById(`${id}`).outerHTML = "";
