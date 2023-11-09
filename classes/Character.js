@@ -16,6 +16,12 @@ const SupernaturalTemplates = {
 
 const clanOptions = ['Daeva', 'Gangrel', 'Mekhet', 'Nosferatu', 'Ventrue'];
 
+function createStateTrack(qtn, state = true) {
+    let x = [];
+    for(let i = 0; i < qtn; i++) x.push({state: state});
+    return x;
+}
+
 function getTemplateTraits(supernaturalTemplate) {
     
     switch(supernaturalTemplate) {
@@ -26,18 +32,22 @@ function getTemplateTraits(supernaturalTemplate) {
             vice: "", 
             age: 30, 
             faction: "",
-            integrity: 7 
+            moralityType: 'Integridade',
+            moralityTrait: ['','','','','','','','','','',''],
+            morality: 7,
         };
         case SupernaturalTemplates.Vampire: return {
             index: SupernaturalTemplates.Vampire,
             bloodPotency: 1,
-            humanity: [], // Nível Círculo e texto?
+            moralityType: 'Humanidade',
+            moralityTrait: ['','','','','','','','','','',''],
+            morality: 7,
             clan: '',
             mask: '',
             dirge: '',
             bloodline: '',
             covenant: '',
-            vitae: [], // [state: x]
+            vitae: createStateTrack(20, false), // [state: x]
             disciplines: [], // • Nome e descrições
             banes: [], // Array de strings
             devotions: [], // Name • Cost • Discipline • Dice Pool • Book (trocar por descrição)
@@ -100,9 +110,9 @@ function getTemplateTraits(supernaturalTemplate) {
     }
 }
 
-function createStateTrack(qtn) {
+function makeHealth() {
     let x = [];
-    for(let i = 0; i < qtn; i++) x.push({state: true});
+    for(let i = 0; i < 20; i++) x.push({state: 0});
     return x;
 }
 
@@ -121,18 +131,18 @@ class Character {
         this.health = makeHealth();
         this.willpower = createStateTrack(15);
         
-        function makeHealth() {
-            let x = [];
-            for(let i = 0; i < 20; i++) x.push({state: 0});
-            return x;
-        }
-        
         this.size = 5;
         this.merits = [];
         
         // Vitalidade Extra?
+        this.extraVitality = 0;
+
+        this.conditions = [];
+        this.aspirations = [];
         // Armadura
         // Armadura Extra?
+        this.story = '';
+        this.appearance = '';
         
         // Atributos Mentais
         this.mentalAttributes = [
@@ -191,6 +201,32 @@ class Character {
             { index: 7, name: "Tratar Animais", rank: 0, class: "animalKen" },
         ];
         
+        this.equipment = [];
+        this.weapons = [];
+        this.armors = [];
+    }
+    
+    setCharacterFromCharacter(character) {
+        this.name = character.name;
+        this.player = character.player;
+        this.concept = character.concept;
+        this.chronicle = character.chronicle;
+        this.group = character.group;
+        this.template = character.template;
+        this.templateTraits = character.templateTraits;
+        this.health = character.health;
+        this.willpower = character.willpower;
+        this.size = character.size;
+        this.merits = character.merits;
+        this.mentalAttributes = character.mentalAttributes;
+        this.physicalAttributes = character.physicalAttributes;
+        this.socialAttributes = character.socialAttributes;
+        this.mentalSkills = character.mentalSkills;
+        this.physicalSkills = character.physicalSkills;
+        this.socialSkills = character.socialSkills;
+
+        // Vampiro
+        // etc.
     }
     
     // Vitalidade: Tamanho + Vigor
@@ -216,7 +252,7 @@ class Character {
     get supernaturalTemplate() { return this.template; }
     set supernaturalTemplate (template) { 
         this.template = template; 
-        thistemplateTraits = this.getTemplateInfo(template);
+        this.templateTraits = this.getTemplateInfo(template);
     }
     
     // Get Atributos
@@ -306,14 +342,14 @@ class Character {
     get animalKen()     { return this.socialSkills[7].rank; }
     
     // Get Classe Habilidades Mentais
-    get scienceClass()   { return this.mentalSkills[0].class; }
-    get academicsClass()     { return this.mentalSkills[1].class; }
-    get computerClass()  { return this.mentalSkills[2].class; }
-    get investigationClass()     { return this.mentalSkills[3].class; }
-    get medicineClass()  { return this.mentalSkills[4].class; }
-    get occultClass()    { return this.mentalSkills[5].class; }
-    get craftsClass()    { return this.mentalSkills[6].class; }
-    get politicsClass()  { return this.mentalSkills[7].class; }
+    get scienceClass()          { return this.mentalSkills[0].class; }
+    get academicsClass()        { return this.mentalSkills[1].class; }
+    get computerClass()         { return this.mentalSkills[2].class; }
+    get investigationClass()    { return this.mentalSkills[3].class; }
+    get medicineClass()         { return this.mentalSkills[4].class; }
+    get occultClass()           { return this.mentalSkills[5].class; }
+    get craftsClass()           { return this.mentalSkills[6].class; }
+    get politicsClass()         { return this.mentalSkills[7].class; }
     
     // Get Classe Habilidades Físicas
     get WeaponryClass()  { return this.physicalSkills[0].class; }
@@ -321,13 +357,13 @@ class Character {
     get BrawlClass()     { return this.physicalSkills[2].class; }
     get DriveClass()     { return this.physicalSkills[3].class; }
     get StealthClass()   { return this.physicalSkills[4].class; }
-    get AthleticsClass()     { return this.physicalSkills[5].class; }
+    get AthleticsClass() { return this.physicalSkills[5].class; }
     get LarcenyClass()   { return this.physicalSkills[6].class; }
     get SurvivalClass()  { return this.physicalSkills[7].class; }
     
     // Get Classe Habilidades Sociais
     get SubterfugeClass()    { return this.socialSkills[0].class; }
-    get EmpathyClass()   { return this.socialSkills[1].class; }
+    get EmpathyClass()       { return this.socialSkills[1].class; }
     get ExpressionClass()    { return this.socialSkills[2].class; }
     get IntimidationClass()  { return this.socialSkills[3].class; }
     get StreetwiseClass()    { return this.socialSkills[4].class; }
@@ -336,34 +372,34 @@ class Character {
     get AnimalKenClass()     { return this.socialSkills[7].class; }
     
     // Set Habilidades Mentais
-    set science         (rank) { this.mentalSkills[0].rank = rank; }
-    set academics       (rank) { this.mentalSkills[1].rank = rank; }
-    set computer        (rank) { this.mentalSkills[2].rank = rank; }
-    set investigation   (rank) { this.mentalSkills[3].rank = rank; }
-    set medicine        (rank) { this.mentalSkills[4].rank = rank; }
-    set occult          (rank) { this.mentalSkills[5].rank = rank; }
-    set crafts          (rank) { this.mentalSkills[6].rank = rank; }
-    set politics        (rank) { this.mentalSkills[7].rank = rank; }
+    set science(rank)   { this.mentalSkills[0].rank = rank; }
+    set academics(rank) { this.mentalSkills[1].rank = rank; }
+    set computer(rank)  { this.mentalSkills[2].rank = rank; }
+    set investigation(rank) { this.mentalSkills[3].rank = rank; }
+    set medicine(rank)  { this.mentalSkills[4].rank = rank; }
+    set occult(rank)    { this.mentalSkills[5].rank = rank; }
+    set crafts(rank)    { this.mentalSkills[6].rank = rank; }
+    set politics(rank)  { this.mentalSkills[7].rank = rank; }
     
     // Set Habilidades Físicas
-    set weaponry    (rank) { this.physicalSkills[0].rank = rank; }
-    set firearms    (rank) { this.physicalSkills[1].rank = rank; }
-    set brawl       (rank) { this.physicalSkills[2].rank = rank; }
-    set drive       (rank) { this.physicalSkills[3].rank = rank; }
-    set stealth     (rank) { this.physicalSkills[4].rank = rank; }
-    set athletics   (rank) { this.physicalSkills[5].rank = rank; }
-    set larceny     (rank) { this.physicalSkills[6].rank = rank; }
-    set survival    (rank) { this.physicalSkills[7].rank = rank; }
+    set weaponry(rank)  { this.physicalSkills[0].rank = rank; }
+    set firearms(rank)  { this.physicalSkills[1].rank = rank; }
+    set brawl(rank)     { this.physicalSkills[2].rank = rank; }
+    set drive(rank)     { this.physicalSkills[3].rank = rank; }
+    set stealth(rank)   { this.physicalSkills[4].rank = rank; }
+    set athletics(rank) { this.physicalSkills[5].rank = rank; }
+    set larceny(rank)   { this.physicalSkills[6].rank = rank; }
+    set survival(rank)  { this.physicalSkills[7].rank = rank; }
     
     // Set Habilidades Sociais
-    set subterfuge      (rank) { this.socialSkills[0].rank = rank; }
-    set empathy         (rank) { this.socialSkills[1].rank = rank; }
-    set expression      (rank) { this.socialSkills[2].rank = rank; }
-    set intimidation    (rank) { this.socialSkills[3].rank = rank; }
-    set streetwise      (rank) { this.socialSkills[4].rank = rank; }
-    set persuasion      (rank) { this.socialSkills[5].rank = rank; }
-    set socialize       (rank) { this.socialSkills[6].rank = rank; }
-    set animalKen       (rank) { this.socialSkills[7].rank = rank; }
+    set subterfuge(rank)    { this.socialSkills[0].rank = rank; }
+    set empathy(rank)       { this.socialSkills[1].rank = rank; }
+    set expression(rank)    { this.socialSkills[2].rank = rank; }
+    set intimidation(rank)  { this.socialSkills[3].rank = rank; }
+    set streetwise(rank)    { this.socialSkills[4].rank = rank; }
+    set persuasion(rank)    { this.socialSkills[5].rank = rank; }
+    set socialize (rank)    { this.socialSkills[6].rank = rank; }
+    set animalKen (rank)    { this.socialSkills[7].rank = rank; }
 }
 
 var globalChar = new Character();

@@ -13,3 +13,10 @@
 option {
     color: black;
 }
+
+.grid { display: grid; }
+.flex { display: flex; }
+.block { display: block; }
+.items-items-start { align-items: flex-start; }
+.items-content-start { align-content: flex-start; }
+.justify-start { justify-items: flex-start; }

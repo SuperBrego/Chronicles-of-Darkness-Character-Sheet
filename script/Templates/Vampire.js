@@ -15,25 +15,34 @@ function changeCovenant(covenantName) { globalChar.templateTraits.covenant = cov
 
 function changeBloodPotency(value) {
     globalChar.templateTraits.bloodPotency = value;
-    // renderVampireTraits(character);
+    renderBloodPotency(value);
 }
 
 function addDiscipline() {
     let disciplinesBlock = document.getElementById('vampire-disciplines');
     if(disciplinesBlock) {
-        let discipline = addPower(1, 'a Disciplina');
-        createTraitBlock(discipline, 'vampire-disciplines');
-        changeTraitRank(trait.id, trait.rank);
+        let discipline = createTrait('Disciplina', globalChar.templateTraits.disciplines);
+        createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina');
     }
     else throw new Error('Bloco de Disciplinas não renderizado.')
 
 }
-function changeDisciplineName(id, text) {}
-function changeDisciplineDescription(id, text) {}
-function changeDisciplineRank(id, value) {}
-function removeDiscipline(id) {}
 
-// disciplines: [],
+function changeVitaeState(index) {
+    let vitae = globalChar.templateTraits.vitae;
+    if(vitae[index]) vitae[index].state = !vitae[index].state;
+}
+
+function addBane() {
+
+}
+function editBane() {
+
+}
+function removeBane() {
+
+}
+
 // banes: [],
 // devotions: [],
 // ritesMiracles: [],

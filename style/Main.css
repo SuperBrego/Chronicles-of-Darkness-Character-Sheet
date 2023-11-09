@@ -96,6 +96,42 @@
     grid-template-columns: 40% 60%;
 }
 
+/* ********************************************************** */
+/* Seção com Moralidade, Condições/Estados e Aspirações */
+/* ********************************************************** */
+#cofd-morality-states-aspirations {
+    display: flex;
+    column-gap: 10%;
+}
+
+/* ***************************** */
+/* Moralidade */
+/* ***************************** */
+#cofd-character-morality {
+    display: block;
+    text-align: center;
+    width: 20%;
+}
+.morality-block {
+    display: grid;
+    grid-template-columns: 20% 70% 10%;
+}
+.morality-block input[type=text] {
+    border-color: transparent transparent grey transparent;
+    border-width: 1px;
+}
+
+/* ***************************** */
+/* Condições */
+/* ***************************** */
+#cofd-character-conditions {
+    display: block;
+}
+.conditions-block {
+    display: flex;
+    align-items: space-evenly;
+}
+
 /* ***************************** */
 /* Vantagens */
 /* ***************************** */
@@ -103,16 +139,67 @@
     display: grid;
     width: 40%;
 }
-.merit-block {
+.trait-block, .merit-block {
     display: grid;
     /* Overt Name Rank Del */
     /* Description */
     grid-template-columns: 5% 30% 30% 5%;
     width: 100%;
 }
-.merit-block textarea {
+.trait-block textarea, .merit-block textarea {
     min-width: 400px;
     width: 100%;
     max-width: 100%;
     resize: vertical;
+}
+
+/* ******************************* */
+/* Equipamentos */
+/* ******************************* */
+/* #cofd-character-equipment {} */
+/* #equipment-weapons {} */
+/* #equipment-armor {} */
+#equipment-footer {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+}
+
+/* ******************************* */
+/* Blocos de texto */
+/* ******************************* */
+.cofd-large-textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    height: calc(1rem * 4);
+    width: calc(1rem * 25);
+    resize: vertical;
+}
+
+#cofd-character-story {
+    height: calc(1rem * 8);
+}
+
+/* ******************************* */
+/* Vampiro */
+/* ******************************* */
+#vampire-section {
+    display: grid;
+    grid-template-areas: 'disciplines disciplines' 
+    'bloodPotency vitae';
+}
+#vampire-section input  { accent-color: red; }
+#vampire-disciplines    { grid-area: disciplines; }
+#vampire-bloodPotency   { 
+    display: block; 
+    grid-area: bloodPotency;
+}
+
+#vampire-vitae {
+    display: grid;
+    grid-area: vitae;
+    grid-template-columns: repeat(10, 10%);
+    max-width: 60%;
+}
+#vampire-vitae header { grid-column: span 10; }
+#vampire-vitae input[type=checkbox] {
+    height: 90%;
 }

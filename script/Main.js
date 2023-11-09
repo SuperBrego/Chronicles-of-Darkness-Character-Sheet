@@ -1,7 +1,5 @@
 
-
 window.onload = () => {
-    
     renderCharacter(globalChar);
     addSheetListeners(globalChar);
 }
@@ -44,6 +42,30 @@ function addSkillsListerners(character) {
     }
 }
 
+function addMoralityListeners() {
+    let textList = document.getElementsByClassName('morality-text');
+    let rankList = document.getElementsByClassName('morality-rank');
+    for(let i = 0; i < textList.length; i++) {
+        textList[i].removeEventListener('click', changeMoralityRankText);
+        textList[i].addEventListener('blur', () => changeMoralityRankText(i, event.target.value));
+    }
+
+    for(let i = 0; i < rankList.length; i++) {
+        rankList[i].removeEventListener('click', changeMoralityRank);
+        rankList[i].addEventListener('blur', () => changeMoralityRank(i));
+    }
+}
+
+function addPersonalTraitsListeners() {
+    let appearance = document.getElementById('cofd-character-appearance');
+    let story = document.getElementById('cofd-character-story');
+    appearance.removeEventListener('blur', changeAppearance);
+    appearance.addEventListener('blur', () => changeAppearance(event.target.value));
+    story.removeEventListener('blur', changeStory);
+    story.addEventListener('blur', () => changeStory(event.target.value));
+}
+
+function addEquipmentListeners() {}
 
 function loadCharacter(event) {
     if(!event) return;
@@ -54,7 +76,9 @@ function loadCharacter(event) {
     reader.onload = function(e) {
         contents = e.target.result;
         newChar = JSON.parse(contents);
-        globalChar = newChar;
+        globalChar = new Character();
+        globalChar.setCharacterFromCharacter(newChar);
+
         renderCharacter(globalChar);
         addSheetListeners(globalChar);
     };
@@ -76,6 +100,9 @@ function downloadCharacter() {
 function addSheetListeners() {
     addAttrListerners(globalChar);
     addSkillsListerners(globalChar);
+    addMoralityListeners();
+    addPersonalTraitsListeners();
+
     let fileUpload = document.getElementById("sheet-upload");
     fileUpload.removeEventListener('change', loadCharacter);
     fileUpload.addEventListener('change', loadCharacter);

@@ -48,7 +48,9 @@
         <!-- Tamanho -->
         <div style="display: flex; margin-top: 10px; gap: 5px;">
             <span>Tamanho:</span>
-            <input id="char-size" type = "number" 
+            <input 
+            id      ="char-size" 
+            type    = "number" 
             min     = "1" 
             value   = "" 
             onchange= "changeSize(event.target.value)" 
@@ -91,19 +93,72 @@
             <div class="skills-block" id="social-skills"></div>
             
         </section>
+
+        <h2>Equipamentos</h2>
+        <div id="cofd-character-equipment" class="grid">
+            <div id="equipment-weapons" class="grid"></div>
+            <div id="equipment-armor" class="grid"></div>
+            <footer id="equipment-footer">
+                <div class="gridC-span3"><h3>Adicionar...</h3></div>
+                <button>Arma</button>
+                <button>Armadura</button>
+                <button>Genérico</button>
+            </footer>
+        </div>
+        
+        <!-- Moralidade, Condições/Estados e Aspirações -->
+        <section id="cofd-morality-states-aspirations">
+            <!-- Moralidade -->
+            <div id="cofd-character-morality"></div>
+            <!-- Condições/Estados -->
+            <div class="grid items-content-start">
+                <h2>Condições/Estados</h2>
+                <div id="cofd-character-conditions"></div>
+            </div>
+            <!-- Aspirações -->
+            <div class="grid items-content-start">
+                <h2>Aspirações</h2>
+                <div id="cofd-character-aspirations"></div>
+            </div>
+        </section>
+
+        <!-- Aparência -->
+        <header><h2>Aparência</h2></header>
+        <textarea id="cofd-character-appearance" class="cofd-large-textarea" 
+        placeholder="Descreva a aparência do personagem..."></textarea>
+        
+        <!-- História -->
+        <header><h2>História</h2></header>
+        <textarea id="cofd-character-story" class="cofd-large-textarea" 
+        placeholder="Apresente a história do personagem..."></textarea>
+        
+        <!-- Imagem -->
         
         <!-- Vantagens -->
         <header><h2>Vantagens</h2></header>
         <button onclick="addMerit()">Adicionar Vantagem</button>
         <section class="cofd-merits" id="cofd-character-merits"></section>
 
+        <section id="vampire-section"></section>
+        <section id="ghoul-section"></section>
+        <section id="werewolf-section"></section>
+        <section id="changeling-section"></section>
+        <section id="mage-section"></section>
+        <section id="promethean-section"></section>
+        <section id="hunter-section"></section>
+        <section id="geist-section"></section>
+        <section id="mummy-section"></section>
+        <section id="demon-section"></section>
+        <section id="beast-section"></section>
+        <section id="deviant-section"></section>
     </div>
     
     <script type="text/javascript" src="classes/Character.js"></script>
+    <script type="text/javascript" src="script/Equipment.js"></script>
     <script type="text/javascript" src="script/CharacterManager.js"></script>
     <script type="text/javascript" src="script/Templates/Vampire.js"></script>
     <script type="text/javascript" src="script/Renders/RenderVampire.js"></script>
     <script type="text/javascript" src="script/Renders/Render.js"></script>
-    <script type="text/javascript" src="script/Main.js"></script>
+    <script type="text/javascript" src="script/main.js"></script>
 </body>
 </html>
