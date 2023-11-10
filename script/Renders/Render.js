@@ -740,21 +740,107 @@ function renderStates(character) {
     renderAspirations(character)
 }
 
+
 var appearanceBlock = document.getElementById('cofd-character-appearance');
 var storyBlock = document.getElementById('cofd-character-story');
 
+/**
+ * 
+ * @param {Character} character 
+**/
 function renderPersonalTraits(character) {
     appearanceBlock.innerHTML = character.appearance;
     storyBlock.innerHTML = character.story;
 }
 
+/**
+ * 
+ * @param {*} weapon 
+ * @returns 
+**/
 function renderWeapon(weapon) {
+    let id = weapon.id;
     
+    /**
+     * TÍTULO       DANO    ALCANCE     CLIPE   (DELETAR)
+     * INICIATIVA   FORÇA   TAMANHO     -       -
+     * DESCRIÇÃO    -       -           -       -
+    **/
+    let weaponBlock;
+    
+    weaponBlock = document.createElement('div');
+    weaponBlock.id = `equip-weapon-${id}`;
+    weaponBlock.className = 'equip-weapon';
+
+    // Primeira linha de cabeçalhos
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Nome'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Dano'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Alcance'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Clipe'));
+    weaponBlock.appendChild(quickElement('div'));
+    
+    // TÍTULO   DANO    ALCANCE     CLIPE   (DELETAR)
+    weaponBlock.appendChild(quickInput('text', weapon.name, () => changeWeaponName(id, event.target.value), undefined, undefined, 'Digite nome da arma...'));
+    weaponBlock.appendChild(quickNumberInput(weapon.damage, () => changeWeaponDamage(id, event.target.value), undefined, undefined, 0));
+    weaponBlock.appendChild(quickInput('text', weapon.range, () => changeWeaponRange(id, event.target.value)));
+    weaponBlock.appendChild(quickNumberInput(weapon.clip, () => changeWeaponClip(id, event.target.value)));
+    weaponBlock.appendChild(quickElementBtn('', '', 'X', () => deleteWeapon(id)));
+    
+    // Segunda linha de cabeçalhos
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Iniciativa'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Força'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Tamanho'));
+    weaponBlock.appendChild(quickElement('div'));
+    weaponBlock.appendChild(quickElement('div'));
+    
+    // INICIATIVA   FORÇA   TAMANHO     -       -
+    weaponBlock.appendChild(quickNumberInput(weapon.initiative, () => changeWeaponInitiative(id, event.target.value)));
+    weaponBlock.appendChild(quickNumberInput(weapon.strength, () => changeWeaponStrength(id, event.target.value)));
+    weaponBlock.appendChild(quickNumberInput(weapon.size, () => changeWeaponSize(id, event.target.value)));
+    weaponBlock.appendChild(quickElement('div'));
+    weaponBlock.appendChild(quickElement('div'));
+
+    // DESCRIÇÃO    -       -           -       -
+    let descriptionElement = document.createElement('textarea');
+    descriptionElement.value = weapon.description;
+    descriptionElement.className = 'gridC-span5 justify-self-start';
+    descriptionElement.placeholder = "Adicione descrição e informações..."
+    descriptionElement.addEventListener('blur', () => changeWeaponDescription(id, event.target.value));
+    weaponBlock.appendChild(descriptionElement);
+
+    return weaponBlock;
 }
 
-function renderWeapons(character) {}
-function renderArmors(character) {}
-function renderEquipment(character) {}
+function renderArmor(armor) {
+    /**
+     * NOME VALORES (Geral/Balístico)   FORÇA   DEFESA  VELOCIDADE  DELETAR
+     * DESCRIÇÃO
+    **/
+
+}
+
+let weaponSection = document.getElementById('equipment-weapons');
+let armorsSection = document.getElementById('equipment-armors');
+
+/**
+ * 
+ * @param {Character} character 
+**/
+function renderWeapons(character) {
+    weaponSection.innerHTML = '';
+    let weapons = character.weapons;
+    for(let weapon of weapons) weaponSection.appendChild(renderWeapon(weapon));
+}
+
+function renderArmors(character) {
+    let armors = character.armors;
+    for(let armor of armors) armorsSection.appendChild(renderArmor(armor));
+}
+
+function renderEquipments(character) {
+    renderWeapons(character);
+    // renderArmors(character);
+}
 
 /**
  * 
@@ -772,6 +858,7 @@ function renderCharacter(character) {
     renderMerits(character);
     renderTraits(character);
     renderStates(character);
+    renderEquipments(character);
     renderPersonalTraits(character);
 }
 

@@ -1,5 +1,6 @@
 .gridC-span3 { grid-column: span 3; }
 .gridC-span4 { grid-column: span 4; }
+.gridC-span5 { grid-column: span 5; }
 
 .invalid-cell {
     border-color: red;
@@ -20,3 +21,5 @@ option {
 .items-items-start { align-items: flex-start; }
 .items-content-start { align-content: flex-start; }
 .justify-start { justify-items: flex-start; }
+.align-self-start { align-self: flex-start; }
+.justify-self-start { justify-self: flex-start; }

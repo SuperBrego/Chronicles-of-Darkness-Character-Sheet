@@ -2,9 +2,9 @@ function addWeapon() {
     globalChar.weapons.push({
         id: idSeed(),
         name: '',
-        damage: '',
+        damage: 0,
         range: '',
-        clip: '',
+        clip: 0,
         initiative: 0,
         strength: 0,
         size: 0,
