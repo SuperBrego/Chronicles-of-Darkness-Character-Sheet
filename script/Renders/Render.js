@@ -770,13 +770,13 @@ function renderWeapon(weapon) {
     
     weaponBlock = document.createElement('div');
     weaponBlock.id = `equip-weapon-${id}`;
-    weaponBlock.className = 'equip-weapon';
+    weaponBlock.className = 'equip-block equip-weapon';
 
     // Primeira linha de cabeçalhos
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Nome'));
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Dano'));
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Alcance'));
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Clipe'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Nome'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Dano'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Alcance'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Clipe'));
     weaponBlock.appendChild(quickElement('div'));
     
     // TÍTULO   DANO    ALCANCE     CLIPE   (DELETAR)
@@ -784,19 +784,25 @@ function renderWeapon(weapon) {
     weaponBlock.appendChild(quickNumberInput(weapon.damage, () => changeWeaponDamage(id, event.target.value), undefined, undefined, 0));
     weaponBlock.appendChild(quickInput('text', weapon.range, () => changeWeaponRange(id, event.target.value)));
     weaponBlock.appendChild(quickNumberInput(weapon.clip, () => changeWeaponClip(id, event.target.value)));
-    weaponBlock.appendChild(quickElementBtn('', '', 'X', () => deleteWeapon(id)));
+    weaponBlock.appendChild(quickElementBtn(undefined, undefined, 'X', () => deleteWeapon(id)));
     
     // Segunda linha de cabeçalhos
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Iniciativa'));
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Força'));
-    weaponBlock.appendChild(quickElement('span', 'weapon-header', '', 'Tamanho'));
-    weaponBlock.appendChild(quickElement('div'));
-    weaponBlock.appendChild(quickElement('div'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Iniciativa'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Força'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Tamanho'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Atributo'));
+    weaponBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Habilidade'));
     
-    // INICIATIVA   FORÇA   TAMANHO     -       -
+    let attrs = meeleAttrs.map(elem => { return {value: elem, text: elem} });
+    let skills = weaponSkills.map(elem => { return {value: elem, text: elem} });
+    // INICIATIVA   FORÇA   TAMANHO     ATRIBUTO    HABILIDADE
     weaponBlock.appendChild(quickNumberInput(weapon.initiative, () => changeWeaponInitiative(id, event.target.value)));
     weaponBlock.appendChild(quickNumberInput(weapon.strength, () => changeWeaponStrength(id, event.target.value)));
     weaponBlock.appendChild(quickNumberInput(weapon.size, () => changeWeaponSize(id, event.target.value)));
+    weaponBlock.appendChild(quickSelect(undefined, undefined, () => changeWeaponAttribute(event.target.value), weapon.attribute, ...attrs));
+    weaponBlock.appendChild(quickSelect(undefined, undefined, () => changeWeaponAttribute(event.target.value), weapon.skill, ...skills));
+    
+    //  Habilidades
     weaponBlock.appendChild(quickElement('div'));
     weaponBlock.appendChild(quickElement('div'));
 
@@ -816,11 +822,52 @@ function renderArmor(armor) {
      * NOME VALORES (Geral/Balístico)   FORÇA   DEFESA  VELOCIDADE  DELETAR
      * DESCRIÇÃO
     **/
+   let id = armor.id;
+   let armorBlock;
+    
+    armorBlock = document.createElement('div');
+    armorBlock.id = `equip-armor-${id}`;
+    armorBlock.className = 'equip-block equip-armor';
+
+    // Primeira linha de cabeçalhos
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Nome'));
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Geral'));
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Balístico'));
+    armorBlock.appendChild(quickElementBtn(undefined, undefined, 'X', () => deleteArmor(id)));
+    
+    // NOME VALORES (Geral/Balístico)   FORÇA   DEFESA  VELOCIDADE  DELETAR
+    armorBlock.appendChild(quickInput('text', armor.name, () => changeArmorName(id, event.target.value), undefined, undefined, 'Digite nome da armadura...'));
+    armorBlock.appendChild(quickNumberInput(armor.generalRank, () => changeArmorGeneralRank(id, event.target.value), 0, undefined, 0));
+    armorBlock.appendChild(quickNumberInput(armor.ballisticRank, () => changeArmorBallisticRank(id, event.target.value), 0, undefined, 0));
+    armorBlock.appendChild(quickElement('div'));
+
+    // Segunda linha de cabeçalhos
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Força'));
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Defesa'));
+    armorBlock.appendChild(quickElement('span', 'armor-header', undefined, 'Velocidade'));
+    armorBlock.appendChild(quickElement('div'));
+    
+    // 
+    armorBlock.appendChild(quickNumberInput(armor.strength, () => changeArmorStrength(id, event.target.value), 0, undefined, 0));
+    armorBlock.appendChild(quickNumberInput(armor.defense, () => changeArmorDefense(id, event.target.value), undefined, undefined, 0));
+    armorBlock.appendChild(quickNumberInput(armor.speed, () => changeArmorSpeed(id, event.target.value), undefined, undefined, 0));
+    armorBlock.appendChild(quickElement('div'));
+
+    // DESCRIÇÃO    -       -           -       -
+    let descriptionElement = document.createElement('textarea');
+    descriptionElement.value = armor.description;
+    descriptionElement.className = 'gridC-span4 justify-self-start';
+    descriptionElement.placeholder = "Adicione descrição e informações..."
+    descriptionElement.addEventListener('blur', () => changeArmorDescription(id, event.target.value));
+    armorBlock.appendChild(descriptionElement);
+
+    return armorBlock;
 
 }
 
 let weaponSection = document.getElementById('equipment-weapons');
 let armorsSection = document.getElementById('equipment-armors');
+let genericsSection = document.getElementById('equipment-generics');
 
 /**
  * 
@@ -833,13 +880,46 @@ function renderWeapons(character) {
 }
 
 function renderArmors(character) {
+    armorsSection.innerHTML = '';
     let armors = character.armors;
     for(let armor of armors) armorsSection.appendChild(renderArmor(armor));
 }
 
+function renderGenericEquip(character) {
+    genericsSection.innerHTML = '';
+    let equipments = character.equipments;
+    let equipBlock;
+    let descriptionElement;
+    let id;
+    
+    for(let equipment of equipments) {
+        id = equipment.id;
+
+        equipBlock = document.createElement('div');
+        equipBlock.className = 'equip-block equip-generic';
+        equipBlock.id = `equip-generic-${equipment.id}`;
+
+        equipBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Nome'));
+        equipBlock.appendChild(quickElementBtn(undefined, undefined, 'X', () => deleteEquip(id)));
+        equipBlock.appendChild(quickInput('text', equipment.name, () => changeEquipName(id, event.target.value), undefined, undefined, 'Digite nome do equipamento...'));
+        equipBlock.appendChild(document.createElement('div'));
+
+        // DESCRIÇÃO    -       -           -       -
+        descriptionElement = document.createElement('textarea');
+        descriptionElement.value = equipment.description;
+        descriptionElement.className = 'gridC-span2 justify-self-start';
+        descriptionElement.placeholder = "Adicione descrição e informações..."
+        descriptionElement.addEventListener('blur', () => changeEquipDescription(id, event.target.value));
+        equipBlock.appendChild(descriptionElement);
+        
+        genericsSection.appendChild(equipBlock);
+    }
+}
+
 function renderEquipments(character) {
     renderWeapons(character);
-    // renderArmors(character);
+    renderArmors(character);
+    renderGenericEquip(character);
 }
 
 /**

@@ -98,11 +98,12 @@
         <div id="cofd-character-equipment" class="grid">
             <div id="equipment-weapons" class="grid"></div>
             <div id="equipment-armors" class="grid"></div>
+            <div id="equipment-generics" class="grid"></div>
             <footer id="equipment-footer">
                 <div class="gridC-span3"><h3>Adicionar...</h3></div>
                 <button onclick="addWeapon()">Arma</button>
-                <button>Armadura</button>
-                <button>Genérico</button>
+                <button onclick="addArmor()">Armadura</button>
+                <button onclick="addEquipment()">Genérico</button>
             </footer>
         </div>
         
@@ -153,6 +154,7 @@
         <section id="deviant-section"></section>
     </div>
     
+    <script type="text/javascript" src="Database/Traits.js"></script>
     <script type="text/javascript" src="classes/Character.js"></script>
     <script type="text/javascript" src="script/Equipment.js"></script>
     <script type="text/javascript" src="script/AuxRender.js"></script>

@@ -1,20 +1,4 @@
-const SupernaturalTemplates = {
-    Mortal: 0,
-    Vampire: 1,
-    Ghoul: 2,
-    Werewolf: 3,
-    Changeling: 4,
-    Mage: 5,
-    Promethean: 6,
-    Hunter: 7,
-    Geist: 8,
-    Mummy: 9,
-    Demon: 10,
-    Beast: 11,
-    Deviant: 12
-}
 
-const clanOptions = ['Daeva', 'Gangrel', 'Mekhet', 'Nosferatu', 'Ventrue'];
 
 function createStateTrack(qtn, state = true) {
     let x = [];
@@ -136,7 +120,7 @@ class Character {
         
         // Vitalidade Extra?
         this.extraVitality = 0;
-
+        
         this.conditions = [];
         this.aspirations = [];
         // Armadura
@@ -201,7 +185,7 @@ class Character {
             { index: 7, name: "Tratar Animais", rank: 0, class: "animalKen" },
         ];
         
-        this.equipment = [];
+        this.equipments = [];
         this.weapons = [];
         this.armors = [];
     }
@@ -212,8 +196,6 @@ class Character {
         this.concept = character.concept;
         this.chronicle = character.chronicle;
         this.group = character.group;
-        this.template = character.template;
-        this.templateTraits = character.templateTraits;
         this.health = character.health;
         this.willpower = character.willpower;
         this.size = character.size;
@@ -224,7 +206,14 @@ class Character {
         this.mentalSkills = character.mentalSkills;
         this.physicalSkills = character.physicalSkills;
         this.socialSkills = character.socialSkills;
-
+        this.extraVitality = character.extraVitality;
+        this.conditions = character.conditions;
+        this.aspirations = character.aspirations;
+        this.story = character.story;
+        this.appearance = character.appearance;
+        
+        this.template = character.template;
+        this.templateTraits = character.templateTraits;
         // Vampiro
         // etc.
     }

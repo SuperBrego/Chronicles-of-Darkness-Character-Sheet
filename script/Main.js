@@ -1,5 +1,32 @@
 
+var scripts = [
+    "Database/Traits.js",
+    "classes/Character.js",
+    "script/Equipment.js",
+    "script/AuxRender.js",
+    "script/CharacterManager.js",
+    "script/Templates/Vampire.js",
+    "script/Renders/RenderVampire.js",
+    "script/Renders/Render.js"
+];
+
+/**.
+ * Adiciona dinamicamente os scripts. 
+ * OBS: Isso só será efetivamente adicionado ao criar uma página 
+ * inicial de "Novo Personagem", pois, do contrário, há erros de 
+ * referência.
+**/
+function addScripts() {
+    let toAddScript;
+    for(let script of scripts) {
+        toAddScript = document.createElement('script');
+        toAddScript.setAttribute('src', script);        
+        document.head.appendChild(toAddScript);
+    }
+}
+
 window.onload = () => {
+    // addScripts();
     renderCharacter(globalChar);
     addSheetListeners(globalChar);
 }
@@ -49,7 +76,7 @@ function addMoralityListeners() {
         textList[i].removeEventListener('click', changeMoralityRankText);
         textList[i].addEventListener('blur', () => changeMoralityRankText(i, event.target.value));
     }
-
+    
     for(let i = 0; i < rankList.length; i++) {
         rankList[i].removeEventListener('click', changeMoralityRank);
         rankList[i].addEventListener('blur', () => changeMoralityRank(i));
@@ -78,7 +105,7 @@ function loadCharacter(event) {
         newChar = JSON.parse(contents);
         globalChar = new Character();
         globalChar.setCharacterFromCharacter(newChar);
-
+        
         renderCharacter(globalChar);
         addSheetListeners(globalChar);
     };
@@ -102,7 +129,7 @@ function addSheetListeners() {
     addSkillsListerners(globalChar);
     addMoralityListeners();
     addPersonalTraitsListeners();
-
+    
     let fileUpload = document.getElementById("sheet-upload");
     fileUpload.removeEventListener('change', loadCharacter);
     fileUpload.addEventListener('change', loadCharacter);

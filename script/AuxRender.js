@@ -54,3 +54,20 @@ function quickNumberInput(value, callback, className, id, min, max) {
     quickInput.addEventListener('blur', callback);
     return quickInput;
 }
+
+function quickSelect(className, id, callback, initialValue, ...options) {
+    let quickSelect = document.createElement('select');
+    quickSelect.value = Number(initialValue);
+    if(className) quickSelect.className = className;
+    if(id) quickSelect.id = id;
+    
+    let optionElement;
+    for(let option of options) {
+        optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.innerHTML = option.text;
+        quickSelect.appendChild(optionElement);
+    }
+    quickSelect.addEventListener('select', callback);
+    return quickSelect;
+}

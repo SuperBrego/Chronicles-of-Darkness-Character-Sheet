@@ -164,22 +164,30 @@ textarea {
 /* #cofd-character-equipment {} */
 /* #equipment-weapons {} */
 /* #equipment-armor {} */
-.equip-weapon {
+.equip-block {
     display: grid;
     width: 80%;
-    grid-template-columns: repeat(5, 20%);
-    justify-items: flex-start;
     column-gap: 5%;
+    justify-items: flex-start;
 }
-.equip-weapon button { width: fit-content; }
-.equip-weapon input[type=number] {
+.equip-block button { 
+    width: fit-content; 
+    align-self: flex-start;
+}
+.equip-block input[type=number] {
     text-align: center;
     width: 2.5rem;
 }
-.equip-weapon textarea {
+.equip-block textarea {
     min-width: 80%;
     height: 3rem;
 }
+
+.equip-weapon { grid-template-columns: repeat(5, 20%); }
+
+.equip-armor { grid-template-columns: repeat(4, 25%); }
+
+.equip-generic { grid-template-columns: repeat(2, 50%); }
 
 #equipment-footer {
     display: grid;
