@@ -413,10 +413,13 @@ function deleteAspiration(id) {
  * Cria uma característica genérica. Será usado especialmente para Disicplinas, Dons e Endowments.
  * @param {string} traitName Nome da característica.
  * @param {any[]} traitList Lista onde característica será adicionada.
+ * @param {string} templateTag 
 **/
-function createTrait(traitName, traitList) {
+function createTrait(traitName, traitList, templateTag) {
+    let traitID = `${templateTag}+${idSeed()}`;
+
     let trait = {
-        id: idSeed(), 
+        id: traitID, 
         name: `Digite nome ${traitName}...`, 
         rank: 1, 
         description: '',
@@ -452,21 +455,27 @@ function changeTraitName(id, text) {
  */
 function changeTraitRank(id, rank, traitClass = 'trait') {
     let trait, rankList;
+    let traitType = id.split("+")[0];
 
     switch(globalChar.template) {
         default: throw new Error("Característica não encontrada");
         case SupernaturalTemplates.Vampire:
-            trait = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
-            if(trait) {
-                trait.rank = rank;
-
-                rankList = document.getElementsByClassName(`${traitClass}-rank-${id}`);
-                for(let i = 0; i < rankList.length; i++) {
-                    if(i < rank) rankList[i].checked = true;
-                    else rankList[i].checked = false;
-                }
+            switch(traitType) {
+                default: throw new Error("Característica não encontrada.");
+                // Disciplina
+                case 'VD':
+                    trait = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
+                    if(trait) {
+                        trait.rank = rank;
+                        rankList = document.getElementsByClassName(`${traitClass}-rank-${id}`);
+                        for(let i = 0; i < rankList.length; i++) {
+                            if(i < rank) rankList[i].checked = true;
+                            else rankList[i].checked = false;
+                        }
+                    }
+                    else throw new Error("Característica não encontrada.")
+                break;
             }
-            else throw new Error("Característica não encontrada.")
         break;
     }
 }

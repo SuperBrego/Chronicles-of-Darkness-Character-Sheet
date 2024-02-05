@@ -23,7 +23,7 @@ function addDiscipline() {
     let disciplinesBlock = document.getElementById('vampire-disciplines');
     let disciplineList = globalChar.templateTraits.disciplines;
     if(disciplinesBlock) {
-        let discipline = createTrait('Disciplina', disciplineList);
+        let discipline = createTrait('Disciplina', disciplineList, 'VD');
         createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina');
         
         document.querySelector('#select-disciplines').disabled = (disciplineList.length > 0) ? false : true;

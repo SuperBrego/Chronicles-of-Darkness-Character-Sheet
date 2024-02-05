@@ -38,6 +38,10 @@ function renderBloodPotency(bloodPotency) {
 **/
 function renderDisciplines(disciplines) {
 
+    // Lista de Disciplinas
+    let disciplineList = globalChar.templateTraits.disciplines;
+
+
     let disciplinesBlock = document.getElementById('vampire-disciplines');
     if(!disciplinesBlock) {
         disciplinesBlock =  document.createElement('div');
@@ -58,19 +62,18 @@ function renderDisciplines(disciplines) {
     let selectAllBtn = document.createElement('button');
     selectAllBtn.innerHTML = 'Selecionar/Deselecionar Todos';
     selectAllBtn.id = "select-disciplines";
-    selectAllBtn.addEventListener('click', () => {});
+    selectAllBtn.addEventListener('click', () => selectAllTrait('vampire-disciplines', 'disciplines'));
 
     // Deletar Disciplina
     let deleteSelectedBtn = document.createElement('button');
-    deleteSelectedBtn.innerHTML = 'Remover Selecionados';
+    deleteSelectedBtn.innerHTML = 'Deletar Selecionados';
     deleteSelectedBtn.id = "delete-disciplines";
-    deleteSelectedBtn.addEventListener('click', () => {});
+    deleteSelectedBtn.addEventListener('click', () => deleteSelectedTrait('vampire-disciplines', disciplineList, 'disciplines'));
 
     // Adicionar ao bloco.
     disciplinesBlock.append(disciplinesTitle, addDiscBtn, selectAllBtn, deleteSelectedBtn);
 
     // Desabilitar botões.
-    let disciplineList = globalChar.templateTraits.disciplines;
     selectAllBtn.disabled = (disciplineList.length > 0) ? false : true;
     deleteSelectedBtn.disabled = (disciplineList.length > 0) ? false : true;
     

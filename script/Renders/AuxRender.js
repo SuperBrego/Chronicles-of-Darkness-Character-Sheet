@@ -32,7 +32,7 @@ function quickElement(tag, className, id = '', content = '', type = '', listenEv
  * @param {string} id ID do input.
  * @param {string} placeholder Valor de texto para ocupar o espaço.
  * @returns {Element}
- */
+**/
 function quickInput(type, value, callback, className, id = '', placeholder = '') {
     let quickInput = document.createElement('input');
     quickInput.value = value;
@@ -62,7 +62,7 @@ function quickElementBtn(className, id = '', content = '', callback = () => {}) 
  * @param {number} min Valor mínimo para o Input Number.
  * @param {number} max Valor máximo para o Input Number.
  * @returns {Element}
- */
+**/
 function quickNumberInput(value, callback, className, id, min, max) {
     let quickInput = document.createElement('input');
     quickInput.type = 'number';
@@ -84,7 +84,7 @@ function quickNumberInput(value, callback, className, id, min, max) {
  * @param {number | string} initialValue Valor inicial do Select.
  * @param  {...any} options Lista de Opções.
  * @returns {Element}
- */
+**/
 function quickSelect(className, id, callback, initialValue, ...options) {
     let quickSelect = document.createElement('select');
     quickSelect.value = Number(initialValue);
@@ -108,7 +108,7 @@ function quickSelect(className, id, callback, initialValue, ...options) {
  * @param {string} traitPath ID do destino da característica.
  * @param {string} traitName Nome da característica.
  * @param {string} traitClass Classe para característica.
- */
+**/
 function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
     if(!trait) throw new Error("Característica não encaminhada.")
     let traitElement = document.createElement('div');
@@ -184,4 +184,62 @@ function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
     if(!pathBlock) throw new Error('Caminho para adição da Característica inválido. Encontrado '+idPath);
     
     pathBlock.appendChild(traitElement);
+}
+
+/**
+ * Seleciona ou desseleciona todas as Vantagens do Personagem.
+ * @returns {void}
+**/
+function selectAllTrait(blockID) {
+    let sectionContainer = document.getElementById(blockID);
+    let blockElements = Array.from(sectionContainer.querySelectorAll(`.trait-select-block`));
+    let blockInput;
+    
+    let selectedCC = blockElements.reduce((total, elem) => { return total + ((elem.querySelector('input').checked) ? 1 : 0); }, 0);
+    let allSelected = (selectedCC === blockElements.length);
+
+    for(let blockDiv of blockElements) {
+        blockInput = blockDiv.querySelector('input');
+        blockInput.checked = (!allSelected);
+    }
+}
+
+/**
+ * Remove Vantagens selecionadas do personagem.
+ * @returns {void}
+**/
+function deleteSelectedTrait(blockID, location, traitName) {
+    let sectionContainer = document.getElementById(blockID);
+    let blockElements = Array.from(sectionContainer.querySelectorAll(`.trait-select-block`));
+    let blockInput;
+    let idList = [];
+    
+    for(let i = 0; i < blockElements.length; i++) {
+        blockInput = blockElements[i].querySelector('input');
+        if(blockInput.checked) idList.push(location[i].id);
+    }
+    
+    idList = idList.sort((a, b) => { return a - b; });      
+    if(idList.length === 0) {
+        alert('Nenhum item selecionado');
+        return;
+    }
+
+    deleteMultipleTraits(idList, location, traitName);
+}
+
+function deleteMultipleTraits(idList, location, traitName) {
+    let index;
+    if(confirm(`Você tem certeza que quer deletar todos itens selecionados?\nEssa escolha não pode ser desfeita.`)) {
+        for(let id of idList) {
+            index = location.findIndex(elem => elem.id === id)
+            location.splice(index, 1);
+            document.getElementById(`${id}`).outerHTML = "";
+        }
+    }
+    
+    // Ativar ou desativar botão de seleção de vários itens.
+    document.querySelector(`#select-${traitName}`).disabled = (location.length > 0) ? false : true;
+    // Ativar ou desativar botão de deleção de vários itens.
+    document.querySelector(`#delete-${traitName}`).disabled = (location.length > 0) ? false : true;
 }
