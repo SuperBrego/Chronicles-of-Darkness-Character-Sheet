@@ -45,20 +45,45 @@ function renderDisciplines(disciplines) {
     }
     else disciplinesBlock.innerHTML = '';
 
+    // Título
     let disciplinesTitle = document.createElement('header');
     disciplinesTitle.innerHTML = '<h2>Disciplinas</h2>';
 
+    // Adicionar Disciplina
     let addDiscBtn = document.createElement('button');
     addDiscBtn.innerHTML = 'Adicionar Disciplina';
     addDiscBtn.addEventListener('click', () => addDiscipline());
 
-    disciplinesBlock.append(disciplinesTitle, addDiscBtn);
+    // Selecionar Disciplina
+    let selectAllBtn = document.createElement('button');
+    selectAllBtn.innerHTML = 'Selecionar/Deselecionar Todos';
+    selectAllBtn.id = "select-disciplines";
+    selectAllBtn.addEventListener('click', () => {});
+
+    // Deletar Disciplina
+    let deleteSelectedBtn = document.createElement('button');
+    deleteSelectedBtn.innerHTML = 'Remover Selecionados';
+    deleteSelectedBtn.id = "delete-disciplines";
+    deleteSelectedBtn.addEventListener('click', () => {});
+
+    // Adicionar ao bloco.
+    disciplinesBlock.append(disciplinesTitle, addDiscBtn, selectAllBtn, deleteSelectedBtn);
+
+    // Desabilitar botões.
+    let disciplineList = globalChar.templateTraits.disciplines;
+    selectAllBtn.disabled = (disciplineList.length > 0) ? false : true;
+    deleteSelectedBtn.disabled = (disciplineList.length > 0) ? false : true;
     
+    // Adicionar à seção.
     vampireSection.appendChild(disciplinesBlock);
     
     for(let discipline of disciplines) createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina'); 
 }
 
+/**
+ * 
+ * @param {*} vitae 
+**/
 function renderVampireVitae(vitae) {
     let vitaeBlock = document.getElementById('vampire-vitae');
     if(!vitaeBlock) {

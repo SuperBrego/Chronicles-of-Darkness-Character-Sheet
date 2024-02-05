@@ -49,7 +49,7 @@
         <div style="display: flex; margin-top: 10px; gap: 5px;">
             <span>Tamanho:</span>
             <input 
-            id      ="char-size" 
+            id      = "char-size" 
             type    = "number" 
             min     = "1" 
             value   = "" 
@@ -122,22 +122,16 @@
                 <div id="cofd-character-aspirations"></div>
             </div>
         </section>
-
-        <!-- Aparência -->
-        <header><h2>Aparência</h2></header>
-        <textarea id="cofd-character-appearance" class="cofd-large-textarea" 
-        placeholder="Descreva a aparência do personagem..."></textarea>
-        
-        <!-- História -->
-        <header><h2>História</h2></header>
-        <textarea id="cofd-character-story" class="cofd-large-textarea" 
-        placeholder="Apresente a história do personagem..."></textarea>
         
         <!-- Imagem -->
         
         <!-- Vantagens -->
         <header><h2>Vantagens</h2></header>
-        <button onclick="addMerit()">Adicionar Vantagem</button>
+        <div class="flex">
+            <button onclick="addMerit()">Adicionar Vantagem</button>
+            <button id="select-merits" onclick="selectAllMerits()">Selectionar/Deselecionar Todos</button>
+            <button id="delete-merits" onclick="deleteAllMerits()">Deletar Selecionados</button>
+        </div>
         <section class="cofd-merits" id="cofd-character-merits"></section>
 
         <section id="vampire-section"></section>
@@ -152,12 +146,23 @@
         <section id="demon-section"></section>
         <section id="beast-section"></section>
         <section id="deviant-section"></section>
+
+        <!-- Aparência -->
+        <header><h2>Aparência</h2></header>
+        <textarea id="cofd-character-appearance" class="cofd-large-textarea" 
+        placeholder="Descreva a aparência do personagem..."></textarea>
+        
+        <!-- História -->
+        <header><h2>História</h2></header>
+        <textarea id="cofd-character-story" class="cofd-large-textarea" 
+        placeholder="Apresente a história do personagem..."></textarea>
     </div>
     
+    <script type="text/javascript" src="script/Control.js"></script>
     <script type="text/javascript" src="Database/Traits.js"></script>
     <script type="text/javascript" src="classes/Character.js"></script>
     <script type="text/javascript" src="script/Equipment.js"></script>
-    <script type="text/javascript" src="script/AuxRender.js"></script>
+    <script type="text/javascript" src="script/Renders/AuxRender.js"></script>
     <script type="text/javascript" src="script/CharacterManager.js"></script>
     <script type="text/javascript" src="script/Templates/Vampire.js"></script>
     <script type="text/javascript" src="script/Renders/RenderVampire.js"></script>

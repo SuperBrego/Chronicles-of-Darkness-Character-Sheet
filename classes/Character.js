@@ -109,7 +109,7 @@ class Character {
         this.chronicle = '';
         this.group = '';
         
-        this.template = SupernaturalTemplates.Mortal;
+        this.template = SupernaturalTemplates.Vampire//Mortal;
         this.templateTraits = getTemplateTraits(this.template);
         
         this.health = makeHealth();

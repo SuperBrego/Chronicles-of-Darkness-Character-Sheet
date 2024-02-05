@@ -59,6 +59,8 @@ textarea {
 .char-trait2    { grid-area: trait2; }
 .char-trait3    { grid-area: trait3; }
 
+#char-size { width: 3rem; }
+
 #supernatural-header { padding: 1% 0; }
 
 /* ***************************** */
@@ -146,16 +148,25 @@ textarea {
 }
 .trait-block, .merit-block {
     display: grid;
-    /* Overt Name Rank Del */
+    /* Overt Name Rank Del Selection */
     /* Description */
-    grid-template-columns: 5% 30% 30% 5%;
+    grid-template-columns: 2% 40% 40% 5% 10%;
     width: 100%;
+    padding: 1%;
 }
 .trait-block textarea, .merit-block textarea {
     min-width: 400px;
     width: 100%;
     max-width: 100%;
     resize: vertical;
+    grid-column: 1 / -2;
+}
+
+.trait-select-block {
+    grid-row: span 2;
+    display: grid;
+    align-content: center;
+    justify-content: center;
 }
 
 /* ******************************* */
@@ -167,12 +178,13 @@ textarea {
 .equip-block {
     display: grid;
     width: 80%;
-    column-gap: 5%;
+    /* column-gap: 5%; */
     justify-items: flex-start;
 }
 .equip-block button { 
     width: fit-content; 
-    align-self: flex-start;
+    align-self: flex-end;
+    justify-self: flex-end;
 }
 .equip-block input[type=number] {
     text-align: center;
@@ -188,6 +200,7 @@ textarea {
 .equip-armor { grid-template-columns: repeat(4, 25%); }
 
 .equip-generic { grid-template-columns: repeat(2, 50%); }
+.equip-generic input[type=text] { width: 80%; }
 
 #equipment-footer {
     display: grid;

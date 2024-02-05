@@ -527,6 +527,11 @@ function addMerit() {
     
     createMeritBlock(merit);
     changeMeritRank(merit.id, merit.rank);
+
+    // Ativar ou desativar botão de seleção.
+    document.querySelector('#select-merits').disabled = (globalChar.merits.length > 0) ? false : true;
+    // Ativar ou desativar botão de deleção.
+    document.querySelector('#delete-merits').disabled = (globalChar.merits.length > 0) ? false : true;
 }
 
 /**
@@ -572,12 +577,33 @@ function changeMeritDescription(id, description) {
  * Remove específica vantagem do personagem.
  * @param {string | number} id ID da Vantagem.
 **/
-function removeMerit(id) {
+function deleteMerit(id) {
     let index = globalChar.merits.findIndex(elem => elem.id === id);
     if(confirm('Você tem certeza?\nEssa escolha não pode ser desfeita.')) {
         globalChar.merits.splice(index, 1);
         document.getElementById(`${id}`).outerHTML = "";
+        
+        // Ativar ou desativar botão de seleção de vários itens.
+        document.querySelector('#select-merits').disabled = (globalChar.merits.length > 0) ? false : true;
+        // Ativar ou desativar botão de deleção de vários itens.
+        document.querySelector('#delete-merits').disabled = (globalChar.merits.length > 0) ? false : true;
     }
+}
+
+function deleteMultipleMerits(idList) {
+    let index;
+    if(confirm(`Você tem certeza que quer deletar todos itens selecionados?\nEssa escolha não pode ser desfeita.`)) {
+        for(let id of idList) {
+            index = globalChar.merits.findIndex(elem => elem.id === id)
+            globalChar.merits.splice(index, 1);
+            document.getElementById(`${id}`).outerHTML = "";
+        }
+    }
+    
+    // Ativar ou desativar botão de seleção de vários itens.
+    document.querySelector('#select-merits').disabled = (globalChar.merits.length > 0) ? false : true;
+    // Ativar ou desativar botão de deleção de vários itens.
+    document.querySelector('#delete-merits').disabled = (globalChar.merits.length > 0) ? false : true;
 }
 
 /**

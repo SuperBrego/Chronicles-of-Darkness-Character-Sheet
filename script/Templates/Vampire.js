@@ -19,10 +19,15 @@ function changeBloodPotency(value) {
 }
 
 function addDiscipline() {
+
     let disciplinesBlock = document.getElementById('vampire-disciplines');
+    let disciplineList = globalChar.templateTraits.disciplines;
     if(disciplinesBlock) {
-        let discipline = createTrait('Disciplina', globalChar.templateTraits.disciplines);
+        let discipline = createTrait('Disciplina', disciplineList);
         createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina');
+        
+        document.querySelector('#select-disciplines').disabled = (disciplineList.length > 0) ? false : true;
+        document.querySelector('#delete-disciplines').disabled = (disciplineList.length > 0) ? false : true;
     }
     else throw new Error('Bloco de Disciplinas não renderizado.')
 

@@ -14,17 +14,32 @@ var templateSections = [
     "demon-section",
     "beast-section",
     "deviant-section"
-]
+];
 
+var moralityBlock = document.getElementById('cofd-character-morality');
+var conditionsStatesBlock = document.getElementById('cofd-character-conditions');
+var aspirationsStatesBlock = document.getElementById('cofd-character-aspirations');
+var meritBlock = document.getElementById('cofd-character-merits');
+var appearanceBlock = document.getElementById('cofd-character-appearance');
+var storyBlock = document.getElementById('cofd-character-story');
+var weaponSection = document.getElementById('equipment-weapons');
+var armorsSection = document.getElementById('equipment-armors');
+var genericsSection = document.getElementById('equipment-generics');
+
+/**
+ * Limpa todas seções de modelos sobrenaturais.
+ * @returns {void}
+**/
 function cleanRenders() {
     for(let i = 0; i < templateSections.length; i++) document.getElementById(templateSections[i]).innerHTML = '';
 }
 
 /**
-* Cria um cabeçalho com título e input de texto.
+* Cria um novo elemento HTML de Input de texto com cabeçalho.
 * @param {string} title Título da seção do cabeçalho.
 * @param {any} changeFunction Função aplicado a mudança do input.
 * @param {any} value Valor inicial do item.
+* @returns {Element}
 **/
 function makeInfoHeader(title, changeFunction, value) {
     let titleHeader = document.createElement('div');
@@ -44,11 +59,12 @@ function makeInfoHeader(title, changeFunction, value) {
 }
 
 /**
-* Cria um cabeçalho com título e um select..
-* @param {string} title Título da seção do cabeçalho.
-* @param {any} changeFunction Função aplicado a mudança do input.
-* @param {any} value Valor inicial do item.
-* @param  {string[]} options As opções no select.
+ * Cria um novo elemento HTML de Select com cabeçalho.
+ * @param {string} title Título da seção do cabeçalho.
+ * @param {any} changeFunction Função aplicado a mudança do input.
+ * @param {any} value Valor inicial do item.
+ * @param {string[]} options As opções no select.
+ * @returns {Eelment}
 */
 function makeInfoHeaderSelect(title, changeFunction, value, ...options) {
     let optionElement;
@@ -87,6 +103,13 @@ function makeInfoHeaderSelect(title, changeFunction, value, ...options) {
     return titleHeader;
 }
 
+/**
+ * Cria um novo elemento HTML de Input numeral com cabeçalho.
+ * @param {string} title Título da seção do cabeçalho.
+ * @param {any} changeFunction Função aplicada com a mudança do input.
+ * @param {number} value Valor do item (inicial).
+ * @returns {Element} 
+**/
 function makeInfoNumber(title, changeFunction, value) {
     let titleHeader = document.createElement('div');
     titleHeader.className = 'char-info-item';
@@ -105,8 +128,9 @@ function makeInfoNumber(title, changeFunction, value) {
 }
 
 /**
-* Renderiza seção de informações do personagem.
-* @param {Character} character Personagem
+ * Renderiza seção de informações do personagem.
+ * @param {Character} character Personagem
+ * @returns {void}
 **/
 function renderHeader(character) {
     let supTemplate = character.template;
@@ -133,6 +157,7 @@ function renderHeader(character) {
     conceptHeader.id = 'char-concept';
     infoHeader.appendChild(conceptHeader);
     
+    // Itens do modelo sobrenatural.
     switch(supTemplate) {
         /**
         * Mudei a ordem para manter o padrão.
@@ -299,6 +324,11 @@ function renderHeader(character) {
     
 }
 
+/**
+ * Renderiza os Atributos do Personagem.
+ * @param {Character} character Personagem com Atributos.
+ * @returns {void}
+**/
 function renderAttributes(character) {
     let mentalBlock = document.getElementById('mental-attr');
     let physicalBlock = document.getElementById('physical-attr');
@@ -342,6 +372,11 @@ function renderAttributes(character) {
     }
 }
 
+/**
+ * Renderiza as Habilidades do Personagem.
+ * @param {Character} character Personagem com as Habilidades.
+ * @returns {void}
+**/
 function renderSkills(character) {
     let mentalBlock = document.getElementById('mental-skills');
     let physicalBlock = document.getElementById('physical-skills');
@@ -384,76 +419,10 @@ function renderSkills(character) {
     }
 }
 
-
 /**
-* Renderiza a Característica com pontuação.
-* @param {Trait} trait Característica com pontuação a ser renderizada.
-**/
-function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
-    if(!trait) throw new Error("Característica não encaminhada.")
-    let traitElement = document.createElement('div');
-    traitElement.id = trait.id;
-    traitElement.className = `${traitClass}-block`;
-    
-    // Encaixar o Evidente se for Deviant
-    if(globalChar.template === SupernaturalTemplates.Deviant) {
-        let overCheckbox = document.createElement('input');
-        overCheckbox.type = 'checkbox';
-        overCheckbox.checked = trait.overt;
-        overCheckbox.addEventListener('change', () => {} /** checkOvertTrait(id) */);
-        traitElement.appendChild(overCheckbox);
-    }
-    else {
-        // Append um div vazio para encaixar a conta no CSS
-        traitElement.appendChild(document.createElement('div'));
-    }
-    
-    // Campo nome de Característica
-    let traitNameInput = document.createElement('input');
-    traitNameInput.value = trait.name;
-    traitNameInput.placeholder = `Digite nome ${traitName}...`;
-    traitNameInput.addEventListener('blur', (event) => changeTraitName(trait.id, event.target.value));
-    
-    // Campo círculos inputs
-    let traitRanksElement = document.createElement('div');
-    let traitRankRadio;
-    for(let i = 0; i < 5; i++) {
-        traitRankRadio = document.createElement('input');
-        traitRankRadio.type = 'radio';
-        traitRankRadio.className = `${traitClass}-rank-${trait.id}`;
-        traitRankRadio.addEventListener('click', () => changeTraitRank(trait.id, i+1));
-        if(i === 0) traitRankRadio.checked = true;
-        traitRanksElement.appendChild(traitRankRadio);
-    }
-    
-    // Botão de deleção
-    let delBtn = document.createElement('button');
-    delBtn.innerHTML = 'X';
-    delBtn.addEventListener('click', () => removeTrait(trait.id));
-    
-    // Descrição
-    let descriptionElement = document.createElement('textarea');
-    descriptionElement.value = trait.description;
-    descriptionElement.className = 'gridC_span4';
-    descriptionElement.placeholder = "Adicione descrição e informações..."
-    descriptionElement.addEventListener('blur', () => changeTraitDescription(trait.id, event.target.value));
-    
-    // Append.    
-    traitElement.appendChild(traitNameInput);
-    traitElement.appendChild(traitRanksElement);
-    traitElement.appendChild(delBtn);
-    traitElement.appendChild(descriptionElement);
-    
-    let pathBlock = document.getElementById(traitPath);
-    if(!pathBlock) throw new Error('Caminho para adição da Característica inválido. Encontrado '+idPath);
-    
-    pathBlock.appendChild(traitElement);
-}
-
-var moralityBlock = document.getElementById('cofd-character-morality');
-
-/**
- * Cria o campo de Moralidade.
+ * Renderiza o campo de Moralidade.
+ * @param {Character} character Personagem em questão.
+ * @returns {void}
 **/
 function renderMorality(character) {
     moralityBlock.innerHTML = '';
@@ -464,7 +433,7 @@ function renderMorality(character) {
     moralityBlock.appendChild(title);
 
     let morality = character.templateTraits.morality;
-    
+
     // Vai ser Numero, input texto com o valor e marcado conforme rank.
     // Usar título "moralidade".
     // Campo círculos inputs
@@ -500,11 +469,10 @@ function renderMorality(character) {
     }
 }
 
-var conditionsStatesBlock = document.getElementById('cofd-character-conditions');
-
 /**
- * 
- * @param {Character} character 
+ * Renderiza Condições e Estados do personagem e campo de edição das mesmas.
+ * @param {Character} character Personagem com os itens a ser renderizados.
+ * @returns {void}
 **/
 function renderConditions(character) {
     if(!conditionsStatesBlock) throw new Error('Bloco de Condições/Estados não encontrado.');
@@ -543,11 +511,9 @@ function renderConditions(character) {
 
 }
 
-var aspirationsStatesBlock = document.getElementById('cofd-character-aspirations');
-
 /**
- * 
- * @param {Character} character 
+ * Renderiza as Aspirações do personagem e campo de edição das mesmas.
+ * @param {Character} character Personagem com os itens a ser renderizados.
  */
 function renderAspirations(character) {
     if(!aspirationsStatesBlock) throw new Error('Bloco de Condições/Estados não encontrado.');
@@ -586,8 +552,11 @@ function renderAspirations(character) {
 
 }
 
-var meritBlock = document.getElementById('cofd-character-merits');
-
+/**
+ * Cria o elemento de Vantagem.
+ * @param {merit} merit Vantagem a ser criada o bloco.
+ * @returns {Element}
+**/
 function createMeritBlock(merit) {
     if(!merit) throw new Error("Vantagem não encaminhada.")
     let meritElement = document.createElement('div');
@@ -607,13 +576,17 @@ function createMeritBlock(merit) {
         meritElement.appendChild(document.createElement('div'));
     }
     
-    // Campo nome de Vantagem
+    // ************************************
+    // NOME DA VANTAGEM
+    // ************************************
     let meritNameInput = document.createElement('input');
     meritNameInput.value = merit.name;
     meritNameInput.placeholder = 'Digite nome da Vantagem...';
     meritNameInput.addEventListener('blur', (event) => changeMeritName(merit.id, event.target.value));
     
-    // Campo círculos inputs
+    // ************************************
+    // CÍRCULOS VANTAGEM
+    // ************************************
     let meritRanksElement = document.createElement('div');
     let meritRankRadio;
     for(let i = 0; i < 5; i++) {
@@ -625,15 +598,33 @@ function createMeritBlock(merit) {
         meritRanksElement.appendChild(meritRankRadio);
     }
     
-    // Botão de deleção
+    // ************************************
+    // BOTÃO DE DELEÇÃO
+    // ************************************
     let delBtn = document.createElement('button');
     delBtn.innerHTML = 'X';
-    delBtn.addEventListener('click', () => removeMerit(merit.id));
+    delBtn.addEventListener('click', () => deleteMerit(merit.id));
+
+    // ************************************
+    // BOTÃO DE SELEÇÃO
+    // ************************************
+    let selectBtnBlock =  document.createElement('div');
+    selectBtnBlock.className = 'trait-select-block';
+
+    let selectBlockTitle = document.createElement('small');
+    selectBlockTitle.innerHTML = 'Selecionar';
+    selectBtnBlock.appendChild(selectBlockTitle);
+
+    let selectBtn = document.createElement('input');
+    selectBtn.type = 'checkbox';
+    selectBtn.addEventListener('change', () => {}); // setSelectedMerit(merit.id)
+    selectBtnBlock.appendChild(selectBtn);
     
-    // Descrição
+    // ************************************
+    // DESCRIÇÃO
+    // ************************************
     let descriptionElement = document.createElement('textarea');
     descriptionElement.value = merit.description;
-    descriptionElement.className = 'gridC_span4';
     descriptionElement.placeholder = "Adicione descrição e informações da sua vantagem."
     descriptionElement.addEventListener('blur', () => changeMeritDescription(merit.id, event.target.value));
     
@@ -641,6 +632,7 @@ function createMeritBlock(merit) {
     meritElement.appendChild(meritNameInput);
     meritElement.appendChild(meritRanksElement);
     meritElement.appendChild(delBtn);
+    meritElement.appendChild(selectBtnBlock);
     meritElement.appendChild(descriptionElement);
     
     // let pathBlock = document.getElementById(idPath);
@@ -649,11 +641,24 @@ function createMeritBlock(merit) {
     meritBlock.appendChild(meritElement);
 }
 
+/**
+ * Renderiza as Vantagens do personagem.
+ * @param {Character} character Personagem com as Vantagens.
+ * @returns {void}
+**/
 function renderMerits(character) {
     document.getElementById('cofd-character-merits').innerHTML = '';
     character.merits.forEach(merit => { createMeritBlock(merit, 'cofd-character-merits'); });
+    
+    document.querySelector('#select-merits').disabled = (character.merits.length > 0) ? false : true;
+    document.querySelector('#delete-merits').disabled = (character.merits.length > 0) ? false : true;
 }
 
+/**
+ * Renderiza os campos de Vitalidade do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderHealth(character) {
     let healthElement = document.getElementById('char-health');
     healthElement.innerHTML = '';
@@ -678,6 +683,11 @@ function renderHealth(character) {
     }
 }
 
+/**
+ * Renderiza os campos de Força de Vontade do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderWillpower(character) {
     let willpowerElement = document.getElementById('char-willpower');
     willpowerElement.innerHTML = '';
@@ -697,18 +707,33 @@ function renderWillpower(character) {
     }
 }
 
+/**
+ * Renderiza a Defesa do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderDefense(character) {
     let defense = character.defense;
     let defenseBlock = document.getElementById('char-defense');
     defenseBlock.innerHTML = defense;
 }
 
+/**
+ * Renderiza a Iniciativa do Personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderInitiative(character) {
     let initiative = character.initiative;
     let initiativeBlock = document.getElementById('char-initiative');
     initiativeBlock.innerHTML = initiative;
 }
 
+/**
+ * Renderiza a Velocidade do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderSpeed(character) {
     let speed = character.speed;
     let speedBlock = document.getElementById('char-speed');
@@ -716,9 +741,10 @@ function renderSpeed(character) {
 }
 
 /**
-* Renderização de itens complementares, como Tamanho, Vitalidade,
-* Força de Vontade, etc.
-* @param {Character} character 
+ * Chamada para rendarizar os itens complementares, como Tamanho, Vitalidade,
+ * Força de Vontade, etc.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
 **/
 function renderTraits(character) {
     let sizeInput = document.getElementById('char-size');
@@ -732,21 +758,19 @@ function renderTraits(character) {
 }
 
 /**
- * 
- * @param {Character} character Personagem.
+ * Chamada para rendarizar as Condições, Estados e Aspirações do Personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
 **/
 function renderStates(character) {
     renderConditions(character);
     renderAspirations(character)
 }
 
-
-var appearanceBlock = document.getElementById('cofd-character-appearance');
-var storyBlock = document.getElementById('cofd-character-story');
-
 /**
- * 
- * @param {Character} character 
+ * Renderiza as características pessoais do personagem (Aparência e História).
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
 **/
 function renderPersonalTraits(character) {
     appearanceBlock.innerHTML = character.appearance;
@@ -754,11 +778,11 @@ function renderPersonalTraits(character) {
 }
 
 /**
- * 
- * @param {*} weapon 
- * @returns 
+ * Cria o campo de uma Arma do Personagem.
+ * @param {Weapon} weapon 
+ * @returns {Element}
 **/
-function renderWeapon(weapon) {
+function createWeaponBlock(weapon) {
     let id = weapon.id;
     
     /**
@@ -817,7 +841,12 @@ function renderWeapon(weapon) {
     return weaponBlock;
 }
 
-function renderArmor(armor) {
+/**
+ * Cria o campo de uma Armadura do Personagem.
+ * @param {armor} armor Armadura a ser renderizada.
+ * @returns {Element}
+**/
+function createArmorBlock(armor) {
     /**
      * NOME VALORES (Geral/Balístico)   FORÇA   DEFESA  VELOCIDADE  DELETAR
      * DESCRIÇÃO
@@ -865,26 +894,33 @@ function renderArmor(armor) {
 
 }
 
-let weaponSection = document.getElementById('equipment-weapons');
-let armorsSection = document.getElementById('equipment-armors');
-let genericsSection = document.getElementById('equipment-generics');
-
 /**
- * 
- * @param {Character} character 
+ * Renderiza as armas do Personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
 **/
 function renderWeapons(character) {
     weaponSection.innerHTML = '';
     let weapons = character.weapons;
-    for(let weapon of weapons) weaponSection.appendChild(renderWeapon(weapon));
+    for(let weapon of weapons) weaponSection.appendChild(createWeaponBlock(weapon));
 }
 
+/**
+ * Renderiza as Armaduras do Personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderArmors(character) {
     armorsSection.innerHTML = '';
     let armors = character.armors;
-    for(let armor of armors) armorsSection.appendChild(renderArmor(armor));
+    for(let armor of armors) armorsSection.appendChild(createArmorBlock(armor));
 }
 
+/**
+ * Renderiza os Equipamentos genéricos do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderGenericEquip(character) {
     genericsSection.innerHTML = '';
     let equipments = character.equipments;
@@ -901,13 +937,13 @@ function renderGenericEquip(character) {
 
         equipBlock.appendChild(quickElement('span', 'weapon-header', undefined, 'Nome'));
         equipBlock.appendChild(quickElementBtn(undefined, undefined, 'X', () => deleteEquip(id)));
-        equipBlock.appendChild(quickInput('text', equipment.name, () => changeEquipName(id, event.target.value), undefined, undefined, 'Digite nome do equipamento...'));
+        equipBlock.appendChild(quickInput('text', equipment.name, () => changeEquipName(id, event.target.value), "gridC-span2", undefined, 'Digite nome do equipamento...'));
         equipBlock.appendChild(document.createElement('div'));
 
         // DESCRIÇÃO    -       -           -       -
         descriptionElement = document.createElement('textarea');
         descriptionElement.value = equipment.description;
-        descriptionElement.className = 'gridC-span2 justify-self-start';
+        descriptionElement.className = 'gridC-span2 justify-self-start cofd-large-textarea';
         descriptionElement.placeholder = "Adicione descrição e informações..."
         descriptionElement.addEventListener('blur', () => changeEquipDescription(id, event.target.value));
         equipBlock.appendChild(descriptionElement);
@@ -916,6 +952,11 @@ function renderGenericEquip(character) {
     }
 }
 
+/**
+ * Chamada para chamar a renderização de todos equipamentos do personagem.
+ * @param {Character} character Personagem a ter item renderizado.
+ * @returns {void}
+**/
 function renderEquipments(character) {
     renderWeapons(character);
     renderArmors(character);
@@ -923,8 +964,9 @@ function renderEquipments(character) {
 }
 
 /**
- * 
+ * Chamada para renderizar todas características do personagem.
  * @param {Character} character Personagem a ser renderizado.
+ * @returns {void}
 **/
 function renderCharacter(character) {
     cleanRenders();
@@ -934,7 +976,7 @@ function renderCharacter(character) {
     renderHeader(character)
     renderAttributes(character);
     renderSkills(character);
-    renderMorality(character);
+    // renderMorality(character);
     renderMerits(character);
     renderTraits(character);
     renderStates(character);
@@ -942,7 +984,53 @@ function renderCharacter(character) {
     renderPersonalTraits(character);
 }
 
+/**
+ * Chamada para Renderizar todo o personagem e adicionar Listeners fixos.
+ * @returns {void}
+**/
 function loadNewCharacter() {
     renderCharacter(globalChar);
     addSheetListeners(globalChar);
+}
+
+/**
+ * Seleciona ou desseleciona todas as Vantagens do Personagem.
+ * @returns {void}
+**/
+function selectAllMerits() {
+    let sectionContainer = document.querySelector(`.cofd-merits`);
+    let blockElements = Array.from(sectionContainer.querySelectorAll(`.trait-select-block`));
+    let blockInput;
+    
+    let selectedCC = blockElements.reduce((total, elem) => { return total + ((elem.querySelector('input').checked) ? 1 : 0); }, 0);
+    let allSelected = (selectedCC === blockElements.length);
+
+    for(let blockDiv of blockElements) {
+        blockInput = blockDiv.querySelector('input');
+        blockInput.checked = (!allSelected);
+    }
+}
+
+/**
+ * Remove Vantagens selecionadas do personagem.
+ * @returns {void}
+**/
+function deleteAllMerits() {
+    let sectionContainer = document.querySelector(`.cofd-merits`);
+    let blockElements = Array.from(sectionContainer.querySelectorAll(`.trait-select-block`));
+    let blockInput;
+    let idList = [];
+    
+    for(let i = 0; i < blockElements.length; i++) {
+        blockInput = blockElements[i].querySelector('input');
+        if(blockInput.checked) idList.push(globalChar.merits[i].id);
+    }
+    
+    idList = idList.sort((a, b) => { return a - b; });      
+    if(idList.length === 0) {
+        alert('Nenhum item selecionado');
+        return;
+    }
+
+    deleteMultipleMerits(idList);
 }

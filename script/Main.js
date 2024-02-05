@@ -1,5 +1,6 @@
 
 var scripts = [
+    "script/Control.js",
     "Database/Traits.js",
     "classes/Character.js",
     "script/Equipment.js",
@@ -69,20 +70,6 @@ function addSkillsListerners(character) {
     }
 }
 
-function addMoralityListeners() {
-    let textList = document.getElementsByClassName('morality-text');
-    let rankList = document.getElementsByClassName('morality-rank');
-    for(let i = 0; i < textList.length; i++) {
-        textList[i].removeEventListener('click', changeMoralityRankText);
-        textList[i].addEventListener('blur', () => changeMoralityRankText(i, event.target.value));
-    }
-    
-    for(let i = 0; i < rankList.length; i++) {
-        rankList[i].removeEventListener('click', changeMoralityRank);
-        rankList[i].addEventListener('blur', () => changeMoralityRank(i));
-    }
-}
-
 function addPersonalTraitsListeners() {
     let appearance = document.getElementById('cofd-character-appearance');
     let story = document.getElementById('cofd-character-story');
@@ -127,7 +114,6 @@ function downloadCharacter() {
 function addSheetListeners() {
     addAttrListerners(globalChar);
     addSkillsListerners(globalChar);
-    addMoralityListeners();
     addPersonalTraitsListeners();
     
     let fileUpload = document.getElementById("sheet-upload");

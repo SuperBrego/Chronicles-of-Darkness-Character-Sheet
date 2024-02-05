@@ -19,6 +19,7 @@ option {
 
 .grid { display: grid; }
 .flex { display: flex; }
+.hidden { visibility: hidden; }
 .block { display: block; }
 .items-items-start { align-items: flex-start; }
 .items-content-start { align-content: flex-start; }
