@@ -141,11 +141,13 @@ textarea {
 
 /* ***************************** */
 /* Vantagens */
+/* Características Gerais */
 /* ***************************** */
 .cofd-advantages {
     display: grid;
     width: 40%;
 }
+
 .trait-block, .merit-block {
     display: grid;
     /* Overt Name Rank Del Selection */
@@ -167,6 +169,23 @@ textarea {
     display: grid;
     align-content: center;
     justify-content: center;
+}
+
+/* Rankless Traits */
+.rankless-trait-block {
+    display: grid;
+    /* Overt Name Rank Del Selection */
+    /* Description */
+    grid-template-columns: 70% 10% 20%;
+    width: 80%;
+    padding: 1%;
+}
+.rankless-trait-block textarea {
+    min-width: 400px;
+    width: 100%;
+    max-width: 100%;
+    resize: vertical;
+    /* grid-column: 2; */
 }
 
 /* ******************************* */

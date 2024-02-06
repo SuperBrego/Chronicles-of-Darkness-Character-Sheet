@@ -34,7 +34,7 @@ function renderBloodPotency(bloodPotency) {
 
 /**
  * Renderiza as disciplinas do vampiro.
- * @param {Trait} disciplines 
+ * @param {Trait} disciplines Lista de Disciplinas.
 **/
 function renderDisciplines(disciplines) {
 
@@ -80,7 +80,9 @@ function renderDisciplines(disciplines) {
     // Adicionar à seção.
     vampireSection.appendChild(disciplinesBlock);
     
-    for(let discipline of disciplines) createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina'); 
+    for(let discipline of disciplines) {
+        createTraitBlock(discipline, 'vampire-disciplines', 'Disciplina', changeDisciplineName, changeDisciplineRank, changeDisciplineDescription, deleteDiscipline);
+    }
 }
 
 /**
@@ -113,6 +115,36 @@ function renderVampireVitae(vitae) {
 }
 
 /**
+ * Renderiza as fraquezas do vampiro.
+ */
+function renderBanes(baneList) {
+    let baneBlock = document.getElementById('vampire-banes');
+    if(!baneBlock) {
+        baneBlock =  document.createElement('div');
+        baneBlock.id = 'vampire-banes';
+        // Adicionar à seção.
+        vampireSection.appendChild(baneBlock);
+    }
+    else baneBlock.innerHTML = '';
+
+    createTextList('vampire-banes', baneList, 'Fraquezas', addBane, editBane, deleteBane);    
+}
+
+function renderDevotions(devotions) {
+    let devotionBlock = document.getElementById('vampire-devotions');
+    if(!devotionBlock) {
+        devotionBlock =  document.createElement('div');
+        devotionBlock.id = 'vampire-devotions';
+        // Adicionar à seção.
+        vampireSection.appendChild(devotionBlock);
+    }
+    else devotionBlock.innerHTML = '';
+
+    createRanklessTraitList('vampire-devotions', devotions, 'Devoções', DevotionsC.add, DevotionsC.rename, DevotionsC.changeDescription, DevotionsC.delete);
+    
+}
+
+/**
  * Chamada para renderizar as características do Vampiro.
  * @param {Character} character 
  */
@@ -124,4 +156,6 @@ function renderVampireTraits(character) {
     renderDisciplines(vampireTraits.disciplines);
     renderBloodPotency(vampireTraits.bloodPotency);
     renderVampireVitae(vampireTraits.vitae);
+    renderBanes(vampireTraits.banes);
+    renderDevotions(vampireTraits.devotions);
 }

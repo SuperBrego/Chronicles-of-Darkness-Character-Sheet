@@ -428,94 +428,23 @@ function createTrait(traitName, traitList, templateTag) {
     traitList.push(trait);
     return trait;
 }
-
 /**
- * Renomeia Característica.
- * @param {number} id ID da Característica.
- * @param {string} text Texto para substituir o nome.
-**/
-function changeTraitName(id, text) {
-    let trait;
-
-    switch(globalChar.template) {
-        default: throw new Error("Característica não encontrada");
-        case SupernaturalTemplates.Vampire:
-            trait = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
-            if(trait) trait.name = text;
-            else throw new Error("Característica não encontrada.")
-        break;
-    }
-}
-
-/**
- * Altera o valor de uma Característica.
- * @param {number} id ID da Característica.
- * @param {number} rank Novo valor da característica.
- * @param {string} traitClass Classe da característica. Por padrão, é trait.
+ * Cria uma característica sem graduações.
+ * @param {string} traitName Nome da característica.
+ * @param {any[]} traitList Lista da Característica.
+ * @param {string} templateTag TagID da característica.
+ * @returns {void}
  */
-function changeTraitRank(id, rank, traitClass = 'trait') {
-    let trait, rankList;
-    let traitType = id.split("+")[0];
+function createRanklessTrait(traitName, traitList, templateTag) {
+    let traitID = `${templateTag}+${idSeed()}`;
 
-    switch(globalChar.template) {
-        default: throw new Error("Característica não encontrada");
-        case SupernaturalTemplates.Vampire:
-            switch(traitType) {
-                default: throw new Error("Característica não encontrada.");
-                // Disciplina
-                case 'VD':
-                    trait = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
-                    if(trait) {
-                        trait.rank = rank;
-                        rankList = document.getElementsByClassName(`${traitClass}-rank-${id}`);
-                        for(let i = 0; i < rankList.length; i++) {
-                            if(i < rank) rankList[i].checked = true;
-                            else rankList[i].checked = false;
-                        }
-                    }
-                    else throw new Error("Característica não encontrada.")
-                break;
-            }
-        break;
-    }
-}
-
-/**
- * Edita a descrição da Característica.
- * @param {number} id ID da Característica.
- * @param {string} text Texto para descrição.
-**/
-function changeTraitDescription(id, text) {
-    let trait;
-
-    switch(globalChar.template) {
-        default: throw new Error("Característica não encontrada");
-        case SupernaturalTemplates.Vampire:
-            trait = globalChar.templateTraits.disciplines.find(elem => elem.id === id);
-            if(trait) trait.description = text;
-            else throw new Error("Característica não encontrada.")
-        break;
-    }
-}
-
-/**
- * Remove a Característica em questão.
- * @param {number} id ID da característica.
-**/
-function removeTrait(id) {
-    let index;
-    switch(globalChar.template) {
-        default: throw new Error("Característica não encontrada");
-        case SupernaturalTemplates.Vampire:
-            index = globalChar.templateTraits.disciplines.findIndex(elem => elem.id === id);
-            if(index != -1) {
-                if(confirm('Você tem certeza?\nEssa escolha não pode ser desfeita.')) {
-                    globalChar.templateTraits.disciplines.splice(index, 1);
-                    document.getElementById(`${id}`).outerHTML = "";
-                }
-            }
-        break;
-    }
+    let trait = {
+        id: traitID, 
+        name: `Digite nome ${traitName}...`, 
+        description: ''
+    };
+    traitList.push(trait);
+    return trait;
 }
 
 // ****************************************************

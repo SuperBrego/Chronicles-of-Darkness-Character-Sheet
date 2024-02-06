@@ -4,6 +4,8 @@
 .gridC-span6 { grid-column: span 6; }
 .gridC-span7 { grid-column: span 7; }
 
+.gridR-span2 { grid-row: span 2; }
+
 .invalid-cell {
     border-color: red;
     color: red;

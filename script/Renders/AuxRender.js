@@ -3,15 +3,15 @@
 /** Render **/
 /* **********************************  */
 /**
- * Cria um elemento rápido.
- * @param {string} tag Tag do Elemento.
- * @param {string} className Classe(s) do Elemento.
- * @param {string} id ID do elemento.
- * @param {string} content Conteúdo/innerHTML do Elemento.
- * @param {string} type Tipo do Elemento (especialmente para inputs).
- * @param {string} listenEvent Evento a ser prestado atenção
- * @param {any} callback Função
- * @returns Elemento novo.
+* Cria um elemento rápido.
+* @param {string} tag Tag do Elemento.
+* @param {string} className Classe(s) do Elemento.
+* @param {string} id ID do elemento.
+* @param {string} content Conteúdo/innerHTML do Elemento.
+* @param {string} type Tipo do Elemento (especialmente para inputs).
+* @param {string} listenEvent Evento a ser prestado atenção
+* @param {any} callback Função
+* @returns Elemento novo.
 **/
 function quickElement(tag, className, id = '', content = '', type = '', listenEvent = '', callback = () => {}) {
     let quickElement = document.createElement(tag);
@@ -24,14 +24,14 @@ function quickElement(tag, className, id = '', content = '', type = '', listenEv
 }
 
 /**
- * Cria novo elemento de Input.
- * @param {string} type Tipo de input.
- * @param {number | string} value Valor para o input.
- * @param {any} callback Função para troca do input.
- * @param {string} className Classes para o input.
- * @param {string} id ID do input.
- * @param {string} placeholder Valor de texto para ocupar o espaço.
- * @returns {Element}
+* Cria novo elemento de Input.
+* @param {string} type Tipo de input.
+* @param {number | string} value Valor para o input.
+* @param {any} callback Função para troca do input.
+* @param {string} className Classes para o input.
+* @param {string} id ID do input.
+* @param {string} placeholder Valor de texto para ocupar o espaço.
+* @returns {Element}
 **/
 function quickInput(type, value, callback, className, id = '', placeholder = '') {
     let quickInput = document.createElement('input');
@@ -54,14 +54,14 @@ function quickElementBtn(className, id = '', content = '', callback = () => {}) 
 }
 
 /**
- * Cria um novo elemento de Input Number.
- * @param {number} value Valor do Input Number.
- * @param {any} callback Função para troca do input.
- * @param {string} className Classes para o input number.
- * @param {string} id ID para o Input number.
- * @param {number} min Valor mínimo para o Input Number.
- * @param {number} max Valor máximo para o Input Number.
- * @returns {Element}
+* Cria um novo elemento de Input Number.
+* @param {number} value Valor do Input Number.
+* @param {any} callback Função para troca do input.
+* @param {string} className Classes para o input number.
+* @param {string} id ID para o Input number.
+* @param {number} min Valor mínimo para o Input Number.
+* @param {number} max Valor máximo para o Input Number.
+* @returns {Element}
 **/
 function quickNumberInput(value, callback, className, id, min, max) {
     let quickInput = document.createElement('input');
@@ -77,13 +77,13 @@ function quickNumberInput(value, callback, className, id, min, max) {
 }
 
 /**
- * Cria um novo elemento de Select.
- * @param {string} className Classes para o Select.
- * @param {string} id ID do Select.
- * @param {any} callback Função para troca do Select.
- * @param {number | string} initialValue Valor inicial do Select.
- * @param  {...any} options Lista de Opções.
- * @returns {Element}
+* Cria um novo elemento de Select.
+* @param {string} className Classes para o Select.
+* @param {string} id ID do Select.
+* @param {any} callback Função para troca do Select.
+* @param {number | string} initialValue Valor inicial do Select.
+* @param  {...any} options Lista de Opções.
+* @returns {Element}
 **/
 function quickSelect(className, id, callback, initialValue, ...options) {
     let quickSelect = document.createElement('select');
@@ -103,17 +103,141 @@ function quickSelect(className, id, callback, initialValue, ...options) {
 }
 
 /**
- * Cria e anexa uma nova característica.
- * @param {string} trait Nome da característica.
- * @param {string} traitPath ID do destino da característica.
- * @param {string} traitName Nome da característica.
- * @param {string} traitClass Classe para característica.
-**/
-function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
+* Cria uma lista de Características de texto.
+* @param {string} pathID ID do bloco destino.
+* @param {any[]} traitList Lista de características de texto a serem criadas.
+* @param {string} traitName Nome da característica.
+* @param {any} addTrait Função que cria nova característica.
+* @param {any} changeTrait Função que troca o texto.
+* @param {any} deleteTrait Função que deleta característica.
+*/
+function createTextList(pathID, traitList, traitName, addTrait, changeTrait, deleteTrait) {
+    let pathBlock = document.getElementById(pathID);
+    if(!pathBlock) throw new Error(`Bloco de ${traitName} não encontrado.`);
+    pathBlock.innerHTML = '';
+    
+    // Section Title
+    let traitTitle = document.createElement('header');
+    traitTitle.innerHTML = `<h2>${traitName}</h2>`;
+    
+    pathBlock.appendChild(traitTitle);
+    
+    let traitTxtBlock, traitTxtInput, traitDel;
+    
+    // Então botar o botão.
+    let addTxtTraitBtn = document.createElement('button');
+    addTxtTraitBtn.innerHTML = `Adicionar ${traitName}`;
+    addTxtTraitBtn.addEventListener('click', () => addTrait());
+    pathBlock.appendChild(addTxtTraitBtn);
+    
+    // Listar as condições
+    for(let i = 0; i < traitList.length; i++) {
+        traitTxtBlock = document.createElement('div');
+        traitTxtBlock.className = 'text_trait-block';
+        traitTxtBlock.id = `${traitList[i].id}`;
+        
+        traitTxtInput = document.createElement('input');
+        traitTxtInput.type = 'text';
+        traitTxtInput.placeholder = `Adicione ${traitName}`;
+        traitTxtInput.value = traitList[i].text;
+        traitTxtInput.addEventListener('blur', () => changeTrait(traitList[i].id, event.target.value));
+        
+        traitDel = document.createElement('button');
+        traitDel.innerHTML = 'X';
+        traitDel.title = 'Remover';
+        traitDel.addEventListener('click', () => deleteTrait(traitList[i].id));
+        
+        traitTxtBlock.appendChild(traitTxtInput);
+        traitTxtBlock.appendChild(traitDel);
+        
+        pathBlock.appendChild(traitTxtBlock);
+    }
+}
+
+function createRanklessTraitList(pathID, traitList, traitName, addTrait, changeName, changeDescription, deleteTrait) {
+    
+    let pathBlock = document.getElementById(pathID);
+    if(!pathBlock) throw new Error(`Bloco de ${traitName} não encontrado.`);
+    pathBlock.innerHTML = '';
+    
+    // Section Title
+    let traitTitle = document.createElement('header');
+    traitTitle.innerHTML = `<h2>${traitName}</h2>`;
+    
+    pathBlock.appendChild(traitTitle);
+    
+    let traitElement;
+    
+    // Então botar o botão.
+    let addTxtTraitBtn = document.createElement('button');
+    addTxtTraitBtn.innerHTML = `Adicionar ${traitName}`;
+    addTxtTraitBtn.addEventListener('click', () => addTrait());
+    pathBlock.appendChild(addTxtTraitBtn);
+
+    // Listar as condições
+    for(let i = 0; i < traitList.length; i++) {
+        let trait = traitList[i];
+
+        traitElement = document.createElement('div');
+        traitElement.id = trait.id;
+        traitElement.className = `rankless-trait-block`;
+        
+        // Campo nome de Característica
+        let traitNameInput = document.createElement('input');
+        traitNameInput.value = trait.name;
+        traitNameInput.placeholder = `Digite nome ${traitName}...`;
+        traitNameInput.addEventListener('blur', (event) => changeName(trait.id, event.target.value));
+        
+        // Botão de deleção
+        let delBtn = document.createElement('button');
+        delBtn.innerHTML = 'X';
+        delBtn.addEventListener('click', () => deleteTrait(trait.id));
+        
+        // Descrição
+        let descriptionElement = document.createElement('textarea');
+        descriptionElement.value = trait.description;
+        descriptionElement.placeholder = "Adicione descrição e informações..."
+        descriptionElement.addEventListener('blur', () => changeDescription(trait.id, event.target.value));
+        
+        // ************************************
+        // BOTÃO DE SELEÇÃO
+        // ************************************
+        let selectBtnBlock =  document.createElement('div');
+        selectBtnBlock.className = 'trait-select-block';
+        
+        let selectBlockTitle = document.createElement('small');
+        selectBlockTitle.innerHTML = 'Selecionar';
+        selectBtnBlock.appendChild(selectBlockTitle);
+        
+        let selectBtn = document.createElement('input');
+        selectBtn.type = 'checkbox';
+        selectBtnBlock.appendChild(selectBtn);
+        
+        // Append.    
+        traitElement.appendChild(traitNameInput);
+        traitElement.appendChild(delBtn);
+        traitElement.appendChild(selectBtnBlock);
+        traitElement.appendChild(descriptionElement);
+        
+        pathBlock.appendChild(traitElement);
+    }    
+}
+
+/**
+* 
+* @param {string} trait Nome da característica.
+* @param {string} traitPath ID do destino da característica.
+* @param {string} traitName Nome da característica.
+* @param {any} changeName Função callback para mudança de nome.
+* @param {any} rankChange Função callback para mudança de nível.
+* @param {any} descriptionChange Função callback para mudança de descripção.
+* @param {any} deleteTrait Função callback para remoção do trait.
+*/
+function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, descriptionChange, deleteTrait) {
     if(!trait) throw new Error("Característica não encaminhada.")
     let traitElement = document.createElement('div');
     traitElement.id = trait.id;
-    traitElement.className = `${traitClass}-block`;
+    traitElement.className = `trait-block`;
     
     // Encaixar o Evidente se for Deviant
     if(globalChar.template === SupernaturalTemplates.Deviant) {
@@ -132,7 +256,7 @@ function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
     let traitNameInput = document.createElement('input');
     traitNameInput.value = trait.name;
     traitNameInput.placeholder = `Digite nome ${traitName}...`;
-    traitNameInput.addEventListener('blur', (event) => changeTraitName(trait.id, event.target.value));
+    traitNameInput.addEventListener('blur', (event) => changeName(trait.id, event.target.value));
     
     // Campo círculos inputs
     let traitRanksElement = document.createElement('div');
@@ -140,8 +264,8 @@ function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
     for(let i = 0; i < 5; i++) {
         traitRankRadio = document.createElement('input');
         traitRankRadio.type = 'radio';
-        traitRankRadio.className = `${traitClass}-rank-${trait.id}`;
-        traitRankRadio.addEventListener('click', () => changeTraitRank(trait.id, i+1));
+        traitRankRadio.className = `trait-rank-${trait.id}`;
+        traitRankRadio.addEventListener('click', () => rankChange(trait.id, i+1));
         if(i === 0) traitRankRadio.checked = true;
         traitRanksElement.appendChild(traitRankRadio);
     }
@@ -149,25 +273,25 @@ function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
     // Botão de deleção
     let delBtn = document.createElement('button');
     delBtn.innerHTML = 'X';
-    delBtn.addEventListener('click', () => removeTrait(trait.id));
+    delBtn.addEventListener('click', () => deleteTrait(trait.id));
     
     // Descrição
     let descriptionElement = document.createElement('textarea');
     descriptionElement.value = trait.description;
     descriptionElement.className = 'gridC_span4';
     descriptionElement.placeholder = "Adicione descrição e informações..."
-    descriptionElement.addEventListener('blur', () => changeTraitDescription(trait.id, event.target.value));
-
+    descriptionElement.addEventListener('blur', () => descriptionChange(trait.id, event.target.value));
+    
     // ************************************
     // BOTÃO DE SELEÇÃO
     // ************************************
     let selectBtnBlock =  document.createElement('div');
     selectBtnBlock.className = 'trait-select-block';
-
+    
     let selectBlockTitle = document.createElement('small');
     selectBlockTitle.innerHTML = 'Selecionar';
     selectBtnBlock.appendChild(selectBlockTitle);
-
+    
     let selectBtn = document.createElement('input');
     selectBtn.type = 'checkbox';
     selectBtn.addEventListener('change', () => {}); // setSelectedMerit(merit.id)
@@ -187,8 +311,8 @@ function createTraitBlock(trait, traitPath, traitName, traitClass = 'trait') {
 }
 
 /**
- * Seleciona ou desseleciona todas as Vantagens do Personagem.
- * @returns {void}
+* Seleciona ou desseleciona todas as Vantagens do Personagem.
+* @returns {void}
 **/
 function selectAllTrait(blockID) {
     let sectionContainer = document.getElementById(blockID);
@@ -197,7 +321,7 @@ function selectAllTrait(blockID) {
     
     let selectedCC = blockElements.reduce((total, elem) => { return total + ((elem.querySelector('input').checked) ? 1 : 0); }, 0);
     let allSelected = (selectedCC === blockElements.length);
-
+    
     for(let blockDiv of blockElements) {
         blockInput = blockDiv.querySelector('input');
         blockInput.checked = (!allSelected);
@@ -205,8 +329,8 @@ function selectAllTrait(blockID) {
 }
 
 /**
- * Remove Vantagens selecionadas do personagem.
- * @returns {void}
+* Remove Vantagens selecionadas do personagem.
+* @returns {void}
 **/
 function deleteSelectedTrait(blockID, location, traitName) {
     let sectionContainer = document.getElementById(blockID);
@@ -224,7 +348,7 @@ function deleteSelectedTrait(blockID, location, traitName) {
         alert('Nenhum item selecionado');
         return;
     }
-
+    
     deleteMultipleTraits(idList, location, traitName);
 }
 

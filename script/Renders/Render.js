@@ -520,6 +520,12 @@ function renderAspirations(character) {
     aspirationsStatesBlock.innerHTML = '';
     let aspirations = character.aspirations;
 
+    // Então botar o botão.
+    let addAspirationBtn = document.createElement('button');
+    addAspirationBtn.innerHTML = 'Adicionar Aspiração';
+    addAspirationBtn.addEventListener('click', () => addAspiration());
+    aspirationsStatesBlock.appendChild(addAspirationBtn);
+
     let aspirationBlock, aspirationTxt, aspirationDel;
     // Listar as condições
     for(let i = 0; i < aspirations.length; i++) {
@@ -543,13 +549,6 @@ function renderAspirations(character) {
 
         aspirationsStatesBlock.appendChild(aspirationBlock);
     }
-
-    // Então botar o botão.
-    let addAspirationBtn = document.createElement('button');
-    addAspirationBtn.innerHTML = 'Adicionar Aspiração';
-    addAspirationBtn.addEventListener('click', () => addAspiration());
-    aspirationsStatesBlock.appendChild(addAspirationBtn);
-
 }
 
 /**
@@ -976,7 +975,7 @@ function renderCharacter(character) {
     renderHeader(character)
     renderAttributes(character);
     renderSkills(character);
-    // renderMorality(character);
+    renderMorality(character);
     renderMerits(character);
     renderTraits(character);
     renderStates(character);
