@@ -127,7 +127,7 @@ function renderBanes(baneList) {
     }
     else baneBlock.innerHTML = '';
 
-    createTextList('vampire-banes', baneList, 'Fraquezas', addBane, editBane, deleteBane);    
+    createTextList('vampire-banes', baneList, 'Fraquezas', addBane, renameBane, deleteBane);    
 }
 
 function renderDevotions(devotions) {
