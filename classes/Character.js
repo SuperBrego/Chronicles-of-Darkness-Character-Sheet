@@ -12,6 +12,7 @@ function getTemplateTraits(supernaturalTemplate) {
         default:
         case SupernaturalTemplates.Mortal: return { 
             index: SupernaturalTemplates.Mortal,
+            book: 'CotD',
             virtue: "", 
             vice: "", 
             age: 30, 
@@ -22,6 +23,7 @@ function getTemplateTraits(supernaturalTemplate) {
         };
         case SupernaturalTemplates.Vampire: return {
             index: SupernaturalTemplates.Vampire,
+            book: 'VtR',
             bloodPotency: 1,
             moralityType: 'Humanidade',
             moralityTrait: ['','','','','','','','','','',''],
@@ -41,6 +43,7 @@ function getTemplateTraits(supernaturalTemplate) {
         };
         case SupernaturalTemplates.Werewolf: return {
             index: SupernaturalTemplates.Werewolf,
+            book: 'WtF',
             primalUrge: 0,
             essense: [],
             renown: {
@@ -84,11 +87,12 @@ function getTemplateTraits(supernaturalTemplate) {
         }
         case SupernaturalTemplates.Deviant: return {
             index: SupernaturalTemplates.Deviant,
+            book: 'DtR',
             convictions: [],
             loyalty: [],
             scars: [],
-            variations: [],
-            stability: []
+            variations: [], 
+            stability: [],
         };
         
     }
@@ -127,6 +131,8 @@ class Character {
         // Armadura Extra?
         this.story = '';
         this.appearance = '';
+
+        this.touchstones = []; // Nome • Descrição.
         
         // Atributos Mentais
         this.mentalAttributes = [
@@ -214,8 +220,7 @@ class Character {
         
         this.template = character.template;
         this.templateTraits = character.templateTraits;
-        // Vampiro
-        // etc.
+        this.touchstones = character.touchstones;
     }
     
     // Vitalidade: Tamanho + Vigor

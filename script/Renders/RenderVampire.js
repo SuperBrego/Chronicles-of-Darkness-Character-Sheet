@@ -140,8 +140,7 @@ function renderDevotions(devotions) {
     }
     else devotionBlock.innerHTML = '';
 
-    createRanklessTraitList('vampire-devotions', devotions, 'Devoções', DevotionsC.add, DevotionsC.rename, DevotionsC.changeDescription, DevotionsC.delete);
-    
+    createRanklessTraitList('vampire-devotions', devotions, 'Devoções', addDevotion, renameDevotion, changeDevotionDescription, deleteDevotion);
 }
 
 /**

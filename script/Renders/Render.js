@@ -25,6 +25,7 @@ var storyBlock = document.getElementById('cofd-character-story');
 var weaponSection = document.getElementById('equipment-weapons');
 var armorsSection = document.getElementById('equipment-armors');
 var genericsSection = document.getElementById('equipment-generics');
+var touchstoneBlock = document.getElementById('cofd-character-touchstones');
 
 /**
  * Limpa todas seções de modelos sobrenaturais.
@@ -962,6 +963,17 @@ function renderEquipments(character) {
     renderGenericEquip(character);
 }
 
+
+/**
+ * Renderiza as Pedras de Toque.
+ * @param {*} touchstones Pedras de Toque.
+ */
+function renderTouchstones(touchstones) {
+    touchstoneBlock.innerHTML = '';
+
+    createRanklessTraitList('cofd-character-touchstones', touchstones, 'Pedras de Toque', addTouchstone, renameTouchstone, changeTouchstoneDescription, deleteTouchstone);    
+}
+
 /**
  * Chamada para renderizar todas características do personagem.
  * @param {Character} character Personagem a ser renderizado.
@@ -981,6 +993,7 @@ function renderCharacter(character) {
     renderStates(character);
     renderEquipments(character);
     renderPersonalTraits(character);
+    renderTouchstones(character.touchstones);
 }
 
 /**
@@ -988,8 +1001,11 @@ function renderCharacter(character) {
  * @returns {void}
 **/
 function loadNewCharacter() {
-    renderCharacter(globalChar);
-    addSheetListeners(globalChar);
+    if(confirm('Você tem certeza?\nEssa escolha não pode ser desfeita.')) {
+        globalChar = new Character();
+        renderCharacter(globalChar);
+        addSheetListeners(globalChar);
+    }
 }
 
 /**

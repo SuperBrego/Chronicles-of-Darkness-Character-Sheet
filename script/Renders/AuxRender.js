@@ -266,7 +266,7 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
         traitRankRadio.type = 'radio';
         traitRankRadio.className = `trait-rank-${trait.id}`;
         traitRankRadio.addEventListener('click', () => rankChange(trait.id, i+1));
-        if(i === 0) traitRankRadio.checked = true;
+        if(i <= trait.rank) traitRankRadio.checked = true;
         traitRanksElement.appendChild(traitRankRadio);
     }
     

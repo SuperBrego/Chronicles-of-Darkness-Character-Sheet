@@ -6,6 +6,7 @@ var scripts = [
     "script/Equipment.js",
     "script/AuxRender.js",
     "script/CharacterManager.js",
+    "script/Templates/AllSupernatural.js",
     "script/Templates/Vampire.js",
     "script/Renders/RenderVampire.js",
     "script/Renders/Render.js"
@@ -104,10 +105,13 @@ function loadCharacter(event) {
 }
 
 function downloadCharacter() {
+    let charName = globalChar.name;
+    let book = globalChar.templateTraits.book;
+
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalChar));
     var dlAnchorElem = document.getElementById('download-character');
     dlAnchorElem.setAttribute("href", dataStr);
-    dlAnchorElem.setAttribute("download", "CofD-Character.json");
+    dlAnchorElem.setAttribute("download", `${book}-${charName}.json`);
     dlAnchorElem.click();
 }
 

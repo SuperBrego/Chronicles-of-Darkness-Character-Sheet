@@ -229,8 +229,8 @@ function addRitual() {
     let ritualBlock = document.getElementById('vampire-ritualMiracle');
     let ritesMiraclesList = globalChar.templateTraits.ritesMiracles;
     if(ritualBlock) {
-        let discipline = createTrait('Ritual', ritesMiraclesList, 'VD');
-        createTraitBlock(discipline, 'vampire-ritualMiracle', 'Ritual', changeDisciplineName, changeDisciplineRank, changeDisciplineDescription, deleteDiscipline);
+        let ritual = createTrait('Ritual', ritesMiraclesList, 'VD');
+        createTraitBlock(ritual, 'vampire-ritualMiracle', 'Ritual', changeDisciplineName, changeDisciplineRank, changeDisciplineDescription, deleteDiscipline);
         
         document.querySelector('#select-ritualMiracle').disabled = (ritesMiraclesList.length > 0) ? false : true;
         document.querySelector('#delete-ritualMiracle').disabled = (ritesMiraclesList.length > 0) ? false : true;
