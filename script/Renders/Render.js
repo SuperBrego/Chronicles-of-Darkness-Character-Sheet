@@ -388,9 +388,9 @@ function renderSkills(character) {
     physicalBlock.innerHTML = '';
     socialBlock.innerHTML = '';
     
-    let mentalSkills = character.mentalSkills;
-    let physicalSkills = character.physicalSkills;
-    let socialSkills = character.socialSkills;
+    let mentalSkills = character.mentalSkills; //.sort((skillA, skillB) => skillA.nome.localeCompare(skillB.nome));;
+    let physicalSkills = character.physicalSkills; //.sort((skillA, skillB) => skillA.nome.localeCompare(skillB.nome));;
+    let socialSkills = character.socialSkills; //.sort((skillA, skillB) => skillA.nome.localeCompare(skillB.nome));;
     
     let skills = [mentalSkills, physicalSkills, socialSkills];
     let blockSection = [mentalBlock, physicalBlock, socialBlock];

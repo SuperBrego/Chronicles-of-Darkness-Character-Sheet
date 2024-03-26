@@ -33,7 +33,7 @@ function getTemplateTraits(supernaturalTemplate) {
             dirge: '',
             bloodline: '',
             covenant: '',
-            vitae: createStateTrack(20, false), // [state: x]
+            vitae: createStateTrack(75, false), // [state: x]
             disciplines: [], // • Nome e descrições
             banes: [], // Array de strings
             devotions: [], // Name • Cost • Discipline • Dice Pool • Book (trocar por descrição)

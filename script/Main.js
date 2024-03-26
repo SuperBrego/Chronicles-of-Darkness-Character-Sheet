@@ -121,6 +121,6 @@ function addSheetListeners() {
     addPersonalTraitsListeners();
     
     let fileUpload = document.getElementById("sheet-upload");
-    fileUpload.removeEventListener('change', loadCharacter);
-    fileUpload.addEventListener('change', loadCharacter);
+    fileUpload?.removeEventListener('change', loadCharacter);
+    fileUpload?.addEventListener('change', loadCharacter);
 }

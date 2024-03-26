@@ -28,3 +28,5 @@ option {
 .justify-start { justify-items: flex-start; }
 .align-self-start { align-self: flex-start; }
 .justify-self-start { justify-self: flex-start; }
+
+.gapC-5 { gap: 5px; }

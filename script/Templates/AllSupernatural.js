@@ -42,10 +42,13 @@ function changeTouchstoneDescription(id, text) {
 function deleteTouchstone(id) {
     let index;
     let touchstones = globalChar.touchstones;
-    index = touchstones.findIndex(elem => elem.id === id);
-    if(index != -1) {
-        touchstones.splice(index, 1);
-        document.getElementById(`${id}`).outerHTML = "";
+
+    if(confirm('Deseja deletar essa Pedra de Toque?\nEssa ação não pode ser desfeita.')) {
+        index = touchstones.findIndex(elem => elem.id === id);
+        if(index != -1) {
+            touchstones.splice(index, 1);
+            document.getElementById(`${id}`).outerHTML = "";
+        }
+        renderTouchstones(touchstones);
     }
-    renderTouchstones(touchstones);
 }

@@ -49,27 +49,40 @@ function renderDisciplines(disciplines) {
     }
     else disciplinesBlock.innerHTML = '';
 
+    // ***********************
     // Título
+    // ***********************
     let disciplinesTitle = document.createElement('header');
     disciplinesTitle.innerHTML = '<h2>Disciplinas</h2>';
 
+    // ***********************
     // Adicionar Disciplina
+    // ***********************
     let addDiscBtn = document.createElement('button');
     addDiscBtn.innerHTML = 'Adicionar Disciplina';
     addDiscBtn.addEventListener('click', () => addDiscipline());
 
+    // ***********************
     // Selecionar Disciplina
+    // ***********************
     let selectAllBtn = document.createElement('button');
     selectAllBtn.innerHTML = 'Selecionar/Deselecionar Todos';
     selectAllBtn.id = "select-disciplines";
     selectAllBtn.addEventListener('click', () => selectAllTrait('vampire-disciplines', 'disciplines'));
 
+    // ***********************
     // Deletar Disciplina
+    // ***********************
     let deleteSelectedBtn = document.createElement('button');
     deleteSelectedBtn.innerHTML = 'Deletar Selecionados';
     deleteSelectedBtn.id = "delete-disciplines";
     deleteSelectedBtn.addEventListener('click', () => deleteSelectedTrait('vampire-disciplines', disciplineList, 'disciplines'));
 
+    // ***********************
+    // Disciplinas Padrões
+    // ***********************
+
+    // ***********************
     // Adicionar ao bloco.
     disciplinesBlock.append(disciplinesTitle, addDiscBtn, selectAllBtn, deleteSelectedBtn);
 
@@ -90,6 +103,20 @@ function renderDisciplines(disciplines) {
  * @param {*} vitae 
 **/
 function renderVampireVitae(vitae) {
+    let maxVitae;
+    let potency = globalChar.templateTraits.bloodPotency;
+
+    switch(potency) {
+        case 0: maxVitae = globalChar.getMentalAttr(2); break;
+        case 10: maxVitae = 75; break;
+        case 9: maxVitae = 50; break;
+        case 8: maxVitae = 30; break;
+        case 7: maxVitae = 25; break;
+        case 6: maxVitae = 20; break;
+        case 5: maxVitae = 15; break;
+        default: maxVitae = 9 + potency; break;
+    }
+
     let vitaeBlock = document.getElementById('vampire-vitae');
     if(!vitaeBlock) {
         vitaeBlock =  document.createElement('div');
@@ -102,8 +129,8 @@ function renderVampireVitae(vitae) {
 
     vitaeBlock.appendChild(vitaeTitle);
 
-    let vitaeCheck;
-    for(let i = 0; i < vitae.length; i++) {
+    let vitaeCheck;   
+    for(let i = 0; i < maxVitae; i++) {
         vitaeCheck = document.createElement('input');
         vitaeCheck.type = 'checkbox';
         if(vitae[i].state) vitaeCheck.checked = true;

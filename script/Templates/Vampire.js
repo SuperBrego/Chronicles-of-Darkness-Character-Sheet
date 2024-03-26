@@ -40,6 +40,7 @@ function changeCovenant(covenantName) { globalChar.templateTraits.covenant = cov
 function changeBloodPotency(value) {
     globalChar.templateTraits.bloodPotency = value;
     renderBloodPotency(value);
+    renderVampireVitae(globalChar.templateTraits.vitae)
 }
 
 /**

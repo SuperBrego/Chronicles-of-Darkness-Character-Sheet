@@ -11,9 +11,31 @@ textarea {
     resize: vertical;
 }
 
+/* Total do corpo. */
+#body_block {
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
+
+/* ************************* */
+/* Menu lateral */
+/* ************************* */
+#side_menu {
+    display: block;
+    /* align-items: flex-start; */
+    height: 90vh;
+    position: sticky;
+    top: 50px;
+}
+#side_menu button {
+    /* height: fit-content; */
+    width: 100%;
+}
+
+
 .cofd-sheet { 
-    /* width: 80%; */
-    transform: scale(0.95);
+    /* transform: scale(0.95); */
+    padding: 1%;
 }
 .cofd-sheet input[type=radio] { width: .8rem; }
 
@@ -59,8 +81,6 @@ textarea {
 .char-trait2    { grid-area: trait2; }
 .char-trait3    { grid-area: trait3; }
 
-#char-size { width: 3rem; }
-
 #supernatural-header { padding: 1% 0; }
 
 /* ***************************** */
@@ -89,6 +109,7 @@ textarea {
 /* Habilidades */
 /* ***************************** */
 .cofd-skills {
+    /* width: 40%; */
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 30%);
@@ -101,6 +122,27 @@ textarea {
 .skills-block {
     display: grid;
     grid-template-columns: 40% 60%;
+}
+
+/* ***************************** */
+/* Características Especiais */
+/* ***************************** */
+#cofd-otherTraits {
+    display: flex; 
+    margin-top: 10px; 
+    gap: 5px;
+}
+
+#cofd-otherTraits span {
+    font-weight: bold;
+}
+
+#char-size { 
+    width: calc(2 * 1rem);
+    text-align: center;
+    height: fit-content;
+    border: none;
+    border-bottom: 1px solid grey;
 }
 
 /* ********************************************************** */

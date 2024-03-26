@@ -9,157 +9,172 @@
 </head>
 <body>
     
-    <div class="cofd-sheet">
-
-        <button onclick="loadNewCharacter()" id="new-char-btn">Novo Personagem</button>
-        <button><label for="sheet-upload">Carregar ficha</label></button>
-        <input type="file" id="sheet-upload" onchange="loadCharacter()" />
-
-        <button onclick="printCharacter()">Console Personagem</button>
-        <button onclick="downloadCharacter()" ><a id="download-character"></a>Download Personagem</button>
-        <button onclick="clearCharacter()">Limpar Ficha</button>
-        <button onclick="clearTemplate()">Limpar Modelo</button>
-
-        <div id="supernatural-header">
-            <span>Modelo Sobrenatural:</span>
-            <select id="supernatural-selection" onchange="changeTemplate(this)">
-                <option value="0">Mortal</option>
-                <option value="1">Vampiro</option>
-            </select>
-        </div>
+    <div id="body_block">
+        <aside id="side_menu">
+            <span>Galeria das Trevas</span>
+            <button onclick="loadNewCharacter()" id="new-char-btn">Novo Personagem</button>
+            <button><label for="sheet-upload">Carregar ficha</label></button>
+            <input type="file" id="sheet-upload" onchange="loadCharacter()" />
         
-        <!-- Preenchido dinamicamente -->
-        <header class="char-info"></header>
-        
-        <!-- Atributos -->
-        <section class="cofd-attributes">
-            <header><h2>Atributos</h2></header>
-
-            <div class="attr-types">
-                <span>Poder</span>
-                <span>Refinamento</span>
-                <span>Resistência</span>
+            <button onclick="printCharacter()">Extrair Personagem</button>
+            <button onclick="downloadCharacter()" ><a id="download-character"></a>Download Personagem</button>
+            <button onclick="clearCharacter()">Limpar Ficha</button>
+            <button onclick="clearTemplate()">Limpar Modelo</button>
+        </aside>
+        <div class="cofd-sheet">
+            <div id="supernatural-header">
+                <span>Modelo Sobrenatural:</span>
+                <select id="supernatural-selection" onchange="changeTemplate(this)">
+                    <option value="0">Mortal</option>
+                    <option value="1">Vampiro</option>
+                </select>
             </div>
-            <div class="attr-block" id="mental-attr"></div>
-            <div class="attr-block" id="physical-attr"></div>
-            <div class="attr-block" id="social-attr"></div>
-        </section>
-
-        <!-- Tamanho -->
-        <div style="display: flex; margin-top: 10px; gap: 5px;">
-            <span>Tamanho:</span>
-            <input 
-            id      = "char-size" 
-            type    = "number" 
-            min     = "1" 
-            value   = "" 
-            onchange= "changeSize(event.target.value)" 
-            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-            />
-            <span>Vitalidade:</span>
-            <div id="char-health"></div>
-            <span>Força de Vontade:</span>
-            <div id="char-willpower"></div>
-            <span>Defesa:</span>
-            <div id="char-defense"></div>
-            <span>Iniciativa:</span>
-            <div id="char-initiative"></div>
-            <span>Velocidade:</span>
-            <div id="char-speed"></div>
-        </div>
-        <!-- Vitalidade -->
-        
-        <!-- Habilidades -->
-        <header><h2>Habilidades</h2></header>
-        <section class="cofd-skills">
             
-            <header>
-                <b>Mental</b>
-                <small>(-3 se inepto)</small>
-            </header>
-
-            <header>
-                <b>Físico</b>
-                <small>(-1 se inepto)</small>
-            </header>
-
-            <header>
-                <b>Social</b>
-                <small>(-1 se inepto)</small>
-            </header>
-
-            <div class="skills-block" id="mental-skills"></div>
-            <div class="skills-block" id="physical-skills"></div>
-            <div class="skills-block" id="social-skills"></div>
+            <!-- Preenchido dinamicamente -->
+            <header class="char-info"></header>
             
-        </section>
-        
-        <!-- Moralidade, Condições/Estados e Aspirações -->
-        <section id="cofd-morality-states-aspirations">
-            <!-- Moralidade -->
-            <div id="cofd-character-morality"></div>
-            <!-- Condições/Estados -->
-            <div class="grid items-content-start">
-                <h2>Condições/Estados</h2>
-                <div id="cofd-character-conditions"></div>
+            <!-- Atributos -->
+            <section class="cofd-attributes">
+                <header><h2>Atributos</h2></header>
+    
+                <div class="attr-types">
+                    <span>Poder</span>
+                    <span>Refinamento</span>
+                    <span>Resistência</span>
+                </div>
+                <div class="attr-block" id="mental-attr"></div>
+                <div class="attr-block" id="physical-attr"></div>
+                <div class="attr-block" id="social-attr"></div>
+            </section>
+    
+            <!-- Tamanho -->
+            <div id="cofd-otherTraits">
+                <div class="flex gapC-5">
+                    <span>Tamanho:</span>
+                    <input 
+                    id      = "char-size" 
+                    type    = "number" 
+                    min     = "1" 
+                    value   = "" 
+                    onchange= "changeSize(event.target.value)" 
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    />
+                </div>
+                <div class="flex gapC-5">
+                    <span>Vitalidade:</span>
+                    <div id="char-health"></div>
+                </div>
+                <div class="flex gapC-5">
+                    <span>Força de Vontade:</span>
+                    <div id="char-willpower"></div>
+                </div>
+                <div class="flex gapC-5">
+                    <span>Defesa:</span>
+                    <div id="char-defense"></div>
+                </div>
+                <div class="flex gapC-5">
+                    <span>Iniciativa:</span>
+                    <div id="char-initiative"></div>
+                </div>
+                <div class="flex gapC-5">
+                    <span>Velocidade:</span>
+                    <div id="char-speed"></div>
+                </div>
             </div>
-            <!-- Aspirações -->
-            <div class="grid items-content-start">
-                <h2>Aspirações</h2>
-                <div id="cofd-character-aspirations"></div>
+            <!-- Vitalidade -->
+            
+            <!-- Habilidades -->
+            <section class="cofd-skills">
+                <header class="gridC-span3"><h2>Habilidades</h2></header>
+                
+                <header>
+                    <b>Mental</b>
+                    <small>(-3 se inepto)</small>
+                </header>
+    
+                <header>
+                    <b>Físico</b>
+                    <small>(-1 se inepto)</small>
+                </header>
+    
+                <header>
+                    <b>Social</b>
+                    <small>(-1 se inepto)</small>
+                </header>
+    
+                <div class="skills-block" id="mental-skills"></div>
+                <div class="skills-block" id="physical-skills"></div>
+                <div class="skills-block" id="social-skills"></div>
+                
+            </section>
+            
+            <!-- Moralidade, Condições/Estados e Aspirações -->
+            <section id="cofd-morality-states-aspirations">
+                <!-- Moralidade -->
+                <div id="cofd-character-morality"></div>
+                <!-- Condições/Estados -->
+                <div class="grid items-content-start">
+                    <h2>Condições/Estados</h2>
+                    <div id="cofd-character-conditions"></div>
+                </div>
+                <!-- Aspirações -->
+                <div class="grid items-content-start">
+                    <h2>Aspirações</h2>
+                    <div id="cofd-character-aspirations"></div>
+                </div>
+            </section>
+            
+            <!-- Imagem -->
+            
+            <!-- Vantagens -->
+            <header><h2>Vantagens</h2></header>
+            <div class="flex">
+                <button onclick="addMerit()">Adicionar Vantagem</button>
+                <button id="select-merits" onclick="selectAllMerits()">Selectionar/Deselecionar Todos</button>
+                <button id="delete-merits" onclick="deleteAllMerits()">Deletar Selecionados</button>
             </div>
-        </section>
-        
-        <!-- Imagem -->
-        
-        <!-- Vantagens -->
-        <header><h2>Vantagens</h2></header>
-        <div class="flex">
-            <button onclick="addMerit()">Adicionar Vantagem</button>
-            <button id="select-merits" onclick="selectAllMerits()">Selectionar/Deselecionar Todos</button>
-            <button id="delete-merits" onclick="deleteAllMerits()">Deletar Selecionados</button>
+            <section class="cofd-merits" id="cofd-character-merits"></section>
+    
+            <section id="vampire-section"></section>
+            <section id="ghoul-section"></section>
+            <section id="werewolf-section"></section>
+            <section id="changeling-section"></section>
+            <section id="mage-section"></section>
+            <section id="promethean-section"></section>
+            <section id="hunter-section"></section>
+            <section id="geist-section"></section>
+            <section id="mummy-section"></section>
+            <section id="demon-section"></section>
+            <section id="beast-section"></section>
+            <section id="deviant-section"></section>
+    
+            <h2>Equipamentos</h2>
+            <div id="cofd-character-equipment" class="grid">
+                <div id="equipment-weapons" class="grid"></div>
+                <div id="equipment-armors" class="grid"></div>
+                <div id="equipment-generics" class="grid"></div>
+                <footer id="equipment-footer">
+                    <div class="gridC-span3"><h3>Adicionar...</h3></div>
+                    <button onclick="addWeapon()">Arma</button>
+                    <button onclick="addArmor()">Armadura</button>
+                    <button onclick="addEquipment()">Genérico</button>
+                </footer>
+            </div>
+    
+            <!-- Aparência -->
+            <header><h2>Aparência</h2></header>
+            <textarea id="cofd-character-appearance" class="cofd-large-textarea" 
+            placeholder="Descreva a aparência do personagem..."></textarea>
+            
+            <!-- História -->
+            <header><h2>História</h2></header>
+            <textarea id="cofd-character-story" class="cofd-large-textarea" 
+            placeholder="Apresente a história do personagem..."></textarea>
+    
+            <!-- Pedras de Toque -->
+            <!-- <header><h2>Pedras de Toque</h2></header> -->
+            <div id="cofd-character-touchstones"></div>
         </div>
-        <section class="cofd-merits" id="cofd-character-merits"></section>
-
-        <section id="vampire-section"></section>
-        <section id="ghoul-section"></section>
-        <section id="werewolf-section"></section>
-        <section id="changeling-section"></section>
-        <section id="mage-section"></section>
-        <section id="promethean-section"></section>
-        <section id="hunter-section"></section>
-        <section id="geist-section"></section>
-        <section id="mummy-section"></section>
-        <section id="demon-section"></section>
-        <section id="beast-section"></section>
-        <section id="deviant-section"></section>
-
-        <h2>Equipamentos</h2>
-        <div id="cofd-character-equipment" class="grid">
-            <div id="equipment-weapons" class="grid"></div>
-            <div id="equipment-armors" class="grid"></div>
-            <div id="equipment-generics" class="grid"></div>
-            <footer id="equipment-footer">
-                <div class="gridC-span3"><h3>Adicionar...</h3></div>
-                <button onclick="addWeapon()">Arma</button>
-                <button onclick="addArmor()">Armadura</button>
-                <button onclick="addEquipment()">Genérico</button>
-            </footer>
-        </div>
-
-        <!-- Aparência -->
-        <header><h2>Aparência</h2></header>
-        <textarea id="cofd-character-appearance" class="cofd-large-textarea" 
-        placeholder="Descreva a aparência do personagem..."></textarea>
-        
-        <!-- História -->
-        <header><h2>História</h2></header>
-        <textarea id="cofd-character-story" class="cofd-large-textarea" 
-        placeholder="Apresente a história do personagem..."></textarea>
-
-        <!-- Pedras de Toque -->
-        <!-- <header><h2>Pedras de Toque</h2></header> -->
-        <div id="cofd-character-touchstones"></div>
     </div>
     
     <script type="text/javascript" src="script/Control.js"></script>

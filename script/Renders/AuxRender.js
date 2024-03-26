@@ -220,6 +220,15 @@ function createRanklessTraitList(pathID, traitList, traitName, addTrait, changeN
         traitElement.appendChild(descriptionElement);
         
         pathBlock.appendChild(traitElement);
+
+        // Auto-ajuste de altura
+        // Tem que ser realizado depois do componente estar renderizado.
+        descriptionElement.style.height = "auto";
+        descriptionElement.style.height = descriptionElement.scrollHeight + "px";
+        descriptionElement.addEventListener("input", () => {
+            descriptionElement.style.height = 'auto';
+            descriptionElement.style.height = (descriptionElement.scrollHeight) + "px";
+        }, false);
     }    
 }
 
@@ -252,13 +261,17 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
         traitElement.appendChild(document.createElement('div'));
     }
     
-    // Campo nome de Característica
+    // ************************************
+    // INPUT DE NOME
+    // ************************************
     let traitNameInput = document.createElement('input');
     traitNameInput.value = trait.name;
     traitNameInput.placeholder = `Digite nome ${traitName}...`;
     traitNameInput.addEventListener('blur', (event) => changeName(trait.id, event.target.value));
     
-    // Campo círculos inputs
+    // ************************************
+    // CÍRCULOS DE NÍVEL
+    // ************************************
     let traitRanksElement = document.createElement('div');
     let traitRankRadio;
     for(let i = 0; i < 5; i++) {
@@ -266,20 +279,24 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
         traitRankRadio.type = 'radio';
         traitRankRadio.className = `trait-rank-${trait.id}`;
         traitRankRadio.addEventListener('click', () => rankChange(trait.id, i+1));
-        if(i <= trait.rank) traitRankRadio.checked = true;
+        if(i < trait.rank) traitRankRadio.checked = true;
         traitRanksElement.appendChild(traitRankRadio);
     }
     
-    // Botão de deleção
+    // ************************************
+    // BOTÃO DE DELETAR
+    // ************************************
     let delBtn = document.createElement('button');
     delBtn.innerHTML = 'X';
     delBtn.addEventListener('click', () => deleteTrait(trait.id));
     
-    // Descrição
+    // ************************************
+    // DESCRIÇÃO
+    // ************************************
     let descriptionElement = document.createElement('textarea');
     descriptionElement.value = trait.description;
     descriptionElement.className = 'gridC_span4';
-    descriptionElement.placeholder = "Adicione descrição e informações..."
+    descriptionElement.placeholder = "Adicione descrição e informações...";
     descriptionElement.addEventListener('blur', () => descriptionChange(trait.id, event.target.value));
     
     // ************************************
@@ -297,7 +314,9 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
     selectBtn.addEventListener('change', () => {}); // setSelectedMerit(merit.id)
     selectBtnBlock.appendChild(selectBtn);
     
-    // Append.    
+    // ************************************
+    // Append
+    // ************************************
     traitElement.appendChild(traitNameInput);
     traitElement.appendChild(traitRanksElement);
     traitElement.appendChild(delBtn);
@@ -308,6 +327,15 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
     if(!pathBlock) throw new Error('Caminho para adição da Característica inválido. Encontrado '+idPath);
     
     pathBlock.appendChild(traitElement);
+
+    // Auto-ajuste de altura
+    // Tem que ser realizado depois do componente estar renderizado.
+    descriptionElement.style.height = "auto";
+    descriptionElement.style.height = descriptionElement.scrollHeight + "px";
+    descriptionElement.addEventListener("input", () => {
+        descriptionElement.style.height = 'auto';
+        descriptionElement.style.height = (descriptionElement.scrollHeight) + "px";
+    }, false);
 }
 
 /**
