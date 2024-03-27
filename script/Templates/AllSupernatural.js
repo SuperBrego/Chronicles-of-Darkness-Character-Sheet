@@ -1,54 +1,54 @@
 /**
- * Adiciona uma nova Pedra de Toque.
+ * Adiciona um novo Personagem de Apoio.
  */
-function addTouchstone() {
-    let touchstones = globalChar.touchstones;
-    createRanklessTrait('Pedra de Toque', touchstones, 'TS');
-    renderTouchstones(touchstones);
+function addNPC() {
+    let npcCasts = globalChar.npcs;
+    createRanklessTrait('Personagem de Apoio', npcCasts, 'TS');
+    renderNPCs(npcCasts);
 }
 
 /**
- * Renomea Pedra de Toque.
- * @param {number} id ID da Pedra de Toque.
+ * Renomea Personagem de Apoio.
+ * @param {number} id ID da Personagem de Apoio.
  * @param {string} text Novo nome.
  */
-function renameTouchstone(id, text) {
-    let touchstone;
-    let touchstones = globalChar.touchstones;
-    touchstone = touchstones.find(elem => elem.id === id);
-    if(touchstone) touchstone.name = text; 
-    else throw new Error("Pedra de Toque não encontrada.");
-    renderTouchstones(touchstones);
+function renameNPC(id, text) {
+    let npcChar;
+    let npcCasts = globalChar.npcs;
+    npcChar = npcCasts.find(elem => elem.id === id);
+    if(npcChar) npcChar.name = text; 
+    else throw new Error("Personagem de Apoio não encontrada.");
+    renderNPCs(npcCasts);
 }
 
 /**
- * Altera a descrição da Pedra de Toque.
- * @param {number} id ID da Pedra de Toque.
+ * Altera a descrição da Personagem de Apoio.
+ * @param {number} id ID da Personagem de Apoio.
  * @param {string} text Novo texto de descrição.
  */
-function changeTouchstoneDescription(id, text) {
-    let touchstone;
-    let touchstones = globalChar.touchstones;
-    touchstone = touchstones.find(elem => elem.id === id);
-    if(touchstone) touchstone.description = text; 
-    else throw new Error("Pedra de Toque não encontrada.");
-    renderTouchstones(touchstones);
+function changeNPCDescription(id, text) {
+    let npcChar;
+    let npcCasts = globalChar.npcs;
+    npcChar = npcCasts.find(elem => elem.id === id);
+    if(npcChar) npcChar.description = text; 
+    else throw new Error("Personagem de Apoio não encontrada.");
+    renderNPCs(npcCasts);
 }
 
 /**
- * Remove a Pedra de Toque do personagem vampiro.
- * @param {number} id ID da Pedra de Toque.
+ * Remove a Personagem de Apoio do personagem vampiro.
+ * @param {number} id ID da Personagem de Apoio.
  */
-function deleteTouchstone(id) {
+function deleteNPC(id) {
     let index;
-    let touchstones = globalChar.touchstones;
+    let npcCasts = globalChar.npcs;
 
-    if(confirm('Deseja deletar essa Pedra de Toque?\nEssa ação não pode ser desfeita.')) {
-        index = touchstones.findIndex(elem => elem.id === id);
+    if(confirm('Deseja deletar essa Personagem de Apoio?\nEssa ação não pode ser desfeita.')) {
+        index = npcCasts.findIndex(elem => elem.id === id);
         if(index != -1) {
-            touchstones.splice(index, 1);
-            document.getElementById(`${id}`).outerHTML = "";
+            npcCasts.splice(index, 1);
+            document.getElementById(`npc-${id}`).outerHTML = "";
         }
-        renderTouchstones(touchstones);
+        renderNPCs(npcCasts);
     }
 }

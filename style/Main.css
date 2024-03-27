@@ -213,7 +213,9 @@ textarea {
     justify-content: center;
 }
 
-/* Rankless Traits */
+/* *************************** */
+/* Características sem Nível. */
+/* *************************** */
 .rankless-trait-block {
     display: grid;
     /* Overt Name Rank Del Selection */
@@ -228,6 +230,41 @@ textarea {
     max-width: 100%;
     resize: vertical;
     /* grid-column: 2; */
+}
+
+/* *************************** */
+/* Bloco de NPCs. */
+/* *************************** */
+.npc-character-block {
+    display: grid;
+    /* Name Portrait Del */
+    /* Description */
+    grid-template-columns: 40% auto 1%;
+    justify-content: flex-start;
+    padding: 1%;
+}
+
+.npc-character-block button {
+    width: fit-content;
+    height: fit-content;
+}
+.npc-character-block textarea {
+    /* min-width: 400px; */
+    min-height: 100px;
+    width: 100%;
+    max-width: 100%;
+    resize: vertical;
+    /* grid-column: 2; */
+}
+
+.character-img-placeholder {
+    height: 150px;
+    width: 150px;
+    background-color: aqua;
+}
+.npc-character-block img {
+    height: 150px;
+    width: 150px;
 }
 
 /* ******************************* */
@@ -304,4 +341,11 @@ textarea {
 #vampire-vitae header { grid-column: span 10; }
 #vampire-vitae input[type=checkbox] {
     height: 90%;
+}
+
+@media only screen and (max-width: 600px) {
+    .cofd-attributes, .cofd-skills { 
+        display: flex;
+        flex-direction: column;
+    }
 }

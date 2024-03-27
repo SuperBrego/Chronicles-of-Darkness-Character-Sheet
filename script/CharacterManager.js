@@ -6,7 +6,7 @@ function printCharacter() {
 }
 
 /**
- * Limpa todas as características do personagem, iniciando-o do zero.
+* Limpa todas as características do personagem, iniciando-o do zero.
 **/
 function clearCharacter() {
     if(!confirm(`Você tem certeza?
@@ -20,7 +20,7 @@ function clearCharacter() {
 }
 
 /**
- * Limpa todas as características do modelo sobrenatural do personagem, iniciando-o do zero.
+* Limpa todas as características do modelo sobrenatural do personagem, iniciando-o do zero.
 **/
 function clearTemplate() {
     if(!confirm(`Você tem certeza?\nIsso apagará todos os dados do modelo sobrenatural.`)) return;
@@ -35,9 +35,9 @@ function appendTemplate(template) {
 }
 
 /**
- * 
- * @param {number} index 
- * @returns 
+* 
+* @param {number} index 
+* @returns 
 **/
 function searchTemplate(index) {
     let template = templatesStack.find(elem => elem.index === index);
@@ -46,78 +46,78 @@ function searchTemplate(index) {
 }
 
 /**
- * Altera o modelo sobrenatural.
- * @param {*} event Evento da troca de índice de evento.
+* Altera o modelo sobrenatural.
+* @param {*} event Evento da troca de índice de evento.
 **/
 function changeTemplate(event) {
     appendTemplate(globalChar.templateTraits);
     let tempIndex = Number(event.value)
-
+    
     switch(tempIndex) {
         // Mortal
         case SupernaturalTemplates.Mortal:
-            globalChar.template = SupernaturalTemplates.Mortal;
-            globalChar.templateTraits = searchTemplate(tempIndex);
-            infoHeader.innerHTML = '';
-            renderCharacter(globalChar);
+        globalChar.template = SupernaturalTemplates.Mortal;
+        globalChar.templateTraits = searchTemplate(tempIndex);
+        infoHeader.innerHTML = '';
+        renderCharacter(globalChar);
         break;
         // Vampire
         case SupernaturalTemplates.Vampire:
-            globalChar.template = SupernaturalTemplates.Vampire;
-            globalChar.templateTraits = searchTemplate(tempIndex);
-            infoHeader.innerHTML = '';
-            renderCharacter(globalChar);
+        globalChar.template = SupernaturalTemplates.Vampire;
+        globalChar.templateTraits = searchTemplate(tempIndex);
+        infoHeader.innerHTML = '';
+        renderCharacter(globalChar);
         break;
         // Ghoul
         case SupernaturalTemplates.Ghoul:
-
+        
         break;
         // Werewolf
         case SupernaturalTemplates.Werewolf:
-
+        
         break;
         // Changeling
         case SupernaturalTemplates.Changeling:
-
+        
         break;
         // Mage
         case SupernaturalTemplates.Mage:
-
+        
         break;
         // Promethean
         case SupernaturalTemplates.Promethean:
-
+        
         break;
         // Hunter
         case SupernaturalTemplates.Hunter:
-
+        
         break;
         // Geist
         case SupernaturalTemplates.Geist:
-
+        
         break;
         // Mummy
         case SupernaturalTemplates.Mummy:
-
+        
         break;
         // Demon
         case SupernaturalTemplates.Demon:
-
+        
         break;
         // Beast
         case SupernaturalTemplates.Beast:
-
+        
         break;
         // Deviant
         case SupernaturalTemplates.Deviant:
-
+        
         break;
     }
 }
 
 /**
- * Troca o nome do personagem.
- * @param {string} charName Novo nome de personagem.
+* Troca o nome do personagem.
+* @param {string} charName Novo nome de personagem.
 **/
 function changeName(charName) { globalChar.name = charName; }
 function changeHealthState(index) {
@@ -144,8 +144,8 @@ function changeSize(nSize) {
 }
 
 /**
- * Troca o nome do jogador.
- * @param {string} playerName Novo nome do jogador.
+* Troca o nome do jogador.
+* @param {string} playerName Novo nome do jogador.
 **/
 function changePlayer(playerName) { globalChar.player = playerName; }
 function changeChronicle(chronicleName) { globalChar.chronicle = chronicleName; }
@@ -165,9 +165,9 @@ function changeVirtue(virtueName) { globalChar.templateTraits.virtue = virtueNam
 function changeVice(viceName) { globalChar.templateTraits.vice = viceName; }
 
 /**
- * Retorna ao valor padrão dos campos de Vitalidade.
- * Atualmente, não funcionando bem, pois está limpando todos itens.
- * @param {Character} character 
+* Retorna ao valor padrão dos campos de Vitalidade.
+* Atualmente, não funcionando bem, pois está limpando todos itens.
+* @param {Character} character 
 **/
 function cleanHealth(character) {
     let stamina = character.physicalAttributes[2].rank;
@@ -178,8 +178,8 @@ function cleanHealth(character) {
 }
 
 /**
- * Retorna ao valor padrão dos campos de Vontade.
- * @param {Character} character 
+* Retorna ao valor padrão dos campos de Vontade.
+* @param {Character} character 
 **/
 function cleanWill(character) {
     let resolve = character.mentalAttributes[2].rank;
@@ -191,64 +191,64 @@ function cleanWill(character) {
 }
 
 /**
- * Altera o valor do Atributo.
- * @param {number} type Tipo de Atributo.
- * @param {number} index Index do Atributo.
- * @param {number} rank Novo valor para o Atributo.
- */
+* Altera o valor do Atributo.
+* @param {number} type Tipo de Atributo.
+* @param {number} index Index do Atributo.
+* @param {number} rank Novo valor para o Atributo.
+*/
 function setCharAttrRank(type, index, rank) {
     index = Number(index);
-
+    
     switch(type) {
         default:
         case 0: 
-            globalChar.setMentalAttr(index, rank);
-            setAttrRank(rank, globalChar.getMentalAttrClass(index));
-
-            // Atualizando Defesa
-            if(index === 1) { renderDefense(globalChar); }
-            // Atualizando Força de Vontade
-            if(index === 2) {
-                renderWillpower(globalChar);
-                cleanWill(globalChar);
-            }
+        globalChar.setMentalAttr(index, rank);
+        setAttrRank(rank, globalChar.getMentalAttrClass(index));
+        
+        // Atualizando Defesa
+        if(index === 1) { renderDefense(globalChar); }
+        // Atualizando Força de Vontade
+        if(index === 2) {
+            renderWillpower(globalChar);
+            cleanWill(globalChar);
+        }
         break;
         case 1: 
-            globalChar.setPhysicalAttr(index, rank);
-            setAttrRank(rank, globalChar.getPhysicalAttrClass(index));
-            
-            // Atualizando Força
-            if(index === 0) renderSpeed(globalChar);
-            // Atualizando Defesa, Iniciativa e Velocidade
-            if(index === 1) {
-                renderDefense(globalChar);
-                renderInitiative(globalChar);
-                renderSpeed(globalChar);
-            }
-            // Atualizando Vitalidade
-            if(index === 2) {
-                renderHealth(globalChar);
-                // cleanHealth(globalChar);
-            }
+        globalChar.setPhysicalAttr(index, rank);
+        setAttrRank(rank, globalChar.getPhysicalAttrClass(index));
+        
+        // Atualizando Força
+        if(index === 0) renderSpeed(globalChar);
+        // Atualizando Defesa, Iniciativa e Velocidade
+        if(index === 1) {
+            renderDefense(globalChar);
+            renderInitiative(globalChar);
+            renderSpeed(globalChar);
+        }
+        // Atualizando Vitalidade
+        if(index === 2) {
+            renderHealth(globalChar);
+            // cleanHealth(globalChar);
+        }
         break;
         case 2: 
-            globalChar.setSocialAttr(index, rank);
-            setAttrRank(rank, globalChar.getSocialAttrClass(index));
-            // Atualizando Força de Vontade
-            if(index === 2) {
-                renderWillpower(globalChar);
-                renderInitiative(globalChar);
-                cleanWill(globalChar);
-            }
+        globalChar.setSocialAttr(index, rank);
+        setAttrRank(rank, globalChar.getSocialAttrClass(index));
+        // Atualizando Força de Vontade
+        if(index === 2) {
+            renderWillpower(globalChar);
+            renderInitiative(globalChar);
+            cleanWill(globalChar);
+        }
         break;
     }
 }
 
 /**
- * Realiza a marcação dos inputs radio conforme o novo valor de graduação.
- * @param {number} rank Graduação nova do Atributo.
- * @param {string} attr Atributo (Classe do Atributo em inglês) qual deve ser marcado os círculos.
- */
+* Realiza a marcação dos inputs radio conforme o novo valor de graduação.
+* @param {number} rank Graduação nova do Atributo.
+* @param {string} attr Atributo (Classe do Atributo em inglês) qual deve ser marcado os círculos.
+*/
 function setAttrRank(rank, attr) {
     // let rankList = document.querySelectorAll(`.rank-${attr}`);
     let rankList = document.getElementsByClassName(`rank-${attr}`);
@@ -259,61 +259,61 @@ function setAttrRank(rank, attr) {
 }
 
 /**
- * Altera o valor de graduação da Habilidade.
+* Altera o valor de graduação da Habilidade.
 **/
 function setCharSkillRank(type, index, rank) {
     let skill = undefined;
     let firstRank;
-
+    
     switch(type) {
         case 0: 
-            skill = globalChar.mentalSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            if(rank === 1 && skill.rank === 1) {
-                skill.rank = 0;
-                firstRank = document.querySelector(`.rank-${skill.class}`);
-                firstRank.checked = false;
-            }
-            else {
-                skill.rank = rank;
-                setSkillRank(rank, skill.class);
-            }
+        skill = globalChar.mentalSkills[index];
+        if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        if(rank === 1 && skill.rank === 1) {
+            skill.rank = 0;
+            firstRank = document.querySelector(`.rank-${skill.class}`);
+            firstRank.checked = false;
+        }
+        else {
+            skill.rank = rank;
+            setSkillRank(rank, skill.class);
+        }
         break;
         case 1: 
-            skill = globalChar.physicalSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            if(rank === 1 && skill.rank === 1) {
-                skill.rank = 0;
-                firstRank = document.querySelector(`.rank-${skill.class}`);
-                firstRank.checked = false;
-            }
-            else {
-                skill.rank = rank;
-                setSkillRank(rank, skill.class);
-            }
-            // Atualizar Defesa
-            if(index === 5) renderDefense(globalChar);
+        skill = globalChar.physicalSkills[index];
+        if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        if(rank === 1 && skill.rank === 1) {
+            skill.rank = 0;
+            firstRank = document.querySelector(`.rank-${skill.class}`);
+            firstRank.checked = false;
+        }
+        else {
+            skill.rank = rank;
+            setSkillRank(rank, skill.class);
+        }
+        // Atualizar Defesa
+        if(index === 5) renderDefense(globalChar);
         break;
         case 2: 
-            skill = globalChar.socialSkills[index];
-            if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
-            if(rank === 1 && skill.rank === 1) {
-                skill.rank = 0;
-                firstRank = document.querySelector(`.rank-${skill.class}`);
-                firstRank.checked = false;
-            }
-            else {
-                skill.rank = rank;
-                setSkillRank(rank, skill.class);
-            }
+        skill = globalChar.socialSkills[index];
+        if(!skill) throw new Error(`Não foi possível encontrar Index. Index encontrado: ${index}`);
+        if(rank === 1 && skill.rank === 1) {
+            skill.rank = 0;
+            firstRank = document.querySelector(`.rank-${skill.class}`);
+            firstRank.checked = false;
+        }
+        else {
+            skill.rank = rank;
+            setSkillRank(rank, skill.class);
+        }
         break;
     }
 }
 
 /**
- * Realiza a marcação dos inputs radio conforme o novo valor de graduação.
- * @param {number} rank Graduação nova da Habilidade.
- * @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
+* Realiza a marcação dos inputs radio conforme o novo valor de graduação.
+* @param {number} rank Graduação nova da Habilidade.
+* @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
 **/
 function setSkillRank(rank, attr) {
     let rankList = document.querySelectorAll(`.rank-${attr}`);
@@ -324,8 +324,8 @@ function setSkillRank(rank, attr) {
 }
 
 /**
- * Altera o valor da moralidade (Integridade para Mortais, Humanidade para Vampiros, etc.) do personagem.
- * @param {number} rank 
+* Altera o valor da moralidade (Integridade para Mortais, Humanidade para Vampiros, etc.) do personagem.
+* @param {number} rank 
 **/
 function changeMoralityRank(rank) {
     globalChar.templateTraits.morality = rank;
@@ -333,17 +333,17 @@ function changeMoralityRank(rank) {
 }
 
 /**
- * Altera o texto de condição aplicada ao nível de Moralidade.
- * @param {number} index Index da Moralidade.
- * @param {string} text Novo texto para graduação da Moralidade.
- */
+* Altera o texto de condição aplicada ao nível de Moralidade.
+* @param {number} index Index da Moralidade.
+* @param {string} text Novo texto para graduação da Moralidade.
+*/
 function changeMoralityRankText(index, text) {
     globalChar.templateTraits.moralityTrait[index] = text;
     renderMorality(globalChar);
 }
 
 /**
- * Adiciona uma nova Condição/Estado no personagem.
+* Adiciona uma nova Condição/Estado no personagem.
 **/
 function addCondition() {
     globalChar.conditions.push({id: idSeed(), text: ''});
@@ -351,9 +351,9 @@ function addCondition() {
 }
 
 /**
- * Muda o texto da Condição/Estado.
- * @param {number} id ID da Condição.
- * @param {string} text Texto/Nome da Condição/Estado.
+* Muda o texto da Condição/Estado.
+* @param {number} id ID da Condição.
+* @param {string} text Texto/Nome da Condição/Estado.
 **/
 function changeCondition(id, text) {
     let condition = globalChar.conditions.find(elem => elem.id === id);
@@ -363,13 +363,13 @@ function changeCondition(id, text) {
 }
 
 /**
- * Remove a Condição/Estado.
- * @param {number} id ID da Condição/Estado.
+* Remove a Condição/Estado.
+* @param {number} id ID da Condição/Estado.
 **/
 function deleteCondition(id) {
     let index = globalChar.conditions.findIndex(elem => elem.id === id);
     if(index === -1) throw new Error('Falha em encontrar condição');
-
+    
     globalChar.conditions.splice(index, 1);
     document.getElementById(`condition-${id}`).outerHTML = ''; 
     renderConditions(globalChar);
@@ -377,7 +377,7 @@ function deleteCondition(id) {
 
 
 /**
- * Adiciona uma nova Condição/Estado no personagem.
+* Adiciona uma nova Condição/Estado no personagem.
 **/
 function addAspiration() {
     globalChar.aspirations.push({id: idSeed(), text: ''});
@@ -385,9 +385,9 @@ function addAspiration() {
 }
 
 /**
- * Muda o texto da Condição/Estado.
- * @param {number} id ID da Condição.
- * @param {string} text Texto/Nome da Condição/Estado.
+* Muda o texto da Condição/Estado.
+* @param {number} id ID da Condição.
+* @param {string} text Texto/Nome da Condição/Estado.
 **/
 function changeAspiration(id, text) {
     let aspiration = globalChar.aspirations.find(elem => elem.id === id);
@@ -397,27 +397,27 @@ function changeAspiration(id, text) {
 }
 
 /**
- * Remove a Condição/Estado.
- * @param {number} id ID da Condição/Estado.
+* Remove a Condição/Estado.
+* @param {number} id ID da Condição/Estado.
 **/
 function deleteAspiration(id) {
     let index = globalChar.aspirations.findIndex(elem => elem.id === id);
     if(index === -1) throw new Error('Falha em encontrar condição');
-
+    
     globalChar.aspirations.splice(index, 1);
     document.getElementById(`aspiration-${id}`).outerHTML = ''; 
     renderAspirations(globalChar);
 }
 
 /**
- * Cria uma característica genérica. Será usado especialmente para Disicplinas, Dons e Endowments.
- * @param {string} traitName Nome da característica.
- * @param {any[]} traitList Lista onde característica será adicionada.
- * @param {string} templateTag 
+* Cria uma característica genérica. Será usado especialmente para Disicplinas, Dons e Endowments.
+* @param {string} traitName Nome da característica.
+* @param {any[]} traitList Lista onde característica será adicionada.
+* @param {string} templateTag 
 **/
 function createTrait(traitName, traitList, templateTag) {
     let traitID = `${templateTag}+${idSeed()}`;
-
+    
     let trait = {
         id: traitID, 
         name: `Digite nome ${traitName}...`, 
@@ -429,15 +429,15 @@ function createTrait(traitName, traitList, templateTag) {
     return trait;
 }
 /**
- * Cria uma característica sem graduações.
- * @param {string} traitName Nome da característica.
- * @param {any[]} traitList Lista da Característica.
- * @param {string} templateTag TagID da característica.
- * @returns {void}
- */
+* Cria uma característica sem graduações.
+* @param {string} traitName Nome da característica.
+* @param {any[]} traitList Lista da Característica.
+* @param {string} templateTag TagID da característica.
+* @returns {void}
+*/
 function createRanklessTrait(traitName, traitList, templateTag) {
     let traitID = `${templateTag}+${idSeed()}`;
-
+    
     let trait = {
         id: traitID, 
         name: `Digite nome ${traitName}...`, 
@@ -451,7 +451,7 @@ function createRanklessTrait(traitName, traitList, templateTag) {
 // Vantagens
 // ****************************************************
 /**
- * Adiciona uma nova vantagem para o Personagem.
+* Adiciona uma nova vantagem para o Personagem.
 **/
 function addMerit() {
     let merit = { 
@@ -465,7 +465,7 @@ function addMerit() {
     
     createMeritBlock(merit);
     changeMeritRank(merit.id, merit.rank);
-
+    
     // Ativar ou desativar botão de seleção.
     document.querySelector('#select-merits').disabled = (globalChar.merits.length > 0) ? false : true;
     // Ativar ou desativar botão de deleção.
@@ -473,9 +473,9 @@ function addMerit() {
 }
 
 /**
- * Renomeia a Vantagem.
- * @param {number} id ID da Vantagem.
- * @param {string} name Novo nome para Vantagem.
+* Renomeia a Vantagem.
+* @param {number} id ID da Vantagem.
+* @param {string} name Novo nome para Vantagem.
 **/
 function changeMeritName(id, name) {
     let merit = globalChar.merits.find(elem => elem.id === id);
@@ -484,15 +484,15 @@ function changeMeritName(id, name) {
 }
 
 /**
- * Realiza a marcação dos inputs radio conforme o novo valor de graduação.
- * @param {number} rank Graduação nova da Habilidade.
- * @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
+* Realiza a marcação dos inputs radio conforme o novo valor de graduação.
+* @param {number} rank Graduação nova da Habilidade.
+* @param {string} attr Habilidade (Classe da Habilidade em inglês) qual deve ser marcado os círculos.
 **/
 function changeMeritRank(id, rank) {
     let merit = globalChar.merits.find(elem => elem.id === id);
     if(merit) merit.rank = rank;
     else throw new Error("Não foi encontrada a Vantagem");
-
+    
     let rankList = document.getElementsByClassName(`merit-rank-${id}`);
     for(let i = 0; i < rankList.length; i++) {
         if(i < rank) rankList[i].checked = true;
@@ -501,10 +501,10 @@ function changeMeritRank(id, rank) {
 }
 
 /**
- * Altera a descrição da Vantagem.
- * @param {number} id ID da Vantagem
- * @param {string} description Descrição da Vantagem
- */
+* Altera a descrição da Vantagem.
+* @param {number} id ID da Vantagem
+* @param {string} description Descrição da Vantagem
+*/
 function changeMeritDescription(id, description) {
     let merit = globalChar.merits.find(elem => elem.id === id);
     if(merit) merit.description = description;
@@ -512,8 +512,8 @@ function changeMeritDescription(id, description) {
 }
 
 /**
- * Remove específica vantagem do personagem.
- * @param {string | number} id ID da Vantagem.
+* Remove específica vantagem do personagem.
+* @param {string | number} id ID da Vantagem.
 **/
 function deleteMerit(id) {
     let index = globalChar.merits.findIndex(elem => elem.id === id);
@@ -545,8 +545,8 @@ function deleteMultipleMerits(idList) {
 }
 
 /**
- * Altera o texto da aparência do personagem.
- * @param {string} text Novo texto para aparência.
+* Altera o texto da aparência do personagem.
+* @param {string} text Novo texto para aparência.
 **/
 function changeAppearance(text) {
     if(!text) return;
@@ -555,11 +555,35 @@ function changeAppearance(text) {
 }
 
 /**
- * Altera a história do personagem.
- * @param {string} text Novo texto para história.
+* Altera a história do personagem.
+* @param {string} text Novo texto para história.
 **/
 function changeStory(text) {
     if(!text) return;
     globalChar.story = text;
     renderPersonalTraits(globalChar);
+}
+
+function changeNPCImage(npcID) {
+    if(!npcID) return;
+    let supCharacter = globalChar.npcs.find(elem => elem.id === npcID);
+    if(!supCharacter) throw new Error("Personagem de apoio não encontrado");
+    let fileUp = document.createElement("INPUT");
+    fileUp.setAttribute("type", "file");
+    fileUp.setAttribute('accept', 'image/*');
+    fileUp.click();
+    
+    fileUp.addEventListener("change", (evt) => {
+        let arquivoSelecionado = evt.target.files[0];
+
+        const leitor = new FileReader();
+        leitor.readAsDataURL(arquivoSelecionado);
+        
+        leitor.onload = (e) => {
+            const urlArquivo = leitor.result;            
+            // Agora você pode usar a URL do arquivo como src em uma tag img
+            supCharacter.image = urlArquivo;
+            renderNPCs(globalChar.npcs);
+        };
+    });
 }

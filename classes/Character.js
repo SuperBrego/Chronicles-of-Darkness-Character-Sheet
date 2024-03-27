@@ -132,7 +132,7 @@ class Character {
         this.story = '';
         this.appearance = '';
 
-        this.touchstones = []; // Nome • Descrição.
+        this.npcs = []; // Nome • Descrição.
         
         // Atributos Mentais
         this.mentalAttributes = [
@@ -220,7 +220,7 @@ class Character {
         
         this.template = character.template;
         this.templateTraits = character.templateTraits;
-        this.touchstones = character.touchstones;
+        this.npcs = character.npcs;
     }
     
     // Vitalidade: Tamanho + Vigor

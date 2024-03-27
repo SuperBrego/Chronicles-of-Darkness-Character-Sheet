@@ -108,6 +108,8 @@ function downloadCharacter() {
     let charName = globalChar.name;
     let book = globalChar.templateTraits.book;
 
+    // Antes de salvar, reordernar Vantagens, Disciplinas, Personagens de apoio, etc.
+
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalChar));
     var dlAnchorElem = document.getElementById('download-character');
     dlAnchorElem.setAttribute("href", dataStr);

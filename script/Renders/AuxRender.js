@@ -154,6 +154,16 @@ function createTextList(pathID, traitList, traitName, addTrait, changeTrait, del
     }
 }
 
+/**
+ * Renderiza bloco com características sem pontuação.
+ * @param {string} pathID ID do bloco onde irá as características.
+ * @param {any[]} traitList Lista de características.
+ * @param {string} traitName Nome da característica.
+ * @param {any} addTrait Função para acrescentar característica.
+ * @param {any} changeName Função callback para mudança de nome da característica.
+ * @param {any} changeDescription Função callback para mudança de descrição da característica.
+ * @param {any} deleteTrait Função para remoção da característica.
+ */
 function createRanklessTraitList(pathID, traitList, traitName, addTrait, changeName, changeDescription, deleteTrait) {
     
     let pathBlock = document.getElementById(pathID);
@@ -239,7 +249,7 @@ function createRanklessTraitList(pathID, traitList, traitName, addTrait, changeN
 * @param {string} traitName Nome da característica.
 * @param {any} changeName Função callback para mudança de nome.
 * @param {any} rankChange Função callback para mudança de nível.
-* @param {any} descriptionChange Função callback para mudança de descripção.
+* @param {any} descriptionChange Função callback para mudança de descrição.
 * @param {any} deleteTrait Função callback para remoção do trait.
 */
 function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, descriptionChange, deleteTrait) {
@@ -337,6 +347,109 @@ function createTraitBlock(trait, traitPath, traitName, changeName, rankChange, d
         descriptionElement.style.height = (descriptionElement.scrollHeight) + "px";
     }, false);
 }
+
+/**
+ * 
+ * @param {*} pathID 
+ * @param {*} charList 
+ * @param {*} sectionName 
+ * @param {*} addCharacter 
+ * @param {*} changeName 
+ * @param {*} changeDescription 
+ * @param {*} deleteChar 
+ */
+function createCharactersBlock(pathID, charList, sectionName, addCharacter, changeName, changeDescription, deleteChar) {
+    
+    let pathBlock = document.getElementById(pathID);
+    if(!pathBlock) throw new Error(`Bloco de ${sectionName} não encontrado.`);
+    pathBlock.innerHTML = '';
+    
+    let npcElement;
+    
+    // Então botar o botão.
+    let addCharacterBtn = document.createElement('button');
+    addCharacterBtn.innerHTML = `Adicionar ${sectionName}`;
+    addCharacterBtn.addEventListener('click', () => addCharacter());
+    pathBlock.appendChild(addCharacterBtn);
+
+    // Listar as condições
+    for(let i = 0; i < charList.length; i++) {
+        let character = charList[i];
+
+        npcElement = document.createElement('div');
+        npcElement.id = `npc-${character.id}`;
+        npcElement.className = `npc-character-block`;
+
+        // Bloco para nome e descrição
+        let infoBlock = document.createElement('div');
+        infoBlock.className = 'grid align-content-start';
+        
+        // Campo nome de Característica
+        let npcNameInput = document.createElement('input');
+        npcNameInput.value = character.name;
+        npcNameInput.placeholder = `Digite nome ${sectionName}...`;
+        npcNameInput.addEventListener('blur', (event) => changeName(character.id, event.target.value));
+        
+        // ***************************
+        // Campo de adicionar imagem
+        // ***************************
+        let portraitBlock = document.createElement('div');
+        
+        if(character.image) {
+            let charImgBlock = document.createElement('img');
+            charImgBlock.src = character.image;
+            charImgBlock.alt = character.name;
+            charImgBlock.addEventListener('click', () => changeNPCImage(character.id));
+            charImgBlock.title = "Clique para alterar a imagem";
+            portraitBlock.appendChild(charImgBlock);
+        }
+        else {
+            let addImgBlock = document.createElement('div');
+            addImgBlock.className = 'character-img-placeholder';
+            addImgBlock.addEventListener('click', () => changeNPCImage(character.id));
+            addImgBlock.title = "Clique para adicionar uma imagem";
+            portraitBlock.appendChild(addImgBlock);
+        }
+
+        // Botão de deleção
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'X';
+        deleteButton.addEventListener('click', () => deleteChar(character.id));
+        
+        // Descrição
+        let descriptionElement = document.createElement('textarea');
+        descriptionElement.value = character.description;
+        descriptionElement.placeholder = "Adicione descrição e informações..."
+        descriptionElement.addEventListener('blur', () => changeDescription(character.id, event.target.value));
+        
+        // Append.    
+        infoBlock.appendChild(npcNameInput);
+        infoBlock.appendChild(descriptionElement);
+
+        npcElement.appendChild(infoBlock);
+        npcElement.appendChild(portraitBlock); 
+        npcElement.appendChild(deleteButton);
+        pathBlock.appendChild(npcElement);
+
+        // Auto-ajuste de altura
+        // Tem que ser realizado depois do componente estar renderizado.
+        descriptionElement.style.height = "auto";
+        descriptionElement.style.height = descriptionElement.scrollHeight + "px";
+        descriptionElement.addEventListener("input", () => {
+            descriptionElement.style.height = 'auto';
+            descriptionElement.style.height = (descriptionElement.scrollHeight) + "px";
+        }, false);
+    }    
+}
+
+// function reRenderNPCBlock(npcID) {
+//     let supCharacter = globalChar.npcs.find(elem => elem.id === npcID);
+//     if(!supCharacter) throw new Error("Personagem de apoio não encontrado");
+//     let npcBlock = document.getElementById(`npc-${npcID}`);
+//     if(!npcBlock) throw new Error("Bloco de personagem de apoio não encontrado");
+
+// }
+
 
 /**
 * Seleciona ou desseleciona todas as Vantagens do Personagem.

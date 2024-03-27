@@ -21,10 +21,11 @@ option {
 
 .grid { display: grid; }
 .flex { display: flex; }
+.none { display: none; }
 .hidden { visibility: hidden; }
 .block { display: block; }
-.items-items-start { align-items: flex-start; }
-.items-content-start { align-content: flex-start; }
+.align-items-start { align-items: flex-start; }
+.align-content-start { align-content: flex-start; }
 .justify-start { justify-items: flex-start; }
 .align-self-start { align-self: flex-start; }
 .justify-self-start { justify-self: flex-start; }

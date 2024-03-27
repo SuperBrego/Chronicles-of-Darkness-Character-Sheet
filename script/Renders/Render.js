@@ -965,13 +965,13 @@ function renderEquipments(character) {
 
 
 /**
- * Renderiza as Pedras de Toque.
- * @param {*} touchstones Pedras de Toque.
+ * Renderiza as Personagens não Jogáveis.
+ * @param {*} npcCast Personagens não Jogáveis.
  */
-function renderTouchstones(touchstones) {
+function renderNPCs(npcCast) {
     touchstoneBlock.innerHTML = '';
 
-    createRanklessTraitList('cofd-character-touchstones', touchstones, 'Pedras de Toque', addTouchstone, renameTouchstone, changeTouchstoneDescription, deleteTouchstone);    
+    createCharactersBlock('cofd-character-touchstones', npcCast, 'Personagens', addNPC, renameNPC, changeNPCDescription, deleteNPC);    
 }
 
 /**
@@ -993,7 +993,7 @@ function renderCharacter(character) {
     renderStates(character);
     renderEquipments(character);
     renderPersonalTraits(character);
-    renderTouchstones(character.touchstones);
+    renderNPCs(character.npcs);
 }
 
 /**

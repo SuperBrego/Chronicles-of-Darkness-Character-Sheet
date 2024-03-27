@@ -10,6 +10,7 @@
 <body>
     
     <div id="body_block">
+        <!-- Menu -->
         <aside id="side_menu">
             <span>Galeria das Trevas</span>
             <button onclick="loadNewCharacter()" id="new-char-btn">Novo Personagem</button>
@@ -21,6 +22,8 @@
             <button onclick="clearCharacter()">Limpar Ficha</button>
             <button onclick="clearTemplate()">Limpar Modelo</button>
         </aside>
+
+        <!-- Ficha -->
         <div class="cofd-sheet">
             <div id="supernatural-header">
                 <span>Modelo Sobrenatural:</span>
@@ -113,12 +116,12 @@
                 <!-- Moralidade -->
                 <div id="cofd-character-morality"></div>
                 <!-- Condições/Estados -->
-                <div class="grid items-content-start">
+                <div class="grid align-content-start">
                     <h2>Condições/Estados</h2>
                     <div id="cofd-character-conditions"></div>
                 </div>
                 <!-- Aspirações -->
-                <div class="grid items-content-start">
+                <div class="grid align-content-start">
                     <h2>Aspirações</h2>
                     <div id="cofd-character-aspirations"></div>
                 </div>
@@ -171,8 +174,8 @@
             <textarea id="cofd-character-story" class="cofd-large-textarea" 
             placeholder="Apresente a história do personagem..."></textarea>
     
-            <!-- Pedras de Toque -->
-            <!-- <header><h2>Pedras de Toque</h2></header> -->
+            <!-- Núcleo de Apoio -->
+            <header><h2>Núcleo de Apoio</h2></header>
             <div id="cofd-character-touchstones"></div>
         </div>
     </div>
